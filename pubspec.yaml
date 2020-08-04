@@ -16,3 +16,16 @@ dev_dependencies:
   ffigen: 0.1.5
   test: ^1.15.3
   test_coverage: ^0.4.3
+
+ffigen:
+  name: LibSerialPort
+  description: >-
+    libserialport: cross-platform library for accessing serial ports
+  output: 'lib/src/libserialport.dart'
+  headers:
+    - '/usr/local/include/libserialport.h'
+  structs:
+    include:
+      matches:
+        - 'sp_.*'
+  compiler-opts: '-I/usr/lib/llvm-7/lib/clang/7.0.1/include'
