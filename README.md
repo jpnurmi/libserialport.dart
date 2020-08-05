@@ -1,3 +1,1 @@
-# libserialport
-
-libserialport Dart FFI bindings
+# libserialport Dart FFI bindings

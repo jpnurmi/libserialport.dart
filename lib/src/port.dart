@@ -27,10 +27,10 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:ffi/ffi.dart' as ffi;
-import 'package:libserialport/src/bindings.dart';
-import 'package:libserialport/src/config.dart';
-import 'package:libserialport/src/dylib.dart';
-import 'package:libserialport/src/utf8.dart';
+import 'package:serial_port/src/bindings.dart';
+import 'package:serial_port/src/config.dart';
+import 'package:serial_port/src/dylib.dart';
+import 'package:serial_port/src/utf8.dart';
 import 'package:meta/meta.dart';
 
 void _sp_call(Function sp_func) {

@@ -1,9 +1,9 @@
-name: libserialport
+name: serial_port
 description: libserialport FFI bindings
 version: 0.0.1
-homepage: https://github.com/jpnurmi/dart_libserialport
-repository: https://github.com/jpnurmi/dart_libserialport
-issue_tracker: https://github.com/jpnurmi/dart_libserialport/issues
+homepage: https://github.com/jpnurmi/dart_serial_port
+repository: https://github.com/jpnurmi/dart_serial_port
+issue_tracker: https://github.com/jpnurmi/dart_serial_port/issues
 
 environment:
   sdk: '>=2.7.0 <3.0.0'

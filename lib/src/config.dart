@@ -26,9 +26,9 @@ import 'dart:ffi' as ffi;
 import 'dart:io';
 
 import 'package:ffi/ffi.dart' as ffi;
-import 'package:libserialport/src/bindings.dart';
-import 'package:libserialport/src/dylib.dart';
-import 'package:libserialport/src/port.dart';
+import 'package:serial_port/src/bindings.dart';
+import 'package:serial_port/src/dylib.dart';
+import 'package:serial_port/src/port.dart';
 import 'package:meta/meta.dart';
 
 void _sp_call(Function sp_func) {
