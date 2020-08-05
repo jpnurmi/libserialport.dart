@@ -22,8 +22,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-library serial_port;
+import 'dart:ffi' as ffi;
 
-export 'src/config.dart';
-export 'src/enums.dart';
-export 'src/port.dart';
+import 'package:ffi/ffi.dart' as ffi;
+
+abstract class Utf8 {
+  static String fromUtf8(ffi.Pointer<ffi.Int8> str) {
+    return ffi.Utf8.fromUtf8(str.cast<ffi.Utf8>());
+  }
+
+  static ffi.Pointer<ffi.Int8> toUtf8(String str) {
+    return ffi.Utf8.toUtf8(str).cast<ffi.Int8>();
+  }
+}

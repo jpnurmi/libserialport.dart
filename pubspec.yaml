@@ -21,11 +21,19 @@ ffigen:
   name: LibSerialPort
   description: >-
     libserialport: cross-platform library for accessing serial ports
-  output: 'lib/src/libserialport.dart'
+  output: 'lib/src/bindings.dart'
   headers:
     - '/usr/local/include/libserialport.h'
   structs:
     include:
       matches:
         - 'sp_.*'
+  enums:
+    include:
+      matches:
+        - 'sp_return'
+  macros:
+    include:
+      matches:
+        - 'SP_.*'
   compiler-opts: '-I/usr/lib/llvm-7/lib/clang/7.0.1/include'

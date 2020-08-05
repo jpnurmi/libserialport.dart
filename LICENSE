@@ -1,4 +1,4 @@
-This file is part of the libserialport project.
+This file is based on libserialport (https://sigrok.org/wiki/Libserialport).
 
 Copyright (C) 2010-2012 Bert Vermeulen <bert@biot.com>
 Copyright (C) 2010-2015 Uwe Hermann <uwe@hermann-uwe.de>
