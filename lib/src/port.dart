@@ -65,6 +65,19 @@ class SerialPort {
     return port;
   }
 
+  static List<String> get availablePorts {
+    final out = ffi.allocate<ffi.Pointer<ffi.Pointer<sp_port>>>();
+    _sp_call(() => dylib.sp_list_ports(out));
+    var i = -1;
+    var ports = <String>[];
+    final array = out.value;
+    while (array.elementAt(++i).address != 0) {
+      ports.add(Utf8.fromUtf8(dylib.sp_get_port_name(array[i])));
+    }
+    dylib.sp_free_port_list(array);
+    return ports;
+  }
+
   @mustCallSuper
   void dispose() => dylib.sp_free_port(_port);
 
