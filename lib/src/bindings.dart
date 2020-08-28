@@ -1919,6 +1919,182 @@ abstract class sp_return {
   static const int SP_ERR_SUPP = -4;
 }
 
+/// Port access modes.
+abstract class sp_mode {
+  /// Open port for read access.
+  static const int SP_MODE_READ = 1;
+
+  /// Open port for write access.
+  static const int SP_MODE_WRITE = 2;
+
+  /// Open port for read and write access. @since 0.1.1
+  static const int SP_MODE_READ_WRITE = 3;
+}
+
+/// Port events.
+abstract class sp_event {
+  /// Data received and ready to read.
+  static const int SP_EVENT_RX_READY = 1;
+
+  /// Ready to transmit new data.
+  static const int SP_EVENT_TX_READY = 2;
+
+  /// Error occurred.
+  static const int SP_EVENT_ERROR = 4;
+}
+
+/// Buffer selection.
+abstract class sp_buffer {
+  /// Input buffer.
+  static const int SP_BUF_INPUT = 1;
+
+  /// Output buffer.
+  static const int SP_BUF_OUTPUT = 2;
+
+  /// Both buffers.
+  static const int SP_BUF_BOTH = 3;
+}
+
+/// Parity settings.
+abstract class sp_parity {
+  /// Special value to indicate setting should be left alone.
+  static const int SP_PARITY_INVALID = -1;
+
+  /// No parity.
+  static const int SP_PARITY_NONE = 0;
+
+  /// Odd parity.
+  static const int SP_PARITY_ODD = 1;
+
+  /// Even parity.
+  static const int SP_PARITY_EVEN = 2;
+
+  /// Mark parity.
+  static const int SP_PARITY_MARK = 3;
+
+  /// Space parity.
+  static const int SP_PARITY_SPACE = 4;
+}
+
+/// RTS pin behaviour.
+abstract class sp_rts {
+  /// Special value to indicate setting should be left alone.
+  static const int SP_RTS_INVALID = -1;
+
+  /// RTS off.
+  static const int SP_RTS_OFF = 0;
+
+  /// RTS on.
+  static const int SP_RTS_ON = 1;
+
+  /// RTS used for flow control.
+  static const int SP_RTS_FLOW_CONTROL = 2;
+}
+
+/// CTS pin behaviour.
+abstract class sp_cts {
+  /// Special value to indicate setting should be left alone.
+  static const int SP_CTS_INVALID = -1;
+
+  /// CTS ignored.
+  static const int SP_CTS_IGNORE = 0;
+
+  /// CTS used for flow control.
+  static const int SP_CTS_FLOW_CONTROL = 1;
+}
+
+/// DTR pin behaviour.
+abstract class sp_dtr {
+  /// Special value to indicate setting should be left alone.
+  static const int SP_DTR_INVALID = -1;
+
+  /// DTR off.
+  static const int SP_DTR_OFF = 0;
+
+  /// DTR on.
+  static const int SP_DTR_ON = 1;
+
+  /// DTR used for flow control.
+  static const int SP_DTR_FLOW_CONTROL = 2;
+}
+
+/// DSR pin behaviour.
+abstract class sp_dsr {
+  /// Special value to indicate setting should be left alone.
+  static const int SP_DSR_INVALID = -1;
+
+  /// DSR ignored.
+  static const int SP_DSR_IGNORE = 0;
+
+  /// DSR used for flow control.
+  static const int SP_DSR_FLOW_CONTROL = 1;
+}
+
+/// XON/XOFF flow control behaviour.
+abstract class sp_xonxoff {
+  /// Special value to indicate setting should be left alone.
+  static const int SP_XONXOFF_INVALID = -1;
+
+  /// XON/XOFF disabled.
+  static const int SP_XONXOFF_DISABLED = 0;
+
+  /// XON/XOFF enabled for input only.
+  static const int SP_XONXOFF_IN = 1;
+
+  /// XON/XOFF enabled for output only.
+  static const int SP_XONXOFF_OUT = 2;
+
+  /// XON/XOFF enabled for input and output.
+  static const int SP_XONXOFF_INOUT = 3;
+}
+
+/// Standard flow control combinations.
+abstract class sp_flowcontrol {
+  /// No flow control.
+  static const int SP_FLOWCONTROL_NONE = 0;
+
+  /// Software flow control using XON/XOFF characters.
+  static const int SP_FLOWCONTROL_XONXOFF = 1;
+
+  /// Hardware flow control using RTS/CTS signals.
+  static const int SP_FLOWCONTROL_RTSCTS = 2;
+
+  /// Hardware flow control using DTR/DSR signals.
+  static const int SP_FLOWCONTROL_DTRDSR = 3;
+}
+
+/// Input signals.
+abstract class sp_signal {
+  /// Clear to send.
+  static const int SP_SIG_CTS = 1;
+
+  /// Data set ready.
+  static const int SP_SIG_DSR = 2;
+
+  /// Data carrier detect.
+  static const int SP_SIG_DCD = 4;
+
+  /// Ring indicator.
+  static const int SP_SIG_RI = 8;
+}
+
+/// Transport types.
+///
+/// @since 0.1.1
+abstract class sp_transport {
+  /// Native platform serial port. @since 0.1.1
+  static const int SP_TRANSPORT_NATIVE = 0;
+
+  /// USB serial port adapter. @since 0.1.1
+  static const int SP_TRANSPORT_USB = 1;
+
+  /// Bluetooth serial port adapter. @since 0.1.1
+  static const int SP_TRANSPORT_BLUETOOTH = 2;
+
+  /// Pseudo serial port. @since 0.1.2
+  static const int SP_TRANSPORT_PSEUDO = 3;
+}
+
 /// @struct sp_port
 /// An opaque structure representing a serial port.
 class sp_port extends ffi.Struct {}

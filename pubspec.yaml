@@ -31,7 +31,7 @@ ffigen:
   enums:
     include:
       matches:
-        - 'sp_return'
+        - 'sp_.*'
   macros:
     include:
       matches:
