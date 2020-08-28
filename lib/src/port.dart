@@ -71,7 +71,7 @@ class SerialPort {
     var i = -1;
     var ports = <String>[];
     final array = out.value;
-    while (array.elementAt(++i).address != 0) {
+    while (array[++i].address != 0x0) {
       ports.add(Utf8.fromUtf8(dylib.sp_get_port_name(array[i])));
     }
     dylib.sp_free_port_list(array);
