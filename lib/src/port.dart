@@ -33,6 +33,9 @@ import 'package:serial_port/src/dylib.dart';
 import 'package:serial_port/src/utf8.dart';
 import 'package:meta/meta.dart';
 
+typedef int _SerialReader(ffi.Pointer<ffi.Uint8> ptr);
+typedef int _SerialWriter(ffi.Pointer<ffi.Uint8> ptr);
+
 abstract class SerialPort {
   factory SerialPort(String name) => _SerialPortImpl(name);
 
@@ -86,7 +89,7 @@ abstract class SerialPort {
 }
 
 void _sp_call(Function sp_func) {
-  if (sp_func() != sp_return.SP_OK) {
+  if (sp_func() < sp_return.SP_OK) {
     // TODO: SerialPortError
     throw OSError(SerialPort.lastErrorMessage, SerialPort.lastErrorCode);
   }
@@ -202,28 +205,28 @@ class _SerialPortImpl implements SerialPort {
     _sp_call(() => dylib.sp_set_config(_port, config.toNative()));
   }
 
-  Uint8List _read(int bytes, Function reader) {
+  Uint8List _read(int bytes, _SerialReader reader) {
     final ptr = ffi.allocate<ffi.Uint8>(count: bytes);
     var len = 0;
     _sp_call(() => len = reader(ptr));
-    final res = ptr.asTypedList(len).toList();
+    final res = Uint8List.fromList(ptr.asTypedList(len));
     ffi.free(ptr);
     return res;
   }
 
   Future<Uint8List> read(int bytes, {int timeout = 0}) async {
-    return _read(bytes, (ffi.Pointer ptr) {
-      return dylib.sp_nonblocking_read(_port, ptr, bytes);
+    return _read(bytes, (ffi.Pointer<ffi.Uint8> ptr) {
+      return dylib.sp_nonblocking_read(_port, ptr.cast(), bytes);
     });
   }
 
   Uint8List readSync(int bytes, {int timeout = 0}) {
-    return _read(bytes, (ffi.Pointer ptr) {
-      return dylib.sp_blocking_read(_port, ptr, bytes, timeout);
+    return _read(bytes, (ffi.Pointer<ffi.Uint8> ptr) {
+      return dylib.sp_blocking_read(_port, ptr.cast(), bytes, timeout);
     });
   }
 
-  int _write(Uint8List bytes, Function writer) {
+  int _write(Uint8List bytes, _SerialWriter writer) {
     final len = bytes.length;
     final ptr = ffi.allocate<ffi.Uint8>(count: len);
     ptr.asTypedList(len).setAll(0, bytes);
@@ -234,14 +237,14 @@ class _SerialPortImpl implements SerialPort {
   }
 
   Future<int> write(Uint8List bytes) async {
-    return _write(bytes, (ffi.Pointer ptr) {
-      return dylib.sp_nonblocking_write(_port, ptr, bytes.length);
+    return _write(bytes, (ffi.Pointer<ffi.Uint8> ptr) {
+      return dylib.sp_nonblocking_write(_port, ptr.cast(), bytes.length);
     });
   }
 
   int writeSync(Uint8List bytes, {int timeout = 0}) {
-    return _write(bytes, (ffi.Pointer ptr) {
-      return dylib.sp_blocking_write(_port, ptr, bytes.length, timeout);
+    return _write(bytes, (ffi.Pointer<ffi.Uint8> ptr) {
+      return dylib.sp_blocking_write(_port, ptr.cast(), bytes.length, timeout);
     });
   }
 
