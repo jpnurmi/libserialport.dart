@@ -33,6 +33,58 @@ import 'package:serial_port/src/dylib.dart';
 import 'package:serial_port/src/utf8.dart';
 import 'package:meta/meta.dart';
 
+abstract class SerialPort {
+  factory SerialPort(String name) => _SerialPortImpl(name);
+
+  SerialPort copy();
+
+  static List<String> get availablePorts => _SerialPortImpl.availablePorts;
+
+  @mustCallSuper
+  void dispose();
+
+  bool open(int mode);
+  bool close();
+
+  String get name;
+  String get description;
+  int get transport;
+  int get busNumber;
+  int get deviceNumber;
+  int get vendorId;
+  int get productId;
+  String get manufacturer;
+  String get productName;
+  String get serialNumber;
+  String get macAddress;
+
+  // ### TODO: disposal
+  SerialPortConfig get config;
+  void set config(SerialPortConfig config);
+
+  Future<Uint8List> read(int bytes, {int timeout = 0});
+  Uint8List readSync(int bytes, {int timeout = 0});
+
+  Future<int> write(Uint8List bytes);
+  int writeSync(Uint8List bytes, {int timeout = 0});
+
+  int get inputWaiting;
+  int get outputWaiting;
+
+  void flush(int buffers);
+  void drain();
+
+  // ### TODO: events
+
+  int get signals;
+
+  bool startBreak();
+  bool endBreak();
+
+  static int get lastErrorCode => _SerialPortImpl.lastErrorCode;
+  static String get lastErrorMessage => _SerialPortImpl.lastErrorMessage;
+}
+
 void _sp_call(Function sp_func) {
   if (sp_func() != sp_return.SP_OK) {
     // TODO: SerialPortError
@@ -40,11 +92,11 @@ void _sp_call(Function sp_func) {
   }
 }
 
-class SerialPort {
+class _SerialPortImpl implements SerialPort {
   final ffi.Pointer<sp_port> _port;
 
-  SerialPort(String name) : _port = _init(name) {}
-  SerialPort.fromNative(this._port);
+  _SerialPortImpl(String name) : _port = _init(name) {}
+  _SerialPortImpl.fromNative(this._port);
   ffi.Pointer<sp_port> toNative() => _port;
 
   static ffi.Pointer<sp_port> _init(String name) {
@@ -60,7 +112,7 @@ class SerialPort {
   SerialPort copy() {
     final out = ffi.allocate<ffi.Pointer<sp_port>>();
     _sp_call(() => dylib.sp_copy_port(_port, out));
-    final port = SerialPort.fromNative(out[0]);
+    final port = _SerialPortImpl.fromNative(out[0]);
     ffi.free(out);
     return port;
   }
@@ -224,7 +276,7 @@ class SerialPort {
   @override
   bool operator ==(Object other) {
     if (other.runtimeType != runtimeType) return false;
-    SerialPort port = other;
+    _SerialPortImpl port = other;
     return _port == port._port;
   }
 
