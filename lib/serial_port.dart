@@ -24,6 +24,7 @@
 
 library serial_port;
 
-export 'src/config.dart';
+export 'src/config.dart' show SerialPortConfig;
 export 'src/enums.dart';
-export 'src/port.dart';
+export 'src/port.dart' show SerialPort;
+export 'src/reader.dart' show SerialPortReader;

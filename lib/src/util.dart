@@ -23,10 +23,43 @@
  */
 
 import 'dart:ffi' as ffi;
+import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:ffi/ffi.dart' as ffi;
+import 'package:serial_port/src/bindings.dart';
+import 'package:serial_port/src/port.dart';
 
-abstract class Utf8 {
+typedef int SerialReadFunc(ffi.Pointer<ffi.Uint8> ptr);
+typedef int SerialWriteFunc(ffi.Pointer<ffi.Uint8> ptr);
+
+class Util {
+  static void call(Function func) {
+    if (func() < sp_return.SP_OK) {
+      // TODO: SerialPortError?
+      throw OSError(SerialPort.lastErrorMessage, SerialPort.lastErrorCode);
+    }
+  }
+
+  static Uint8List read(int bytes, SerialReadFunc readFunc) {
+    final ptr = ffi.allocate<ffi.Uint8>(count: bytes);
+    var len = 0;
+    call(() => len = readFunc(ptr));
+    final res = Uint8List.fromList(ptr.asTypedList(len));
+    ffi.free(ptr);
+    return res;
+  }
+
+  static int write(Uint8List bytes, SerialWriteFunc writeFunc) {
+    final len = bytes.length;
+    final ptr = ffi.allocate<ffi.Uint8>(count: len);
+    ptr.asTypedList(len).setAll(0, bytes);
+    var res = 0;
+    call(() => res = writeFunc(ptr));
+    ffi.free(ptr);
+    return res;
+  }
+
   static String fromUtf8(ffi.Pointer<ffi.Int8> str) {
     return ffi.Utf8.fromUtf8(str.cast<ffi.Utf8>());
   }

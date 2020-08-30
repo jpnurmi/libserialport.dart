@@ -23,20 +23,12 @@
  */
 
 import 'dart:ffi' as ffi;
-import 'dart:io';
 
 import 'package:ffi/ffi.dart' as ffi;
 import 'package:serial_port/src/bindings.dart';
 import 'package:serial_port/src/dylib.dart';
-import 'package:serial_port/src/port.dart';
+import 'package:serial_port/src/util.dart';
 import 'package:meta/meta.dart';
-
-void _sp_call(Function sp_func) {
-  if (sp_func() != sp_return.SP_OK) {
-    // TODO: SerialPortError
-    throw OSError(SerialPort.lastErrorMessage, SerialPort.lastErrorCode);
-  }
-}
 
 class SerialPortConfig {
   final ffi.Pointer<sp_port_config> _config;
@@ -47,7 +39,7 @@ class SerialPortConfig {
 
   static ffi.Pointer<sp_port_config> _init() {
     final out = ffi.allocate<ffi.Pointer<sp_port_config>>();
-    _sp_call(() => dylib.sp_new_config(out));
+    Util.call(() => dylib.sp_new_config(out));
     final config = out[0];
     ffi.free(out);
     return config;
@@ -82,14 +74,14 @@ class SerialPortConfig {
 
   int _sp_get(Function sp_func) {
     final ptr = ffi.allocate<ffi.Int32>();
-    _sp_call(() => sp_func(_config, ptr));
+    Util.call(() => sp_func(_config, ptr));
     final value = ptr.value;
     ffi.free(ptr);
     return value;
   }
 
   void _sp_set(Function sp_func, int value) {
-    _sp_call(() => sp_func(_config, value));
+    Util.call(() => sp_func(_config, value));
   }
 
   @override
