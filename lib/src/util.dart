@@ -30,9 +30,7 @@ import 'package:ffi/ffi.dart' as ffi;
 import 'package:serial_port/src/bindings.dart';
 import 'package:serial_port/src/port.dart';
 
-typedef int SerialGetFunc(ffi.Pointer<ffi.Int32> ptr);
-typedef int SerialReadFunc(ffi.Pointer<ffi.Uint8> ptr);
-typedef int SerialWriteFunc(ffi.Pointer<ffi.Uint8> ptr);
+typedef UtilFunc<T extends ffi.NativeType> = int Function(ffi.Pointer<T> ptr);
 
 class Util {
   static void call(Function func) {
@@ -42,7 +40,7 @@ class Util {
     }
   }
 
-  static Uint8List read(int bytes, SerialReadFunc readFunc) {
+  static Uint8List read(int bytes, UtilFunc<ffi.Uint8> readFunc) {
     final ptr = ffi.allocate<ffi.Uint8>(count: bytes);
     var len = 0;
     call(() => len = readFunc(ptr));
@@ -51,7 +49,7 @@ class Util {
     return res;
   }
 
-  static int write(Uint8List bytes, SerialWriteFunc writeFunc) {
+  static int write(Uint8List bytes, UtilFunc<ffi.Uint8> writeFunc) {
     final len = bytes.length;
     final ptr = ffi.allocate<ffi.Uint8>(count: len);
     ptr.asTypedList(len).setAll(0, bytes);
@@ -69,7 +67,7 @@ class Util {
     return ffi.Utf8.toUtf8(str).cast<ffi.Int8>();
   }
 
-  static int toInt(SerialGetFunc getFunc) {
+  static int toInt(UtilFunc<ffi.Int32> getFunc) {
     final ptr = ffi.allocate<ffi.Int32>();
     call(() => getFunc(ptr));
     final value = ptr.value;

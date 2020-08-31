@@ -39,28 +39,28 @@ abstract class SerialPortConfig {
   void dispose();
 
   int get baudRate;
-  void set baudRate(int value);
+  set baudRate(int value);
 
   int get bits;
-  void set bits(int value);
+  set bits(int value);
 
   int get parity;
-  void set parity(int value);
+  set parity(int value);
 
   int get stopBits;
-  void set stopBits(int value);
+  set stopBits(int value);
 
   int get rts;
-  void set rts(int value);
+  set rts(int value);
 
   int get cts;
-  void set cts(int value);
+  set cts(int value);
 
   int get dtr;
-  void set dtr(int value);
+  set dtr(int value);
 
   int get dsr;
-  void set dsr(int value);
+  set dsr(int value);
 }
 
 class _SerialPortConfigImpl implements SerialPortConfig {
@@ -87,42 +87,42 @@ class _SerialPortConfigImpl implements SerialPortConfig {
   @override
   int get baudRate => _get(dylib.sp_get_config_baudrate);
   @override
-  void set baudRate(int value) => _set(dylib.sp_set_config_baudrate, value);
+  set baudRate(int value) => _set(dylib.sp_set_config_baudrate, value);
 
   @override
   int get bits => _get(dylib.sp_get_config_bits);
   @override
-  void set bits(int value) => _set(dylib.sp_set_config_bits, value);
+  set bits(int value) => _set(dylib.sp_set_config_bits, value);
 
   @override
   int get parity => _get(dylib.sp_get_config_parity);
   @override
-  void set parity(int value) => _set(dylib.sp_set_config_parity, value);
+  set parity(int value) => _set(dylib.sp_set_config_parity, value);
 
   @override
   int get stopBits => _get(dylib.sp_get_config_stopbits);
   @override
-  void set stopBits(int value) => _set(dylib.sp_set_config_stopbits, value);
+  set stopBits(int value) => _set(dylib.sp_set_config_stopbits, value);
 
   @override
   int get rts => _get(dylib.sp_get_config_rts);
   @override
-  void set rts(int value) => _set(dylib.sp_set_config_rts, value);
+  set rts(int value) => _set(dylib.sp_set_config_rts, value);
 
   @override
   int get cts => _get(dylib.sp_get_config_cts);
   @override
-  void set cts(int value) => _set(dylib.sp_set_config_cts, value);
+  set cts(int value) => _set(dylib.sp_set_config_cts, value);
 
   @override
   int get dtr => _get(dylib.sp_get_config_dtr);
   @override
-  void set dtr(int value) => _set(dylib.sp_set_config_dtr, value);
+  set dtr(int value) => _set(dylib.sp_set_config_dtr, value);
 
   @override
   int get dsr => _get(dylib.sp_get_config_dsr);
   @override
-  void set dsr(int value) => _set(dylib.sp_set_config_dsr, value);
+  set dsr(int value) => _set(dylib.sp_set_config_dsr, value);
 
   int _get(Function sp_get_config) {
     return Util.toInt((ptr) {

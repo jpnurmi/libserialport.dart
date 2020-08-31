@@ -63,7 +63,7 @@ abstract class SerialPort {
   String get macAddress;
 
   SerialPortConfig get config;
-  void set config(SerialPortConfig config);
+  set config(SerialPortConfig config);
 
   Uint8List read(int bytes, {int timeout = -1});
   int write(Uint8List bytes, {int timeout = -1});
@@ -87,7 +87,7 @@ class _SerialPortImpl implements SerialPort {
   final ffi.Pointer<sp_port> _port;
   SerialPortConfig _config;
 
-  _SerialPortImpl(String name) : _port = _init(name) {}
+  _SerialPortImpl(String name) : _port = _init(name);
   _SerialPortImpl.fromAddress(int address)
       : _port = ffi.Pointer<sp_port>.fromAddress(address);
 
@@ -212,7 +212,7 @@ class _SerialPortImpl implements SerialPort {
   }
 
   @override
-  void set config(SerialPortConfig config) {
+  set config(SerialPortConfig config) {
     if (_config != config) {
       _config?.dispose();
     }
