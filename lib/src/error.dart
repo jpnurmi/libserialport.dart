@@ -22,10 +22,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-library serial_port;
+import 'dart:io';
 
-export 'src/config.dart' show SerialPortConfig;
-export 'src/enums.dart';
-export 'src/error.dart';
-export 'src/port.dart' show SerialPort;
-export 'src/reader.dart' show SerialPortReader;
+class SerialPortError extends OSError {
+  const SerialPortError(
+      [String message = '', int errorCode = OSError.noErrorCode])
+      : super(message, errorCode);
+
+  @override
+  String toString() {
+    return super.toString().replaceFirst('OS Error', runtimeType.toString());
+  }
+}
