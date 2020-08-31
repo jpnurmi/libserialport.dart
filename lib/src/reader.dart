@@ -35,6 +35,15 @@ import 'package:serial_port/src/util.dart';
 
 const int _kReadEvents = sp_event.SP_EVENT_RX_READY | sp_event.SP_EVENT_ERROR;
 
+abstract class SerialPortReader {
+  factory SerialPortReader(SerialPort port, {int timeout}) =>
+      _SerialPortReaderImpl(port, timeout: timeout);
+
+  Stream<Uint8List> get stream;
+
+  void close();
+}
+
 class _SerialPortReaderArgs {
   final int address;
   final int timeout;
@@ -42,17 +51,18 @@ class _SerialPortReaderArgs {
   _SerialPortReaderArgs({this.address, this.timeout, this.sendPort});
 }
 
-class SerialPortReader {
+class _SerialPortReaderImpl implements SerialPortReader {
   final SerialPortImpl _port;
   final int _timeout;
   Isolate _isolate;
   ReceivePort _receiver;
   StreamController<Uint8List> _controller;
 
-  SerialPortReader(SerialPort port, {int timeout})
+  _SerialPortReaderImpl(SerialPort port, {int timeout})
       : _port = port as SerialPortImpl,
         _timeout = timeout ?? 500;
 
+  @override
   Stream<Uint8List> get stream {
     _controller ??= StreamController<Uint8List>(
       onListen: _startRead,
@@ -61,6 +71,7 @@ class SerialPortReader {
     return _controller.stream;
   }
 
+  @override
   void close() {
     _controller?.close();
     _controller = null;
