@@ -62,7 +62,6 @@ abstract class SerialPort {
   String get serialNumber;
   String get macAddress;
 
-  // ### TODO: disposal
   SerialPortConfig get config;
   void set config(SerialPortConfig config);
 
@@ -86,6 +85,7 @@ abstract class SerialPort {
 
 class _SerialPortImpl implements SerialPort {
   final ffi.Pointer<sp_port> _port;
+  SerialPortConfig _config;
 
   _SerialPortImpl(String name) : _port = _init(name) {}
   _SerialPortImpl.fromAddress(int address)
@@ -127,7 +127,10 @@ class _SerialPortImpl implements SerialPort {
   }
 
   @override
-  void dispose() => dylib.sp_free_port(_port);
+  void dispose() {
+    _config?.dispose();
+    dylib.sp_free_port(_port);
+  }
 
   @override
   bool open({int mode}) => dylib.sp_open(_port, mode) == sp_return.SP_OK;
@@ -206,16 +209,22 @@ class _SerialPortImpl implements SerialPort {
     return Util.fromUtf8(dylib.sp_get_port_bluetooth_address(_port));
   }
 
-  // ### TODO: disposal
   @override
   SerialPortConfig get config {
-    final config = ffi.allocate<sp_port_config>();
-    Util.call(() => dylib.sp_get_config(_port, config));
-    return SerialPortConfig.fromAddress(config.address);
+    if (_config == null) {
+      _config = SerialPortConfig();
+      final ptr = ffi.Pointer<sp_port_config>.fromAddress(_config.address);
+      Util.call(() => dylib.sp_get_config(_port, ptr));
+    }
+    return _config;
   }
 
   @override
   void set config(SerialPortConfig config) {
+    if (_config != config) {
+      _config?.dispose();
+    }
+    _config = config;
     final ptr = ffi.Pointer<sp_port_config>.fromAddress(config.address);
     Util.call(() => dylib.sp_set_config(_port, ptr));
   }
