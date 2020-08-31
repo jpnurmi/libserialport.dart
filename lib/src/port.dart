@@ -33,11 +33,14 @@ import 'package:serial_port/src/dylib.dart';
 import 'package:serial_port/src/util.dart';
 
 abstract class SerialPort {
-  factory SerialPort(String name) => SerialPortImpl(name);
+  factory SerialPort(String name) => _SerialPortImpl(name);
+  factory SerialPort.fromAddress(int address) =>
+      _SerialPortImpl.fromAddress(address);
+  int get address;
 
   SerialPort copy();
 
-  static List<String> get availablePorts => SerialPortImpl.availablePorts;
+  static List<String> get availablePorts => _SerialPortImpl.availablePorts;
 
   void dispose();
 
@@ -77,17 +80,18 @@ abstract class SerialPort {
   bool startBreak();
   bool endBreak();
 
-  static int get lastErrorCode => SerialPortImpl.lastErrorCode;
-  static String get lastErrorMessage => SerialPortImpl.lastErrorMessage;
+  static int get lastErrorCode => _SerialPortImpl.lastErrorCode;
+  static String get lastErrorMessage => _SerialPortImpl.lastErrorMessage;
 }
 
-class SerialPortImpl implements SerialPort {
+class _SerialPortImpl implements SerialPort {
   final ffi.Pointer<sp_port> _port;
 
-  SerialPortImpl(String name) : _port = _init(name) {}
+  _SerialPortImpl(String name) : _port = _init(name) {}
+  _SerialPortImpl.fromAddress(int address)
+      : _port = ffi.Pointer<sp_port>.fromAddress(address);
 
-  SerialPortImpl.fromNative(this._port);
-  ffi.Pointer<sp_port> toNative() => _port;
+  @override
   int get address => _port.address;
 
   static ffi.Pointer<sp_port> _init(String name) {
@@ -104,7 +108,7 @@ class SerialPortImpl implements SerialPort {
   SerialPort copy() {
     final out = ffi.allocate<ffi.Pointer<sp_port>>();
     Util.call(() => dylib.sp_copy_port(_port, out));
-    final port = SerialPortImpl.fromNative(out[0]);
+    final port = _SerialPortImpl.fromAddress(out[0].address);
     ffi.free(out);
     return port;
   }
@@ -122,6 +126,7 @@ class SerialPortImpl implements SerialPort {
     return ports;
   }
 
+  @override
   void dispose() => dylib.sp_free_port(_port);
 
   @override
@@ -206,12 +211,13 @@ class SerialPortImpl implements SerialPort {
   SerialPortConfig get config {
     final config = ffi.allocate<sp_port_config>();
     Util.call(() => dylib.sp_get_config(_port, config));
-    return SerialPortConfig.fromNative(config);
+    return SerialPortConfig.fromAddress(config.address);
   }
 
   @override
   void set config(SerialPortConfig config) {
-    Util.call(() => dylib.sp_set_config(_port, config.toNative()));
+    final ptr = ffi.Pointer<sp_port_config>.fromAddress(config.address);
+    Util.call(() => dylib.sp_set_config(_port, ptr));
   }
 
   @override
@@ -271,7 +277,7 @@ class SerialPortImpl implements SerialPort {
   @override
   bool operator ==(Object other) {
     if (other.runtimeType != runtimeType) return false;
-    SerialPortImpl port = other;
+    _SerialPortImpl port = other;
     return _port == port._port;
   }
 

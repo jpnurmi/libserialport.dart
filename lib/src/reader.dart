@@ -52,14 +52,14 @@ class _SerialPortReaderArgs {
 }
 
 class _SerialPortReaderImpl implements SerialPortReader {
-  final SerialPortImpl _port;
+  final SerialPort _port;
   final int _timeout;
   Isolate _isolate;
   ReceivePort _receiver;
   StreamController<Uint8List> _controller;
 
   _SerialPortReaderImpl(SerialPort port, {int timeout})
-      : _port = port as SerialPortImpl,
+      : _port = port,
         _timeout = timeout ?? 500;
 
   @override
