@@ -10,7 +10,6 @@ environment:
 
 dependencies:
   ffi: ^0.1.3
-  meta: ^1.1.8
 
 dev_dependencies:
   ffigen: 0.1.5

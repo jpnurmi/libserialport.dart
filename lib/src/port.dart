@@ -31,7 +31,6 @@ import 'package:serial_port/src/bindings.dart';
 import 'package:serial_port/src/config.dart';
 import 'package:serial_port/src/dylib.dart';
 import 'package:serial_port/src/util.dart';
-import 'package:meta/meta.dart';
 
 abstract class SerialPort {
   factory SerialPort(String name) => SerialPortImpl(name);
@@ -40,7 +39,6 @@ abstract class SerialPort {
 
   static List<String> get availablePorts => SerialPortImpl.availablePorts;
 
-  @mustCallSuper
   void dispose();
 
   bool open({int mode});
@@ -124,7 +122,6 @@ class SerialPortImpl implements SerialPort {
     return ports;
   }
 
-  @mustCallSuper
   void dispose() => dylib.sp_free_port(_port);
 
   @override
