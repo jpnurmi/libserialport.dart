@@ -102,6 +102,7 @@ class SerialPortImpl implements SerialPort {
     return port;
   }
 
+  @override
   SerialPort copy() {
     final out = ffi.allocate<ffi.Pointer<sp_port>>();
     Util.call(() => dylib.sp_copy_port(_port, out));
@@ -126,19 +127,28 @@ class SerialPortImpl implements SerialPort {
   @mustCallSuper
   void dispose() => dylib.sp_free_port(_port);
 
+  @override
   bool open({int mode}) => dylib.sp_open(_port, mode) == sp_return.SP_OK;
+  @override
   bool openRead() => open(mode: SerialPortMode.read);
+  @override
   bool openWrite() => open(mode: SerialPortMode.write);
+  @override
   bool openReadWrite() => open(mode: SerialPortMode.readWrite);
+  @override
   bool close() => dylib.sp_close(_port) == sp_return.SP_OK;
 
+  @override
   String get name => Util.fromUtf8(dylib.sp_get_port_name(_port));
+  @override
   String get description {
     return Util.fromUtf8(dylib.sp_get_port_description(_port));
   }
 
+  @override
   int get transport => dylib.sp_get_port_transport(_port);
 
+  @override
   int get busNumber {
     final ptr = ffi.allocate<ffi.Int32>();
     Util.call(() => dylib.sp_get_port_usb_bus_address(_port, ptr, ffi.nullptr));
@@ -147,6 +157,7 @@ class SerialPortImpl implements SerialPort {
     return bus;
   }
 
+  @override
   int get deviceNumber {
     final ptr = ffi.allocate<ffi.Int32>();
     Util.call(() => dylib.sp_get_port_usb_bus_address(_port, ffi.nullptr, ptr));
@@ -155,6 +166,7 @@ class SerialPortImpl implements SerialPort {
     return address;
   }
 
+  @override
   int get vendorId {
     final ptr = ffi.allocate<ffi.Int32>();
     Util.call(() => dylib.sp_get_port_usb_vid_pid(_port, ptr, ffi.nullptr));
@@ -163,6 +175,7 @@ class SerialPortImpl implements SerialPort {
     return id;
   }
 
+  @override
   int get productId {
     final ptr = ffi.allocate<ffi.Int32>();
     Util.call(() => dylib.sp_get_port_usb_vid_pid(_port, ffi.nullptr, ptr));
@@ -171,33 +184,40 @@ class SerialPortImpl implements SerialPort {
     return id;
   }
 
+  @override
   String get manufacturer {
     return Util.fromUtf8(dylib.sp_get_port_usb_manufacturer(_port));
   }
 
+  @override
   String get productName {
     return Util.fromUtf8(dylib.sp_get_port_usb_product(_port));
   }
 
+  @override
   String get serialNumber {
     return Util.fromUtf8(dylib.sp_get_port_usb_serial(_port));
   }
 
+  @override
   String get macAddress {
     return Util.fromUtf8(dylib.sp_get_port_bluetooth_address(_port));
   }
 
   // ### TODO: disposal
+  @override
   SerialPortConfig get config {
     final config = ffi.allocate<sp_port_config>();
     Util.call(() => dylib.sp_get_config(_port, config));
     return SerialPortConfig.fromNative(config);
   }
 
+  @override
   void set config(SerialPortConfig config) {
     Util.call(() => dylib.sp_set_config(_port, config.toNative()));
   }
 
+  @override
   Uint8List read(int bytes, {int timeout = -1}) {
     return Util.read(bytes, (ffi.Pointer<ffi.Uint8> ptr) {
       return timeout < 0
@@ -206,6 +226,7 @@ class SerialPortImpl implements SerialPort {
     });
   }
 
+  @override
   int write(Uint8List bytes, {int timeout = -1}) {
     return Util.write(bytes, (ffi.Pointer<ffi.Uint8> ptr) {
       return timeout < 0
@@ -214,15 +235,20 @@ class SerialPortImpl implements SerialPort {
     });
   }
 
+  @override
   int get bytesAvailable => dylib.sp_input_waiting(_port);
+  @override
   int get bytesToWrite => dylib.sp_output_waiting(_port);
 
+  @override
   void flush([int buffers = SerialPortBuffer.both]) {
     dylib.sp_flush(_port, buffers);
   }
 
+  @override
   void drain() => dylib.sp_drain(_port);
 
+  @override
   int get signals {
     final ptr = ffi.allocate<ffi.Int32>();
     Util.call(() => dylib.sp_get_signals(_port, ptr));
@@ -231,7 +257,9 @@ class SerialPortImpl implements SerialPort {
     return value;
   }
 
+  @override
   bool startBreak() => dylib.sp_start_break(_port) == sp_return.SP_OK;
+  @override
   bool endBreak() => dylib.sp_end_break(_port) == sp_return.SP_OK;
 
   static int get lastErrorCode => dylib.sp_last_error_code();
