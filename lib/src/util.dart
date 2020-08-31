@@ -30,6 +30,7 @@ import 'package:ffi/ffi.dart' as ffi;
 import 'package:serial_port/src/bindings.dart';
 import 'package:serial_port/src/port.dart';
 
+typedef int SerialGetFunc(ffi.Pointer<ffi.Int32> ptr);
 typedef int SerialReadFunc(ffi.Pointer<ffi.Uint8> ptr);
 typedef int SerialWriteFunc(ffi.Pointer<ffi.Uint8> ptr);
 
@@ -66,5 +67,13 @@ class Util {
 
   static ffi.Pointer<ffi.Int8> toUtf8(String str) {
     return ffi.Utf8.toUtf8(str).cast<ffi.Int8>();
+  }
+
+  static int toInt(SerialGetFunc getFunc) {
+    final ptr = ffi.allocate<ffi.Int32>();
+    call(() => getFunc(ptr));
+    final value = ptr.value;
+    ffi.free(ptr);
+    return value;
   }
 }

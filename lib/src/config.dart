@@ -85,55 +85,53 @@ class _SerialPortConfigImpl implements SerialPortConfig {
   void dispose() => dylib.sp_free_config(_config);
 
   @override
-  int get baudRate => _sp_get(dylib.sp_get_config_baudrate);
+  int get baudRate => _get(dylib.sp_get_config_baudrate);
   @override
-  void set baudRate(int value) => _sp_set(dylib.sp_set_config_baudrate, value);
+  void set baudRate(int value) => _set(dylib.sp_set_config_baudrate, value);
 
   @override
-  int get bits => _sp_get(dylib.sp_get_config_bits);
+  int get bits => _get(dylib.sp_get_config_bits);
   @override
-  void set bits(int value) => _sp_set(dylib.sp_set_config_bits, value);
+  void set bits(int value) => _set(dylib.sp_set_config_bits, value);
 
   @override
-  int get parity => _sp_get(dylib.sp_get_config_parity);
+  int get parity => _get(dylib.sp_get_config_parity);
   @override
-  void set parity(int value) => _sp_set(dylib.sp_set_config_parity, value);
+  void set parity(int value) => _set(dylib.sp_set_config_parity, value);
 
   @override
-  int get stopBits => _sp_get(dylib.sp_get_config_stopbits);
+  int get stopBits => _get(dylib.sp_get_config_stopbits);
   @override
-  void set stopBits(int value) => _sp_set(dylib.sp_set_config_stopbits, value);
+  void set stopBits(int value) => _set(dylib.sp_set_config_stopbits, value);
 
   @override
-  int get rts => _sp_get(dylib.sp_get_config_rts);
+  int get rts => _get(dylib.sp_get_config_rts);
   @override
-  void set rts(int value) => _sp_set(dylib.sp_set_config_rts, value);
+  void set rts(int value) => _set(dylib.sp_set_config_rts, value);
 
   @override
-  int get cts => _sp_get(dylib.sp_get_config_cts);
+  int get cts => _get(dylib.sp_get_config_cts);
   @override
-  void set cts(int value) => _sp_set(dylib.sp_set_config_cts, value);
+  void set cts(int value) => _set(dylib.sp_set_config_cts, value);
 
   @override
-  int get dtr => _sp_get(dylib.sp_get_config_dtr);
+  int get dtr => _get(dylib.sp_get_config_dtr);
   @override
-  void set dtr(int value) => _sp_set(dylib.sp_set_config_dtr, value);
+  void set dtr(int value) => _set(dylib.sp_set_config_dtr, value);
 
   @override
-  int get dsr => _sp_get(dylib.sp_get_config_dsr);
+  int get dsr => _get(dylib.sp_get_config_dsr);
   @override
-  void set dsr(int value) => _sp_set(dylib.sp_set_config_dsr, value);
+  void set dsr(int value) => _set(dylib.sp_set_config_dsr, value);
 
-  int _sp_get(Function sp_func) {
-    final ptr = ffi.allocate<ffi.Int32>();
-    Util.call(() => sp_func(_config, ptr));
-    final value = ptr.value;
-    ffi.free(ptr);
-    return value;
+  int _get(Function sp_get_config) {
+    return Util.toInt((ptr) {
+      return sp_get_config(_config, ptr);
+    });
   }
 
-  void _sp_set(Function sp_func, int value) {
-    Util.call(() => sp_func(_config, value));
+  void _set(Function sp_set_config, int value) {
+    Util.call(() => sp_set_config(_config, value));
   }
 
   @override

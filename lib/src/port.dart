@@ -155,38 +155,30 @@ class _SerialPortImpl implements SerialPort {
 
   @override
   int get busNumber {
-    final ptr = ffi.allocate<ffi.Int32>();
-    Util.call(() => dylib.sp_get_port_usb_bus_address(_port, ptr, ffi.nullptr));
-    final bus = ptr.value;
-    ffi.free(ptr);
-    return bus;
+    return Util.toInt((ptr) {
+      return dylib.sp_get_port_usb_bus_address(_port, ptr, ffi.nullptr);
+    });
   }
 
   @override
   int get deviceNumber {
-    final ptr = ffi.allocate<ffi.Int32>();
-    Util.call(() => dylib.sp_get_port_usb_bus_address(_port, ffi.nullptr, ptr));
-    final address = ptr.value;
-    ffi.free(ptr);
-    return address;
+    return Util.toInt((ptr) {
+      return dylib.sp_get_port_usb_bus_address(_port, ffi.nullptr, ptr);
+    });
   }
 
   @override
   int get vendorId {
-    final ptr = ffi.allocate<ffi.Int32>();
-    Util.call(() => dylib.sp_get_port_usb_vid_pid(_port, ptr, ffi.nullptr));
-    final id = ptr.value;
-    ffi.free(ptr);
-    return id;
+    return Util.toInt((ptr) {
+      return dylib.sp_get_port_usb_vid_pid(_port, ptr, ffi.nullptr);
+    });
   }
 
   @override
   int get productId {
-    final ptr = ffi.allocate<ffi.Int32>();
-    Util.call(() => dylib.sp_get_port_usb_vid_pid(_port, ffi.nullptr, ptr));
-    final id = ptr.value;
-    ffi.free(ptr);
-    return id;
+    return Util.toInt((ptr) {
+      return dylib.sp_get_port_usb_vid_pid(_port, ffi.nullptr, ptr);
+    });
   }
 
   @override
