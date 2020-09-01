@@ -74,12 +74,6 @@ abstract class SerialPort {
   /// @internal
   int get address;
 
-  /// Copies the serial port.
-  ///
-  /// @note Call [dispose()] to release the resources after you're done with
-  ///       the copy.
-  SerialPort copy();
-
   /// Lists the serial ports available on the system.
   static List<String> get availablePorts => _SerialPortImpl.availablePorts;
 
@@ -224,15 +218,6 @@ class _SerialPortImpl implements SerialPort {
     final port = out[0];
     ffi.free(out);
     ffi.free(cstr);
-    return port;
-  }
-
-  @override
-  SerialPort copy() {
-    final out = ffi.allocate<ffi.Pointer<sp_port>>();
-    Util.call(() => dylib.sp_copy_port(_port, out));
-    final port = _SerialPortImpl.fromAddress(out[0].address);
-    ffi.free(out);
     return port;
   }
 
