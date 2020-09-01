@@ -109,7 +109,7 @@ abstract class SerialPortConfig {
   /// Sets the stop bits in the port configuration.
   set stopBits(int value);
 
-  /// Gets the RTS pin behaviour from a port configuration.
+  /// Gets the RTS pin behaviour from the port configuration.
   ///
   /// See also:
   /// - [SerialPortRts]
@@ -121,7 +121,7 @@ abstract class SerialPortConfig {
   /// - [SerialPortRts]
   set rts(int value);
 
-  /// Gets the CTS pin behaviour from a port configuration.
+  /// Gets the CTS pin behaviour from the port configuration.
   ///
   /// See also:
   /// - [SerialPortCts]
@@ -133,7 +133,7 @@ abstract class SerialPortConfig {
   /// - [SerialPortCts]
   set cts(int value);
 
-  /// Gets the DTR pin behaviour from a port configuration.
+  /// Gets the DTR pin behaviour from the port configuration.
   ///
   /// See also:
   /// - [SerialPortDtr]
@@ -145,7 +145,7 @@ abstract class SerialPortConfig {
   /// - [SerialPortDtr]
   set dtr(int value);
 
-  /// Gets the DSR pin behaviour from a port configuration.
+  /// Gets the DSR pin behaviour from the port configuration.
   ///
   /// See also:
   /// - [SerialPortDsr]
@@ -157,7 +157,7 @@ abstract class SerialPortConfig {
   /// - [SerialPortDsr]
   set dsr(int value);
 
-  /// Gets the XON/XOFF configuration from a port configuration.
+  /// Gets the XON/XOFF configuration from the port configuration.
   ///
   /// See also:
   /// - [SerialPortXonXoff]
