@@ -4,7 +4,7 @@
 [![license: LGPL3+](https://img.shields.io/badge/license-LGPL3+-magenta.svg)](https://opensource.org/licenses/LGPL-3.0)
 
 Serial Port for Dart is based on [libserialport](https://sigrok.org/wiki/Libserialport),
-which is a minimal C-library created by the [sigrok](http://sigrok.org/) projects, and
+which is a minimal C-library created by the [sigrok](https://sigrok.org/) projects, and
 released under the LGPL3+ license.
 
 ## Usage
