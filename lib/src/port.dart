@@ -34,11 +34,14 @@ import 'package:serial_port/src/util.dart';
 
 /// Serial port.
 ///
-/// ### TODO:
+/// Provides means to:
+///
 ///   - obtaining a list of serial ports on the system
 ///   - opening, closing and getting information about ports
 ///   - signals, modem control lines, breaks, etc.
 ///   - low-level reading and writing data, and buffer management
+///
+/// **Note:** The port must be disposed using [dispose()] when done.
 ///
 /// # Error handling
 ///
@@ -63,8 +66,8 @@ import 'package:serial_port/src/util.dart';
 abstract class SerialPort {
   /// Creates a serial port for `name`.
   ///
-  /// @note Call [dispose()] to release the resources after you're done with
-  ///       the serial port.
+  /// **Note:** Call [dispose()] to release the resources after you're done
+  ///           with the serial port.
   factory SerialPort(String name) => _SerialPortImpl(name);
 
   /// @internal
