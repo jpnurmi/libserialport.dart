@@ -35,6 +35,7 @@ import 'package:serial_port/src/util.dart';
 
 const int _kReadEvents = sp_event.SP_EVENT_RX_READY | sp_event.SP_EVENT_ERROR;
 
+/// ### TODO: docs
 abstract class SerialPortReader {
   factory SerialPortReader(SerialPort port, {int timeout}) =>
       _SerialPortReaderImpl(port, timeout: timeout);

@@ -32,54 +32,177 @@ import 'package:serial_port/src/config.dart';
 import 'package:serial_port/src/dylib.dart';
 import 'package:serial_port/src/util.dart';
 
+/// Serial port.
+///
+/// ### TODO:
+///   - obtaining a list of serial ports on the system
+///   - opening, closing and getting information about ports
+///   - signals, modem control lines, breaks, etc.
+///   - low-level reading and writing data, and buffer management
+///
+/// # Error handling
+///
+/// Serial Port for Dart throws [SerialPortError] in case something goes wrong
+/// under the hood in libserialport and it returns an error code:
+///
+///     final port = SerialPort(...);
+///       port.write(...);
+///     try {
+///     } on SerialPortError catch (e) {
+///       print('${SerialPort.lastErrorMessage} (${SerialPort.lastErrorCode})');
+///     }
+///
+/// The error message is that provided by the OS, using the current language
+/// settings. The library does not define its own error codes or messages to
+/// accompany other return codes.
+///
+/// See also:
+/// - [SerialPortReader]
+/// - [SerialPortConfig]
+/// - [SerialPortError]
 abstract class SerialPort {
+  /// Creates a serial port for `name`.
+  ///
+  /// @note Call [dispose()] to release the resources after you're done with
+  ///       the serial port.
   factory SerialPort(String name) => _SerialPortImpl(name);
+
+  /// @internal
   factory SerialPort.fromAddress(int address) =>
       _SerialPortImpl.fromAddress(address);
+
+  /// @internal
   int get address;
 
+  /// Copies the serial port.
+  ///
+  /// @note Call [dispose()] to release the resources after you're done with
+  ///       the copy.
   SerialPort copy();
 
+  /// Lists the serial ports available on the system.
   static List<String> get availablePorts => _SerialPortImpl.availablePorts;
 
+  /// Releases all resources associated with the serial port.
+  ///
+  /// @note Call this function after you're done with the serial port.
   void dispose();
 
+  /// Opens the serial port in the specified `mode`.
+  ///
+  /// See also:
+  /// - [SerialPortMode]
   bool open({int mode});
+
+  /// Opens the serial port for reading only.
   bool openRead();
+
+  /// Opens the serial port for writing only.
   bool openWrite();
+
+  /// Opens the serial port for reading and writing.
   bool openReadWrite();
+
+  /// Closes the serial port.
   bool close();
 
+  /// Gets the name of the port.
+  ///
+  /// The name returned is whatever is normally used to refer to a port on the
+  /// current operating system; e.g. for Windows it will usually be a "COMn"
+  /// device name, and for Unix it will be a device path beginning with "/dev/".
   String get name;
+
+  /// Gets the description of the port, for presenting to end users.
   String get description;
+
+  /// Gets the transport type used by the port.
+  ///
+  /// See also:
+  /// - [SerialPortTransport]
   int get transport;
+
+  /// Gets the USB bus number of a USB serial adapter port.
   int get busNumber;
+
+  /// Gets the USB device number of a USB serial adapter port.
   int get deviceNumber;
+
+  /// Gets the USB vendor ID of a USB serial adapter port.
   int get vendorId;
+
+  /// Gets the USB Product ID of a USB serial adapter port.
   int get productId;
+
+  /// Get the USB manufacturer of a USB serial adapter port.
   String get manufacturer;
+
+  /// Gets the USB product name of a USB serial adapter port.
   String get productName;
+
+  /// Gets the USB serial number of a USB serial adapter port.
   String get serialNumber;
+
+  /// Gets the MAC address of a Bluetooth serial adapter port.
   String get macAddress;
 
+  /// Gets the current configuration of the serial port.
   SerialPortConfig get config;
+
+  /// Sets the configuration for the serial port.
+  ///
+  /// For each parameter in the configuration, there is a special value
+  /// (usually -1, but see the documentation for each field). These values
+  /// will be ignored and the corresponding setting left unchanged on the port.
+  ///
+  /// Upon errors, the configuration of the serial port is unknown since
+  /// partial/incomplete config updates may have happened.
   set config(SerialPortConfig config);
 
+  /// Read data from the serial port.
+  ///
+  /// The operation attempts to read N `bytes` of data.
+  ///
+  /// If `timeout` is 0 or greater, the read operation is blocking.
+  /// The timeout is specified in milliseconds. Pass 0 to wait infinitely.
   Uint8List read(int bytes, {int timeout = -1});
+
+  /// Write data to the serial port.
+  ///
+  /// If `timeout` is 0 or greater, the write operation is blocking.
+  /// The timeout is specified in milliseconds. Pass 0 to wait infinitely.
+  ///
+  /// Returns the amount of bytes written.
   int write(Uint8List bytes, {int timeout = -1});
 
+  /// Gets the amount of bytes available for reading.
   int get bytesAvailable;
+
+  /// Gets the amount of bytes waiting to be written.
   int get bytesToWrite;
 
+  /// Flushes serial port buffers. Data in the selected buffer(s) is discarded.
+  ///
+  /// See also:
+  /// - [SerialPortBuffer]
   void flush([int buffers = SerialPortBuffer.both]);
+
+  /// Waits for buffered data to be transmitted.
   void drain();
 
+  /// Gets the status of the control signals for the serial port.
   int get signals;
 
+  /// Puts the port transmit line into the break state.
   bool startBreak();
+
+  /// Takes the port transmit line out of the break state.
   bool endBreak();
 
+  /// Gets the error code for a failed operation.
   static int get lastErrorCode => _SerialPortImpl.lastErrorCode;
+
+  /// Gets the error message for a failed operation.
   static String get lastErrorMessage => _SerialPortImpl.lastErrorMessage;
 }
 

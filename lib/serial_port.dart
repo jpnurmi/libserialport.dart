@@ -22,6 +22,38 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/// # Introduction
+///
+/// Serial Port for Dart is based on
+/// [libserialport](https://sigrok.org/wiki/Libserialport), which is a minimal
+/// C-library created by the [sigrok](http://sigrok.org/) projects, and released
+/// under the LGPL3+ license.
+///
+/// # Import
+///
+///     import 'serial_port/serial_port.dart'
+///
+/// # Getting Started
+///
+/// - [SerialPort]
+///   - obtaining a list of serial ports on the system
+///   - opening, closing and getting information about ports
+///   - signals, modem control lines, breaks, etc.
+///   - low-level reading and writing data
+/// - [SerialPortConfig]
+///   - baud rate, parity, etc.
+/// - [SerialPortReader]
+///   - high-level data stream for reading data asynchronously
+///
+/// # Debugging
+///
+/// The library can output extensive tracing and debugging information. The
+/// simplest way to use this is to set an environment variable
+/// `LIBSERIALPORT_DEBUG` to any value; messages will then be output to the
+/// standard error stream.
+///
+/// No guarantees are made about the content of the debug output; it is chosen
+/// to suit the needs of the developers and may change between releases.
 library serial_port;
 
 export 'src/config.dart' show SerialPortConfig;
