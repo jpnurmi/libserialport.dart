@@ -168,6 +168,17 @@ abstract class SerialPortConfig {
   /// See also:
   /// - [SerialPortXonXoff]
   set xonXoff(int value);
+
+  /// Sets the flow control type in the port configuration.
+  ///
+  /// This function is a wrapper that sets the RTS, CTS, DTR, DSR and
+  /// XON/XOFF settings as necessary for the specified flow control
+  /// type. For more fine-grained control of these settings, use their
+  /// individual configuration functions.
+  ///
+  /// See also:
+  /// - [SerialPortFlowControl]
+  set flowControl(int value);
 }
 
 class _SerialPortConfigImpl implements SerialPortConfig {
@@ -235,6 +246,9 @@ class _SerialPortConfigImpl implements SerialPortConfig {
   int get xonXoff => _get(dylib.sp_get_config_xon_xoff);
   @override
   set xonXoff(int value) => _set(dylib.sp_set_config_xon_xoff, value);
+
+  @override
+  set flowControl(int value) => _set(dylib.sp_set_config_flowcontrol, value);
 
   int _get(Function sp_get_config) {
     return Util.toInt((ptr) {
