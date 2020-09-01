@@ -25,6 +25,7 @@
 import 'dart:ffi' as ffi;
 
 import 'package:ffi/ffi.dart' as ffi;
+import 'package:serial_port/serial_port.dart';
 import 'package:serial_port/src/bindings.dart';
 import 'package:serial_port/src/dylib.dart';
 import 'package:serial_port/src/util.dart';
@@ -155,6 +156,18 @@ abstract class SerialPortConfig {
   /// See also:
   /// - [SerialPortDsr]
   set dsr(int value);
+
+  /// Gets the XON/XOFF configuration from a port configuration.
+  ///
+  /// See also:
+  /// - [SerialPortXonXoff]
+  int get xonXoff;
+
+  /// Sets the XON/XOFF configuration in the port configuration.
+  ///
+  /// See also:
+  /// - [SerialPortXonXoff]
+  set xonXoff(int value);
 }
 
 class _SerialPortConfigImpl implements SerialPortConfig {
@@ -217,6 +230,11 @@ class _SerialPortConfigImpl implements SerialPortConfig {
   int get dsr => _get(dylib.sp_get_config_dsr);
   @override
   set dsr(int value) => _set(dylib.sp_set_config_dsr, value);
+
+  @override
+  int get xonXoff => _get(dylib.sp_get_config_xon_xoff);
+  @override
+  set xonXoff(int value) => _set(dylib.sp_set_config_xon_xoff, value);
 
   int _get(Function sp_get_config) {
     return Util.toInt((ptr) {
