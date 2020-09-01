@@ -35,13 +35,21 @@ import 'package:serial_port/src/util.dart';
 
 const int _kReadEvents = sp_event.SP_EVENT_RX_READY | sp_event.SP_EVENT_ERROR;
 
-/// ### TODO: docs
+/// Asynchronous serial port reader.
+///
+/// Provides a [stream] that can be listened to asynchronously receive data
+/// whenever available.
+///
+/// **Note:** The reader must be closed using [close()] when done with reading.
 abstract class SerialPortReader {
+  /// Creates a reader for the port.
   factory SerialPortReader(SerialPort port, {int timeout}) =>
       _SerialPortReaderImpl(port, timeout: timeout);
 
+  /// Gets a stream of data.
   Stream<Uint8List> get stream;
 
+  /// Closes the stream.
   void close();
 }
 
