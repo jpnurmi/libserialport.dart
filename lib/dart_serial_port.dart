@@ -54,7 +54,7 @@
 ///
 /// No guarantees are made about the content of the debug output; it is chosen
 /// to suit the needs of the developers and may change between releases.
-library serial_port;
+library dart_serial_port;
 
 export 'src/config.dart' show SerialPortConfig;
 export 'src/enums.dart';

@@ -1,4 +1,4 @@
-import 'package:serial_port/serial_port.dart';
+import 'package:dart_serial_port/dart_serial_port.dart';
 
 void main() {
   print('Available ports:');

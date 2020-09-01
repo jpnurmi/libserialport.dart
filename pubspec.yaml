@@ -1,5 +1,5 @@
-name: serial_port
-description: libserialport FFI bindings
+name: dart_serial_port
+description: Serial Port for Dart
 version: 0.0.1
 homepage: https://github.com/jpnurmi/dart_serial_port
 repository: https://github.com/jpnurmi/dart_serial_port

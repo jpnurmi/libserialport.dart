@@ -28,10 +28,10 @@ import 'dart:isolate';
 import 'dart:typed_data';
 
 import 'package:ffi/ffi.dart' as ffi;
-import 'package:serial_port/src/bindings.dart';
-import 'package:serial_port/src/dylib.dart';
-import 'package:serial_port/src/port.dart';
-import 'package:serial_port/src/util.dart';
+import 'package:dart_serial_port/src/bindings.dart';
+import 'package:dart_serial_port/src/dylib.dart';
+import 'package:dart_serial_port/src/port.dart';
+import 'package:dart_serial_port/src/util.dart';
 
 const int _kReadEvents = sp_event.SP_EVENT_RX_READY | sp_event.SP_EVENT_ERROR;
 

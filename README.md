@@ -1,6 +1,6 @@
 # Serial Port for Dart
 
-[![pub](https://img.shields.io/pub/v/serial_port.svg)](https://pub.dev/packages/serial_port)
+[![pub](https://img.shields.io/pub/v/dart_serial_port.svg)](https://pub.dev/packages/dart_serial_port)
 [![license: LGPL3+](https://img.shields.io/badge/license-LGPL3+-magenta.svg)](https://opensource.org/licenses/LGPL-3.0)
 
 Serial Port for Dart is based on [libserialport](https://sigrok.org/wiki/Libserialport),
@@ -10,7 +10,7 @@ released under the LGPL3+ license.
 ## Usage
 
 ```dart
-import 'package:serial_port/serial_port.dart';
+import 'package:dart_serial_port/dart_serial_port.dart';
 
 final name = SerialPort.availablePorts.first;
 final port = SerialPort(name);
@@ -27,4 +27,4 @@ reader.stream.listen((data) {
 });
 ```
 
-To use this package, add `serial_port` as a [dependency in your pubspec.yaml file](https://dart.dev/tools/pub/dependencies).
+To use this package, add `dart_serial_port` as a [dependency in your pubspec.yaml file](https://dart.dev/tools/pub/dependencies).

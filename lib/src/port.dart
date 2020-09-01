@@ -26,11 +26,11 @@ import 'dart:ffi' as ffi;
 import 'dart:typed_data';
 
 import 'package:ffi/ffi.dart' as ffi;
-import 'package:serial_port/serial_port.dart';
-import 'package:serial_port/src/bindings.dart';
-import 'package:serial_port/src/config.dart';
-import 'package:serial_port/src/dylib.dart';
-import 'package:serial_port/src/util.dart';
+import 'package:dart_serial_port/src/bindings.dart';
+import 'package:dart_serial_port/src/config.dart';
+import 'package:dart_serial_port/src/dylib.dart';
+import 'package:dart_serial_port/src/enums.dart';
+import 'package:dart_serial_port/src/util.dart';
 
 /// Serial port.
 ///
