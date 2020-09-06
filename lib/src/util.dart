@@ -60,6 +60,7 @@ class Util {
   }
 
   static String fromUtf8(ffi.Pointer<ffi.Int8> str) {
+    if (str.address == 0x0) return null;
     return ffi.Utf8.fromUtf8(str.cast<ffi.Utf8>());
   }
 
