@@ -83,6 +83,8 @@ class _SerialPortReaderImpl implements SerialPortReader {
     _controller ??= StreamController<Uint8List>(
       onListen: _startRead,
       onCancel: _cancelRead,
+      onPause: _cancelRead,
+      onResume: _startRead,
     );
     return _controller.stream;
   }
