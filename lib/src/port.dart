@@ -103,6 +103,9 @@ abstract class SerialPort {
   /// Closes the serial port.
   bool close();
 
+  /// Gets whether the serial port is open.
+  bool get isOpen;
+
   /// Gets the name of the port.
   ///
   /// The name returned is whatever is normally used to refer to a port on the
@@ -253,6 +256,14 @@ class _SerialPortImpl implements SerialPort {
   bool openReadWrite() => open(mode: SerialPortMode.readWrite);
   @override
   bool close() => dylib.sp_close(_port) == sp_return.SP_OK;
+
+  @override
+  bool get isOpen {
+    final handle = Util.toInt((ptr) {
+      return dylib.sp_get_port_handle(_port, ptr.cast());
+    });
+    return handle > 0;
+  }
 
   @override
   String get name => Util.fromUtf8(dylib.sp_get_port_name(_port));
