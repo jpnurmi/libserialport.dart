@@ -27,7 +27,6 @@ import 'dart:typed_data';
 
 import 'package:ffi/ffi.dart' as ffi;
 import 'package:dart_serial_port/src/bindings.dart';
-import 'package:dart_serial_port/src/error.dart';
 import 'package:dart_serial_port/src/port.dart';
 
 typedef UtilFunc<T extends ffi.NativeType> = int Function(ffi.Pointer<T> ptr);
@@ -35,8 +34,7 @@ typedef UtilFunc<T extends ffi.NativeType> = int Function(ffi.Pointer<T> ptr);
 class Util {
   static void call(Function func) {
     if (func() < sp_return.SP_OK) {
-      throw SerialPortError(
-          SerialPort.lastErrorMessage, SerialPort.lastErrorCode);
+      throw SerialPort.lastError;
     }
   }
 

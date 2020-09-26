@@ -135,8 +135,7 @@ class _SerialPortReaderImpl implements SerialPortReader {
         });
         args.sendPort.send(data);
       } else if (bytes < 0) {
-        args.sendPort.send(SerialPortError(
-            SerialPort.lastErrorMessage, SerialPort.lastErrorCode));
+        args.sendPort.send(SerialPort.lastError);
       }
     }
     _releaseEvents(events);

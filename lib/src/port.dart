@@ -30,6 +30,7 @@ import 'package:dart_serial_port/src/bindings.dart';
 import 'package:dart_serial_port/src/config.dart';
 import 'package:dart_serial_port/src/dylib.dart';
 import 'package:dart_serial_port/src/enums.dart';
+import 'package:dart_serial_port/src/error.dart';
 import 'package:dart_serial_port/src/util.dart';
 
 /// Serial port.
@@ -52,7 +53,7 @@ import 'package:dart_serial_port/src/util.dart';
 ///       port.write(...);
 ///     try {
 ///     } on SerialPortError catch (e) {
-///       print('${SerialPort.lastErrorMessage} (${SerialPort.lastErrorCode})');
+///       print(SerialPort.lastError);
 ///     }
 ///
 /// The error message is that provided by the OS, using the current language
@@ -199,11 +200,8 @@ abstract class SerialPort {
   /// Takes the port transmit line out of the break state.
   bool endBreak();
 
-  /// Gets the error code for a failed operation.
-  static int get lastErrorCode => _SerialPortImpl.lastErrorCode;
-
-  /// Gets the error message for a failed operation.
-  static String get lastErrorMessage => _SerialPortImpl.lastErrorMessage;
+  /// Gets the error for a failed operation.
+  static SerialPortError get lastError => _SerialPortImpl.lastError;
 }
 
 class _SerialPortImpl implements SerialPort {
@@ -388,13 +386,11 @@ class _SerialPortImpl implements SerialPort {
   @override
   bool endBreak() => dylib.sp_end_break(_port) == sp_return.SP_OK;
 
-  static int get lastErrorCode => dylib.sp_last_error_code();
-
-  static String get lastErrorMessage {
+  static SerialPortError get lastError {
     final ptr = dylib.sp_last_error_message();
     final str = Util.fromUtf8(ptr);
     dylib.sp_free_error_message(ptr);
-    return str;
+    return SerialPortError(str, dylib.sp_last_error_code());
   }
 
   @override
