@@ -30,6 +30,7 @@ import 'dart:typed_data';
 import 'package:ffi/ffi.dart' as ffi;
 import 'package:dart_serial_port/src/bindings.dart';
 import 'package:dart_serial_port/src/dylib.dart';
+import 'package:dart_serial_port/src/error.dart';
 import 'package:dart_serial_port/src/port.dart';
 import 'package:dart_serial_port/src/util.dart';
 
@@ -88,7 +89,13 @@ class _SerialPortReaderImpl implements SerialPortReader {
 
   void _startRead() {
     _receiver = ReceivePort();
-    _receiver.listen((data) => _controller.add(data));
+    _receiver.listen((data) {
+      if (data is SerialPortError) {
+        _controller.addError(data);
+      } else {
+        _controller.add(data);
+      }
+    });
     final args = _SerialPortReaderArgs(
       address: _port.address,
       timeout: _timeout,
@@ -119,6 +126,9 @@ class _SerialPortReaderImpl implements SerialPortReader {
           return dylib.sp_nonblocking_read(port, ptr.cast(), bytes);
         });
         args.sendPort.send(data);
+      } else if (bytes < 0) {
+        args.sendPort.send(SerialPortError(
+            SerialPort.lastErrorMessage, SerialPort.lastErrorCode));
       }
     }
     _releaseEvents(events);
