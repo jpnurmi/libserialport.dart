@@ -47,6 +47,9 @@ abstract class SerialPortReader {
   factory SerialPortReader(SerialPort port, {int timeout}) =>
       _SerialPortReaderImpl(port, timeout: timeout);
 
+  /// Gets the port the reader operates on.
+  SerialPort get port;
+
   /// Gets a stream of data.
   Stream<Uint8List> get stream;
 
@@ -71,6 +74,9 @@ class _SerialPortReaderImpl implements SerialPortReader {
   _SerialPortReaderImpl(SerialPort port, {int timeout})
       : _port = port,
         _timeout = timeout ?? 500;
+
+  @override
+  SerialPort get port => _port;
 
   @override
   Stream<Uint8List> get stream {
