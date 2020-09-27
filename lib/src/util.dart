@@ -33,7 +33,7 @@ typedef UtilFunc<T extends ffi.NativeType> = int Function(ffi.Pointer<T> ptr);
 
 class Util {
   static void call(Function func) {
-    if (func() < sp_return.SP_OK) {
+    if (func() < sp_return.SP_OK && SerialPort.lastError.errorCode != 0) {
       throw SerialPort.lastError;
     }
   }
