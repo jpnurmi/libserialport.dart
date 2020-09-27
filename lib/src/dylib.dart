@@ -48,7 +48,9 @@ class LibraryLoader {
   static String get platformSuffix {
     return Platform.isWindows
         ? '.dll'
-        : Platform.isMacOS || Platform.isIOS ? '.dylib' : '.so';
+        : Platform.isMacOS || Platform.isIOS
+            ? '.dylib'
+            : '.so';
   }
 
   static String fixupName(String baseName) {
