@@ -63,7 +63,10 @@ class LibraryLoader {
   }
 
   static String resolvePath() {
-    final path = String.fromEnvironment('LIBSERIALPORT_PATH');
+    final path = String.fromEnvironment(
+      'LIBSERIALPORT_PATH',
+      defaultValue: Platform.environment['LIBSERIALPORT_PATH'] ?? '',
+    );
     if (isFile(path)) return path;
     return fixupPath(path) + fixupName('serialport');
   }
