@@ -1,3 +1,13 @@
+## [0.0.3] - 2020-09-27
+
+* Made SerialPortReader report stream errors
+* Added SerialPortReader.port getter
+* Added SerialPort.isOpen getter
+* Fixed SerialPortReader respect stream pause & resume
+* Replaced SerialPort.lastErrorXxx with SerialPort.lastError
+* Fixed handling of the LIBSERIALPORT_PATH environment variable
+* Fixed error handling for errno=0 type of failures
+
 ## [0.0.2] - 2020-09-06
 
 * Fixed a null pointer dereference
