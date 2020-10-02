@@ -1,3 +1,7 @@
+## [0.0.4+1] - 2020-10-02
+
+* Fixed the example snippet in the README
+
 ## [0.0.4] - 2020-10-02
 
 * Added a note about flutter_serial_port "sibling" package
