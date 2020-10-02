@@ -1,3 +1,7 @@
+## [0.0.4] - 2020-10-02
+
+* Added a note about flutter_serial_port "sibling" package
+
 ## [0.0.3] - 2020-09-27
 
 * Made SerialPortReader report stream errors
