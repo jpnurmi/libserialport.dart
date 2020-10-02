@@ -31,7 +31,7 @@ import 'package:dart_serial_port/dart_serial_port.dart';
 final name = SerialPort.availablePorts.first;
 final port = SerialPort(name);
 if (!port.openReadWrite()) {
-  print('${SerialPort.lastErrorMessage} ${SerialPort.lastErrorCode}');
+  print(SerialPort.lastError);
   exit(-1);
 }
 
