@@ -9,12 +9,15 @@ const EBUSY = 16; // Device or resource busy
 String get lastReason => SerialPort.lastError.message;
 Matcher get throwsError => throwsA(TypeMatcher<SerialPortError>());
 
+String get unsupported => 'Unsupported platform. The tests require Linux.';
+String missing(String dev) => 'Missing /dev/$dev. Please install tty0tty.';
+
 void main() {
   setUp(() {
     // https://github.com/lcgamboa/tty0tty
-    expect(Platform.isLinux, isTrue);
-    expect(File('/dev/tnt0').existsSync(), isTrue);
-    expect(File('/dev/tnt1').existsSync(), isTrue);
+    expect(Platform.isLinux, isTrue, reason: unsupported);
+    expect(File('/dev/tnt0').existsSync(), isTrue, reason: missing('tnt0'));
+    expect(File('/dev/tnt1').existsSync(), isTrue, reason: missing('tnt1'));
   });
 
   test('open & close', () {
