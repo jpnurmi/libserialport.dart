@@ -1,6 +1,7 @@
 # Serial Port for Dart
 
 [![pub](https://img.shields.io/pub/v/dart_serial_port.svg)](https://pub.dev/packages/dart_serial_port)
+![CI](https://github.com/jpnurmi/dart_serial_port/workflows/CI/badge.svg)
 [![license: LGPL3+](https://img.shields.io/badge/license-LGPL3+-magenta.svg)](https://opensource.org/licenses/LGPL-3.0)
 
 | **TIP:** See also [`flutter_serial_port`](https://github.com/jpnurmi/flutter_serial_port) for automatic building and deploying of libserialport. |

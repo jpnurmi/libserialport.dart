@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Install Dart
+      uses: DanTup/gh-actions/setup-dart@master
+    - name: Get Dependencies
+      run: dart pub get
+    - name: Install libserialport
+      run: |
+        git clone https://github.com/sigrokproject/libserialport.git
+        cd libserialport
+        ./autogen.sh
+        ./configure
+        make -j $(nproc)
+        sudo make install
+        sudo ldconfig
+        cd -
+    - name: Install tty0tty
+      run: |
+        git clone https://github.com/lcgamboa/tty0tty.git
+        sudo apt install -y linux-headers-`uname -r`
+        cd tty0tty/module
+        make -j $(nproc)
+        sudo make install
+        cd -
+    - name: Run tty0tty
+      run: tty0tty &
+    - name: Fixup Permissions
+      run: sudo chmod a+rw /dev/tnt*
+    - name: Run Tests
+      run: dart pub run test
