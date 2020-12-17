@@ -1,3 +1,8 @@
+## [0.0.5] - 2020-12-17
+
+* Fixed a null pointer dereference in SerialPort.availablePorts
+  - Thanks @Coimbra1984!
+
 ## [0.0.4+1] - 2020-10-02
 
 * Fixed the example snippet in the README
