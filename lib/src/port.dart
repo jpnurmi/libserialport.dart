@@ -229,7 +229,10 @@ class _SerialPortImpl implements SerialPort {
     int rv;
     final out = ffi.allocate<ffi.Pointer<ffi.Pointer<sp_port>>>();
     Util.call(() => rv = dylib.sp_list_ports(out));
-    if (rv != sp_return.SP_OK) return [];
+    if (rv != sp_return.SP_OK) {
+      ffi.free(out);
+      return [];
+    }
     var i = -1;
     var ports = <String>[];
     final array = out.value;
