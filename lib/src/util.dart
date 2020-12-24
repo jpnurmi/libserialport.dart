@@ -59,7 +59,14 @@ class Util {
 
   static String fromUtf8(ffi.Pointer<ffi.Int8> str) {
     if (str.address == 0x0) return null;
-    return ffi.Utf8.fromUtf8(str.cast<ffi.Utf8>());
+    String c = "";
+    ffi.Pointer<ffi.Uint8> p = str.cast<ffi.Uint8>();
+    int i = 0;
+    while (p[i] != 0) {
+      c = c + new String.fromCharCode(p[i]);
+      i++;
+    }
+    return c;
   }
 
   static ffi.Pointer<ffi.Int8> toUtf8(String str) {
