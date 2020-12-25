@@ -22,6 +22,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import 'dart:convert';
 import 'dart:ffi' as ffi;
 import 'dart:typed_data';
 
@@ -59,7 +60,12 @@ class Util {
 
   static String fromUtf8(ffi.Pointer<ffi.Int8> str) {
     if (str.address == 0x0) return null;
-    return ffi.Utf8.fromUtf8(str.cast<ffi.Utf8>());
+    final length = ffi.Utf8.strlen(str.cast());
+    try {
+      return utf8.decode(str.cast<ffi.Uint8>().asTypedList(length));
+    } catch (_) {
+      return latin1.decode(str.cast<ffi.Uint8>().asTypedList(length));
+    }
   }
 
   static ffi.Pointer<ffi.Int8> toUtf8(String str) {
