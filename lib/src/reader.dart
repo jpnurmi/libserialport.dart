@@ -44,7 +44,7 @@ const int _kReadEvents = sp_event.SP_EVENT_RX_READY | sp_event.SP_EVENT_ERROR;
 /// **Note:** The reader must be closed using [close()] when done with reading.
 abstract class SerialPortReader {
   /// Creates a reader for the port.
-  factory SerialPortReader(SerialPort port, {int timeout}) =>
+  factory SerialPortReader(SerialPort port, {int? timeout}) =>
       _SerialPortReaderImpl(port, timeout: timeout);
 
   /// Gets the port the reader operates on.
@@ -61,17 +61,21 @@ class _SerialPortReaderArgs {
   final int address;
   final int timeout;
   final SendPort sendPort;
-  _SerialPortReaderArgs({this.address, this.timeout, this.sendPort});
+  _SerialPortReaderArgs({
+    required this.address,
+    required this.timeout,
+    required this.sendPort,
+  });
 }
 
 class _SerialPortReaderImpl implements SerialPortReader {
   final SerialPort _port;
   final int _timeout;
-  Isolate _isolate;
-  ReceivePort _receiver;
-  StreamController<Uint8List> _controller;
+  Isolate? _isolate;
+  ReceivePort? _receiver;
+  StreamController<Uint8List>? __controller;
 
-  _SerialPortReaderImpl(SerialPort port, {int timeout})
+  _SerialPortReaderImpl(SerialPort port, {int? timeout})
       : _port = port,
         _timeout = timeout ?? 500;
 
@@ -79,35 +83,36 @@ class _SerialPortReaderImpl implements SerialPortReader {
   SerialPort get port => _port;
 
   @override
-  Stream<Uint8List> get stream {
-    _controller ??= StreamController<Uint8List>(
+  Stream<Uint8List> get stream => _controller.stream;
+
+  @override
+  void close() {
+    __controller?.close();
+    __controller = null;
+  }
+
+  StreamController<Uint8List> get _controller {
+    return __controller ??= StreamController<Uint8List>(
       onListen: _startRead,
       onCancel: _cancelRead,
       onPause: _cancelRead,
       onResume: _startRead,
     );
-    return _controller.stream;
-  }
-
-  @override
-  void close() {
-    _controller?.close();
-    _controller = null;
   }
 
   void _startRead() {
     _receiver = ReceivePort();
-    _receiver.listen((data) {
+    _receiver!.listen((data) {
       if (data is SerialPortError) {
         _controller.addError(data);
-      } else {
-        _controller.add(data as Uint8List);
+      } else if (data is Uint8List) {
+        _controller.add(data);
       }
     });
     final args = _SerialPortReaderArgs(
       address: _port.address,
       timeout: _timeout,
-      sendPort: _receiver.sendPort,
+      sendPort: _receiver!.sendPort,
     );
     Isolate.spawn(
       _waitRead,

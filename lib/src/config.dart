@@ -259,7 +259,7 @@ class _SerialPortConfigImpl implements SerialPortConfig {
   int _get(_SerialPortConfigGet getFunc) {
     return Util.toInt((ptr) {
       return getFunc(_config, ptr);
-    });
+    })!;
   }
 
   void _set(_SerialPortConfigSet setFunc, int value) {

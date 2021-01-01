@@ -6,7 +6,8 @@ import 'package:test/test.dart';
 
 const EBUSY = 16; // Device or resource busy
 
-String get lastReason => SerialPort.lastError.message;
+int? get lastError => SerialPort.lastError?.errorCode;
+String? get lastReason => SerialPort.lastError?.message;
 Matcher get throwsError => throwsA(TypeMatcher<SerialPortError>());
 
 String get unsupported => 'Unsupported platform. The tests require Linux.';
@@ -69,7 +70,7 @@ void main() {
     expect(tnt0.openRead(), isTrue, reason: lastReason);
 
     expect(tnt0.openRead(), isFalse, reason: lastReason);
-    expect(SerialPort.lastError.errorCode, equals(EBUSY));
+    expect(lastError, equals(EBUSY));
 
     tnt0.close();
   });

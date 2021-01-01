@@ -11,8 +11,8 @@ void main() {
     print('\tDescription: ${sp.description}');
     print('\tManufacturer: ${sp.manufacturer}');
     print('\tSerial Number: ${sp.serialNumber}');
-    print('\tProduct ID: 0x${sp.productId.toRadixString(16)}');
-    print('\tVendor ID: 0x${sp.vendorId.toRadixString(16)}');
+    print('\tProduct ID: 0x${sp.productId!.toRadixString(16)}');
+    print('\tVendor ID: 0x${sp.vendorId!.toRadixString(16)}');
     sp.dispose();
   }
 }
