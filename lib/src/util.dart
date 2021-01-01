@@ -74,8 +74,7 @@ class Util {
 
   static int toInt(UtilFunc<ffi.Int32> getFunc) {
     final ptr = ffi.allocate<ffi.Int32>();
-    int rv;
-    call(() => rv = getFunc(ptr));
+    final rv = call(() => getFunc(ptr));
     final value = ptr.value;
     ffi.free(ptr);
     if (rv != sp_return.SP_OK) return null;
