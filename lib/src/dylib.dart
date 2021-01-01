@@ -28,7 +28,7 @@ import 'dart:io';
 import 'package:dart_serial_port/src/bindings.dart';
 
 LibSerialPort _dylib;
-LibSerialPort get dylib => _dylib ?? LibSerialPort(LibraryLoader.load());
+LibSerialPort get dylib => _dylib ??= LibSerialPort(LibraryLoader.load());
 
 extension StringWith on String {
   String prefixWith(String prefix) {
@@ -42,7 +42,9 @@ extension StringWith on String {
   }
 }
 
-class LibraryLoader {
+abstract class LibraryLoader {
+  LibraryLoader._();
+
   static String get platformPrefix => Platform.isWindows ? '' : 'lib';
 
   static String get platformSuffix {

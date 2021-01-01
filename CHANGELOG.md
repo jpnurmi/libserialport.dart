@@ -1,3 +1,7 @@
+## [0.0.6] - 2021-01-01
+
+* Fixed dynamic library lookup caching
+
 ## [0.0.5] - 2020-12-17
 
 * Fixed a null pointer dereference in SerialPort.availablePorts

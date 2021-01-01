@@ -226,17 +226,16 @@ class _SerialPortImpl implements SerialPort {
   }
 
   static List<String> get availablePorts {
-    int rv;
     final out = ffi.allocate<ffi.Pointer<ffi.Pointer<sp_port>>>();
-    Util.call(() => rv = dylib.sp_list_ports(out));
+    final rv = Util.call(() => dylib.sp_list_ports(out));
     if (rv != sp_return.SP_OK) {
       ffi.free(out);
-      return [];
+      return <String>[];
     }
     var i = -1;
-    var ports = <String>[];
+    final ports = <String>[];
     final array = out.value;
-    while (array[++i].address != 0x0) {
+    while (array[++i] != ffi.nullptr) {
       ports.add(Util.fromUtf8(dylib.sp_get_port_name(array[i])));
     }
     dylib.sp_free_port_list(array);
@@ -400,14 +399,13 @@ class _SerialPortImpl implements SerialPort {
 
   @override
   bool operator ==(Object other) {
-    if (other.runtimeType != runtimeType) return false;
-    _SerialPortImpl port = other;
-    return _port == port._port;
+    if (identical(this, other)) return true;
+    return other is _SerialPortImpl && _port == other._port;
   }
 
   @override
   int get hashCode => _port.hashCode;
 
   @override
-  String toString() => '$runtimeType($_port)';
+  String toString() => 'SerialPort($_port)';
 }
