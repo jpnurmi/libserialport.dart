@@ -1,3 +1,8 @@
+## [0.0.7] - 2021-01-01
+
+* Fixed product & vendor ID etc. to return null instead of random
+  values when the respective libserialport query fails underneath.
+
 ## [0.0.6] - 2021-01-01
 
 * Fixed dynamic library lookup caching
