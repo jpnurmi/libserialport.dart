@@ -226,9 +226,8 @@ class _SerialPortImpl implements SerialPort {
   }
 
   static List<String> get availablePorts {
-    int rv;
     final out = ffi.allocate<ffi.Pointer<ffi.Pointer<sp_port>>>();
-    Util.call(() => rv = dylib.sp_list_ports(out));
+    final rv = Util.call(() => dylib.sp_list_ports(out));
     if (rv != sp_return.SP_OK) {
       ffi.free(out);
       return [];
