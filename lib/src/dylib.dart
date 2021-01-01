@@ -42,7 +42,9 @@ extension StringWith on String {
   }
 }
 
-class LibraryLoader {
+abstract class LibraryLoader {
+  LibraryLoader._();
+
   static String get platformPrefix => Platform.isWindows ? '' : 'lib';
 
   static String get platformSuffix {

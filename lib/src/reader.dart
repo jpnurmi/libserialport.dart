@@ -101,7 +101,7 @@ class _SerialPortReaderImpl implements SerialPortReader {
       if (data is SerialPortError) {
         _controller.addError(data);
       } else {
-        _controller.add(data);
+        _controller.add(data as Uint8List);
       }
     });
     final args = _SerialPortReaderArgs(
