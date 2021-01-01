@@ -1,3 +1,8 @@
+## [0.1.0-nullsafety.0] - 2021-01-01
+
+* Migrated to null safety
+* Happy New Year!
+
 ## [0.0.7] - 2021-01-01
 
 * Fixed product & vendor ID etc. to return null instead of random
