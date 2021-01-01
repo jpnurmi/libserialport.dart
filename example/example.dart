@@ -1,5 +1,7 @@
 import 'package:dart_serial_port/dart_serial_port.dart';
 
+// ignore_for_file: avoid_print
+
 void main() {
   print('Available ports:');
   var i = 0;

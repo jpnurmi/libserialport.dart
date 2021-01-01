@@ -177,9 +177,10 @@ abstract class SerialPortConfig {
   ///
   /// See also:
   /// - [SerialPortFlowControl]
-  set flowControl(int value);
+  void setFlowControl(int value);
 }
 
+// ignore_for_file: avoid_private_typedef_functions
 typedef _SerialPortConfigGet = int Function(
     ffi.Pointer<sp_port_config> config, ffi.Pointer<ffi.Int32> out);
 typedef _SerialPortConfigSet = int Function(
@@ -252,7 +253,8 @@ class _SerialPortConfigImpl implements SerialPortConfig {
   set xonXoff(int value) => _set(dylib.sp_set_config_xon_xoff, value);
 
   @override
-  set flowControl(int value) => _set(dylib.sp_set_config_flowcontrol, value);
+  void setFlowControl(int value) =>
+      _set(dylib.sp_set_config_flowcontrol, value);
 
   int _get(_SerialPortConfigGet getFunc) {
     return Util.toInt((ptr) {
@@ -266,14 +268,13 @@ class _SerialPortConfigImpl implements SerialPortConfig {
 
   @override
   bool operator ==(Object other) {
-    if (other.runtimeType != runtimeType) return false;
-    _SerialPortConfigImpl config = other;
-    return _config == config._config;
+    if (identical(this, other)) return true;
+    return other is _SerialPortConfigImpl && _config == other._config;
   }
 
   @override
   int get hashCode => _config.hashCode;
 
   @override
-  String toString() => '$runtimeType($_config)';
+  String toString() => 'SerialPortConfig($_config)';
 }
