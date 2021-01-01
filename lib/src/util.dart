@@ -33,16 +33,17 @@ import 'package:dart_serial_port/src/port.dart';
 typedef UtilFunc<T extends ffi.NativeType> = int Function(ffi.Pointer<T> ptr);
 
 class Util {
-  static void call(Function func) {
-    if (func() < sp_return.SP_OK && SerialPort.lastError.errorCode != 0) {
+  static int call(int Function() func) {
+    final ret = func();
+    if (ret < sp_return.SP_OK && SerialPort.lastError.errorCode != 0) {
       throw SerialPort.lastError;
     }
+    return ret;
   }
 
   static Uint8List read(int bytes, UtilFunc<ffi.Uint8> readFunc) {
     final ptr = ffi.allocate<ffi.Uint8>(count: bytes);
-    var len = 0;
-    call(() => len = readFunc(ptr));
+    final len = call(() => readFunc(ptr));
     final res = Uint8List.fromList(ptr.asTypedList(len));
     ffi.free(ptr);
     return res;
@@ -52,8 +53,7 @@ class Util {
     final len = bytes.length;
     final ptr = ffi.allocate<ffi.Uint8>(count: len);
     ptr.asTypedList(len).setAll(0, bytes);
-    var res = 0;
-    call(() => res = writeFunc(ptr));
+    final res = call(() => writeFunc(ptr));
     ffi.free(ptr);
     return res;
   }
