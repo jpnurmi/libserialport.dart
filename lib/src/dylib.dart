@@ -27,7 +27,7 @@ import 'dart:io';
 
 import 'package:dart_serial_port/src/bindings.dart';
 
-LibSerialPort _dylib;
+LibSerialPort? _dylib;
 LibSerialPort get dylib => _dylib ??= LibSerialPort(LibraryLoader.load());
 
 extension StringWith on String {

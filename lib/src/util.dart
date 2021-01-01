@@ -35,8 +35,8 @@ typedef UtilFunc<T extends ffi.NativeType> = int Function(ffi.Pointer<T> ptr);
 class Util {
   static int call(int Function() func) {
     final ret = func();
-    if (ret < sp_return.SP_OK && SerialPort.lastError.errorCode != 0) {
-      throw SerialPort.lastError;
+    if (ret < sp_return.SP_OK && SerialPort.lastError!.errorCode != 0) {
+      throw SerialPort.lastError!;
     }
     return ret;
   }
@@ -58,7 +58,7 @@ class Util {
     return res;
   }
 
-  static String fromUtf8(ffi.Pointer<ffi.Int8> str) {
+  static String? fromUtf8(ffi.Pointer<ffi.Int8> str) {
     if (str == ffi.nullptr) return null;
     final length = ffi.Utf8.strlen(str.cast());
     try {
@@ -72,7 +72,7 @@ class Util {
     return ffi.Utf8.toUtf8(str).cast<ffi.Int8>();
   }
 
-  static int toInt(UtilFunc<ffi.Int32> getFunc) {
+  static int? toInt(UtilFunc<ffi.Int32> getFunc) {
     final ptr = ffi.allocate<ffi.Int32>();
     final rv = call(() => getFunc(ptr));
     final value = ptr.value;
