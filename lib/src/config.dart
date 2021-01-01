@@ -180,6 +180,11 @@ abstract class SerialPortConfig {
   set flowControl(int value);
 }
 
+typedef _SerialPortConfigGet = int Function(
+    ffi.Pointer<sp_port_config> config, ffi.Pointer<ffi.Int32> out);
+typedef _SerialPortConfigSet = int Function(
+    ffi.Pointer<sp_port_config> config, int value);
+
 class _SerialPortConfigImpl implements SerialPortConfig {
   final ffi.Pointer<sp_port_config> _config;
 
@@ -249,14 +254,14 @@ class _SerialPortConfigImpl implements SerialPortConfig {
   @override
   set flowControl(int value) => _set(dylib.sp_set_config_flowcontrol, value);
 
-  int _get(Function sp_get_config) {
+  int _get(_SerialPortConfigGet getFunc) {
     return Util.toInt((ptr) {
-      return sp_get_config(_config, ptr);
+      return getFunc(_config, ptr);
     });
   }
 
-  void _set(Function sp_set_config, int value) {
-    Util.call(() => sp_set_config(_config, value));
+  void _set(_SerialPortConfigSet setFunc, int value) {
+    Util.call(() => setFunc(_config, value));
   }
 
   @override
