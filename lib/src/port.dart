@@ -236,7 +236,7 @@ class _SerialPortImpl implements SerialPort {
     var i = -1;
     var ports = <String>[];
     final array = out.value;
-    while (array[++i].address != 0x0) {
+    while (array[++i] != ffi.nullptr) {
       ports.add(Util.fromUtf8(dylib.sp_get_port_name(array[i])));
     }
     dylib.sp_free_port_list(array);
