@@ -197,10 +197,10 @@ class _SerialPortConfigImpl implements SerialPortConfig {
   int get address => _config.address;
 
   static ffi.Pointer<sp_port_config> _init() {
-    final out = ffi.allocate<ffi.Pointer<sp_port_config>>();
+    final out = ffi.calloc<ffi.Pointer<sp_port_config>>();
     Util.call(() => dylib.sp_new_config(out));
     final config = out[0];
-    ffi.free(out);
+    ffi.calloc.free(out);
     return config;
   }
 

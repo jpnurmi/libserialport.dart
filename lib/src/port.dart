@@ -216,20 +216,20 @@ class _SerialPortImpl implements SerialPort {
   int get address => _port.address;
 
   static ffi.Pointer<sp_port> _init(String name) {
-    final out = ffi.allocate<ffi.Pointer<sp_port>>();
+    final out = ffi.calloc<ffi.Pointer<sp_port>>();
     final cstr = Util.toUtf8(name);
     Util.call(() => dylib.sp_get_port_by_name(cstr, out));
     final port = out[0];
-    ffi.free(out);
-    ffi.free(cstr);
+    ffi.calloc.free(out);
+    ffi.calloc.free(cstr);
     return port;
   }
 
   static List<String> get availablePorts {
-    final out = ffi.allocate<ffi.Pointer<ffi.Pointer<sp_port>>>();
+    final out = ffi.calloc<ffi.Pointer<ffi.Pointer<sp_port>>>();
     final rv = Util.call(() => dylib.sp_list_ports(out));
     if (rv != sp_return.SP_OK) {
-      ffi.free(out);
+      ffi.calloc.free(out);
       return <String>[];
     }
     var i = -1;
@@ -380,10 +380,10 @@ class _SerialPortImpl implements SerialPort {
 
   @override
   int get signals {
-    final ptr = ffi.allocate<ffi.Int32>();
+    final ptr = ffi.calloc<ffi.Int32>();
     Util.call(() => dylib.sp_get_signals(_port, ptr));
     final value = ptr.value;
-    ffi.free(ptr);
+    ffi.calloc.free(ptr);
     return value;
   }
 

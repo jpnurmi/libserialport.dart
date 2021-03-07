@@ -42,25 +42,25 @@ class Util {
   }
 
   static Uint8List read(int bytes, UtilFunc<ffi.Uint8> readFunc) {
-    final ptr = ffi.allocate<ffi.Uint8>(count: bytes);
+    final ptr = ffi.calloc<ffi.Uint8>(bytes);
     final len = call(() => readFunc(ptr));
     final res = Uint8List.fromList(ptr.asTypedList(len));
-    ffi.free(ptr);
+    ffi.calloc.free(ptr);
     return res;
   }
 
   static int write(Uint8List bytes, UtilFunc<ffi.Uint8> writeFunc) {
     final len = bytes.length;
-    final ptr = ffi.allocate<ffi.Uint8>(count: len);
+    final ptr = ffi.calloc<ffi.Uint8>(len);
     ptr.asTypedList(len).setAll(0, bytes);
     final res = call(() => writeFunc(ptr));
-    ffi.free(ptr);
+    ffi.calloc.free(ptr);
     return res;
   }
 
   static String? fromUtf8(ffi.Pointer<ffi.Int8> str) {
     if (str == ffi.nullptr) return null;
-    final length = ffi.Utf8.strlen(str.cast());
+    final length = ffi.Utf8Pointer(str.cast()).length; // ffi.Utf8.strlen(str.cast());
     try {
       return utf8.decode(str.cast<ffi.Uint8>().asTypedList(length));
     } catch (_) {
@@ -69,14 +69,14 @@ class Util {
   }
 
   static ffi.Pointer<ffi.Int8> toUtf8(String str) {
-    return ffi.Utf8.toUtf8(str).cast<ffi.Int8>();
+    return ffi.StringUtf8Pointer(str).toNativeUtf8().cast<ffi.Int8>();
   }
 
   static int? toInt(UtilFunc<ffi.Int32> getFunc) {
-    final ptr = ffi.allocate<ffi.Int32>();
+    final ptr = ffi.calloc<ffi.Int32>();
     final rv = call(() => getFunc(ptr));
     final value = ptr.value;
-    ffi.free(ptr);
+    ffi.calloc.free(ptr);
     if (rv != sp_return.SP_OK) return null;
     return value;
   }

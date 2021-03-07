@@ -45,7 +45,14 @@ extension StringWith on String {
 abstract class LibraryLoader {
   LibraryLoader._();
 
-  static String get platformPrefix => Platform.isWindows ? '' : 'lib';
+  static String get platformPrefix {
+    const envName = 'FORCE_PLATFORM_PREFIX';
+    String? prefix = const bool.hasEnvironment(envName)
+        ? const String.fromEnvironment(envName)
+        : null;
+    prefix ??= Platform.environment.containsKey(envName) ? Platform.environment[envName] : null; 
+    return Platform.isWindows ? (prefix == null ? '' : prefix.toLowerCase()) : prefix ?? 'lib';
+  }
 
   static String get platformSuffix {
     return Platform.isWindows
@@ -67,12 +74,14 @@ abstract class LibraryLoader {
   }
 
   static String resolvePath() {
-    final path = String.fromEnvironment(
+    String path = String.fromEnvironment(
       'LIBSERIALPORT_PATH',
       defaultValue: Platform.environment['LIBSERIALPORT_PATH'] ?? '',
     );
-    if (isFile(path)) return path;
-    return fixupPath(path) + fixupName('serialport');
+    if (!isFile(path)) {
+      path = fixupPath(path) + fixupName('serialport');
+    }
+    return path;
   }
 
   static ffi.DynamicLibrary load() => ffi.DynamicLibrary.open(resolvePath());
