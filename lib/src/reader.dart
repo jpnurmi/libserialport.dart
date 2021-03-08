@@ -150,7 +150,7 @@ class _SerialPortReaderImpl implements SerialPortReader {
     ffi.Pointer<sp_port> port,
     int mask,
   ) {
-    final events = ffi.allocate<ffi.Pointer<sp_event_set>>();
+    final events = ffi.calloc<ffi.Pointer<sp_event_set>>();
     dylib.sp_new_event_set(events);
     dylib.sp_add_port_events(events.value, port, mask);
     return events;
