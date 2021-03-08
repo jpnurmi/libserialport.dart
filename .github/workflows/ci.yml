@@ -13,9 +13,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
     - name: Install Dart
-      uses: DanTup/gh-actions/setup-dart@master
-      with:
-        channel: beta
+      uses: dart-lang/setup-dart@v1
     - name: Get Dependencies
       run: dart pub get
     - name: Install libserialport
