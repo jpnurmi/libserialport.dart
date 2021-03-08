@@ -1,3 +1,7 @@
+## [0.1.0-nullsafety.1] - 2021-03-08
+
+* Migrated to ffi 1.0.0
+
 ## [0.1.0-nullsafety.0] - 2021-01-01
 
 * Migrated to null safety
