@@ -60,7 +60,7 @@ class Util {
 
   static String? fromUtf8(ffi.Pointer<ffi.Int8> str) {
     if (str == ffi.nullptr) return null;
-    final length = ffi.Utf8Pointer(str.cast()).length; // ffi.Utf8.strlen(str.cast());
+    final length = ffi.Utf8Pointer(str.cast()).length;
     try {
       return utf8.decode(str.cast<ffi.Uint8>().asTypedList(length));
     } catch (_) {
