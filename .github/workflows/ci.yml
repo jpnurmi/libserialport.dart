@@ -7,7 +7,8 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  linux:
+    name: Linux
     runs-on: ubuntu-18.04
     steps:
     - name: Checkout
@@ -40,3 +41,21 @@ jobs:
       run: sudo chmod a+rw /dev/tnt*
     - name: Run Tests
       run: dart pub run test
+
+  macos:
+    name: macOS
+    runs-on: macos-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Install Dart
+      uses: dart-lang/setup-dart@v1
+    - name: Install Tools
+      run: brew install libserialport
+    - name: Get Dependencies
+      run: dart pub get
+    - name: Run Tests
+      run: dart pub run test/dylib_test.dart
+      env:
+        # file system relative paths not allowed in hardened programs
+        LIBSERIALPORT_PATH: /usr/local/Cellar/libserialport/0.1.1/lib/libserialport.dylib
