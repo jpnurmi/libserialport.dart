@@ -1,6 +1,8 @@
-## [0.1.0] - 2021-03-08
+## [0.1.0] - 2021-03-09
 
 * Upgraded to Dart 2.12.
+* Fixed use of empty FFI structs.
+* Use `dylib` package for dynamic library loading.
 
 ## [0.1.0-nullsafety.1] - 2021-03-08
 
