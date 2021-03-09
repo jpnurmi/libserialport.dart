@@ -2041,11 +2041,11 @@ abstract class sp_transport {
 
 /// @struct sp_port
 /// An opaque structure representing a serial port.
-class sp_port extends ffi.Struct {}
+class sp_port extends ffi.Opaque {}
 
 /// @struct sp_port_config
 /// An opaque structure representing the configuration for a serial port.
-class sp_port_config extends ffi.Struct {}
+class sp_port_config extends ffi.Opaque {}
 
 /// @struct sp_event_set
 /// A set of handles to wait on for events.
