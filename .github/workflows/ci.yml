@@ -50,7 +50,7 @@ jobs:
       uses: actions/checkout@v2
     - name: Install Dart
       uses: dart-lang/setup-dart@v1
-    - name: Install Tools
+    - name: Install libserialport
       run: brew install libserialport
     - name: Get Dependencies
       run: dart pub get
@@ -59,3 +59,26 @@ jobs:
       env:
         # file system relative paths not allowed in hardened programs
         LIBSERIALPORT_PATH: /usr/local/Cellar/libserialport/0.1.1/lib/libserialport.dylib
+
+  windows:
+    name: Windows
+    runs-on: windows-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Install Dart
+      uses: dart-lang/setup-dart@v1
+    - name: Setup MSVC
+      uses: ilammy/msvc-dev-cmd@v1
+    - name: Install libserialport
+      run: |
+        git clone https://github.com/jpnurmi/flutter_serial_port.git
+        cd flutter_serial_port\windows\libserialport
+        cmake -G "NMake Makefiles" .
+        nmake
+        cp serialport.dll ..\..\..
+        cd ..\..\..
+    - name: Get Dependencies
+      run: dart pub get
+    - name: Run Tests
+      run: dart pub run test/dylib_test.dart
