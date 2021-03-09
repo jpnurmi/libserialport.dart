@@ -23,57 +23,17 @@
  */
 
 import 'dart:ffi' as ffi;
-import 'dart:io';
 
 import 'package:dart_serial_port/src/bindings.dart';
+import 'package:dylib/dylib.dart';
 
 LibSerialPort? _dylib;
-LibSerialPort get dylib => _dylib ??= LibSerialPort(LibraryLoader.load());
-
-extension StringWith on String {
-  String prefixWith(String prefix) {
-    if (isEmpty || startsWith(prefix)) return this;
-    return prefix + this;
-  }
-
-  String suffixWith(String suffix) {
-    if (isEmpty || endsWith(suffix)) return this;
-    return this + suffix;
-  }
-}
-
-abstract class LibraryLoader {
-  LibraryLoader._();
-
-  static String get platformPrefix => Platform.isWindows ? '' : 'lib';
-
-  static String get platformSuffix {
-    return Platform.isWindows
-        ? '.dll'
-        : Platform.isMacOS || Platform.isIOS
-            ? '.dylib'
-            : '.so';
-  }
-
-  static String fixupName(String baseName) {
-    return baseName.prefixWith(platformPrefix).suffixWith(platformSuffix);
-  }
-
-  static String fixupPath(String path) => path.suffixWith('/');
-
-  static bool isFile(String path) {
-    return path.isNotEmpty &&
-        Directory(path).statSync().type == FileSystemEntityType.file;
-  }
-
-  static String resolvePath() {
-    final path = String.fromEnvironment(
-      'LIBSERIALPORT_PATH',
-      defaultValue: Platform.environment['LIBSERIALPORT_PATH'] ?? '',
-    );
-    if (isFile(path)) return path;
-    return fixupPath(path) + fixupName('serialport');
-  }
-
-  static ffi.DynamicLibrary load() => ffi.DynamicLibrary.open(resolvePath());
+LibSerialPort get dylib {
+  return _dylib ??= LibSerialPort(ffi.DynamicLibrary.open(
+    resolveDylibPath(
+      'serialport',
+      dartDefine: 'LIBSERIALPORT_PATH',
+      environmentVariable: 'LIBSERIALPORT_PATH',
+    ),
+  ));
 }
