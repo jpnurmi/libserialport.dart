@@ -1,3 +1,8 @@
+## [0.2.0] - 2021-03-27
+
+* The package has been renamed to libserialport.
+* Upgraded dependencies.
+
 ## [0.1.0] - 2021-03-09
 
 * Upgraded to Dart 2.12.
