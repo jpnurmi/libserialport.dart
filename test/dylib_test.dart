@@ -1,4 +1,4 @@
-import 'package:dart_serial_port/dart_serial_port.dart';
+import 'package:libserialport/libserialport.dart';
 import 'package:test/test.dart';
 
 void main() {

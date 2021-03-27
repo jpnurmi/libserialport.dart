@@ -24,7 +24,7 @@
 
 import 'dart:ffi' as ffi;
 
-import 'package:dart_serial_port/src/bindings.dart';
+import 'package:libserialport/src/bindings.dart';
 import 'package:dylib/dylib.dart';
 
 LibSerialPort? _dylib;
