@@ -27,8 +27,8 @@ import 'dart:ffi' as ffi;
 import 'dart:typed_data';
 
 import 'package:ffi/ffi.dart' as ffi;
-import 'package:dart_serial_port/src/bindings.dart';
-import 'package:dart_serial_port/src/port.dart';
+import 'package:libserialport/src/bindings.dart';
+import 'package:libserialport/src/port.dart';
 
 typedef UtilFunc<T extends ffi.NativeType> = int Function(ffi.Pointer<T> ptr);
 

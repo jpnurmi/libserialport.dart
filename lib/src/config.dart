@@ -25,9 +25,9 @@
 import 'dart:ffi' as ffi;
 
 import 'package:ffi/ffi.dart' as ffi;
-import 'package:dart_serial_port/src/bindings.dart';
-import 'package:dart_serial_port/src/dylib.dart';
-import 'package:dart_serial_port/src/util.dart';
+import 'package:libserialport/src/bindings.dart';
+import 'package:libserialport/src/dylib.dart';
+import 'package:libserialport/src/util.dart';
 
 /// Serial port config.
 ///

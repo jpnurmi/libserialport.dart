@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:dart_serial_port/dart_serial_port.dart';
+import 'package:libserialport/libserialport.dart';
 import 'package:test/test.dart';
 
 const EBUSY = 16; // Device or resource busy
