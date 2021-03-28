@@ -1,3 +1,7 @@
+## [0.2.0+1] - 2021-03-28
+
+* Updated references to flutter_libserialport.
+
 ## [0.2.0] - 2021-03-27
 
 * The package has been renamed to libserialport.

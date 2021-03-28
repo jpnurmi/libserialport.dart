@@ -72,8 +72,8 @@ jobs:
       uses: ilammy/msvc-dev-cmd@v1
     - name: Install libserialport
       run: |
-        git clone https://github.com/jpnurmi/flutter_serial_port.git
-        cd flutter_serial_port\windows\libserialport
+        git clone https://github.com/jpnurmi/flutter_libserialport.git
+        cd flutter_libserialport\windows\libserialport
         cmake -G "NMake Makefiles" .
         nmake
         cp serialport.dll ..\..\..
