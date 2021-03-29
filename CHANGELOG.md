@@ -1,3 +1,7 @@
+## [0.2.0+2] - 2021-03-29
+
+* Fix references to flutter_libserialport.
+
 ## [0.2.0+1] - 2021-03-28
 
 * Updated references to flutter_libserialport.
