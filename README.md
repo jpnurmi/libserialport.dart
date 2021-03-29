@@ -5,7 +5,7 @@
 [![style: lint](https://img.shields.io/badge/style-lint-4BC0F5.svg)](https://pub.dev/packages/lint)
 [![license: LGPL3+](https://img.shields.io/badge/license-LGPL3+-magenta.svg)](https://opensource.org/licenses/LGPL-3.0)
 
-| **TIP:** See also [`flutter_libserial`](https://github.com/jpnurmi/flutter_libserialport) for automatic building and deploying of libserialport. |
+| **TIP:** See also [`flutter_libserialport`](https://pub.dev/packages/flutter_libserialport) for automatic building and deploying of libserialport. |
 | --- |
 
 This Dart package is based on [`libserialport`](https://sigrok.org/wiki/Libserialport),
@@ -22,7 +22,7 @@ This package uses [dart:ffi](https://dart.dev/guides/libraries/c-interop) to cal
 `libserialport`'s C APIs, which implies that `libserialport` must be bundled to or deployed
 with the host application. It can be tedious to build and deploy `libserialport` on all target
 platforms, but in case you are building a Flutter app instead of a pure Dart app, there is
-a ready-made drop-in solution called [`flutter_libserialport`](https://github.com/jpnurmi/flutter_libserialport)
+a ready-made drop-in solution called [`flutter_libserialport`](https://pub.dev/packages/flutter_libserialport)
 that utilizes Flutter's build system to build and deploy `libserialport` on all supported platforms:
 
 ## Usage
