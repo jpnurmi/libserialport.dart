@@ -38,12 +38,19 @@ const int _kReadEvents = sp_event.SP_EVENT_RX_READY | sp_event.SP_EVENT_ERROR;
 
 /// Asynchronous serial port reader.
 ///
-/// Provides a [stream] that can be listened to asynchronously receive data
+/// Provides a [stream] that can be listened to asynchronously to receive data
 /// whenever available.
+///
+/// The [stream] will attempt to open a given [port] for reading. If the stream
+/// fails to open the port, it will emit [SerialPortError]. If the port is
+/// successfully opened, the stream will begin emitting [Uint8List] data events.
 ///
 /// **Note:** The reader must be closed using [close()] when done with reading.
 abstract class SerialPortReader {
-  /// Creates a reader for the port.
+  /// Creates a reader for the port. Optional [timeout] parameter can be
+  /// provided to specify a time im milliseconds between attempts to read after
+  /// a failure to open the [port] for reading. If not given, [timeout] defaults
+  /// to 500ms.
   factory SerialPortReader(SerialPort port, {int? timeout}) =>
       _SerialPortReaderImpl(port, timeout: timeout);
 
