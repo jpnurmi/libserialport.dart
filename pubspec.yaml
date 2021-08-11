@@ -1,7 +1,7 @@
 name: libserialport
 description: Serial Port for Dart (FFI bindings to libserialport, a minimal
   C-library created by the sigrok).
-version: 0.2.0+2
+version: 0.2.0+3
 homepage: https://github.com/jpnurmi/libserialport.dart
 repository: https://github.com/jpnurmi/libserialport.dart
 issue_tracker: https://github.com/jpnurmi/libserialport.dart/issues

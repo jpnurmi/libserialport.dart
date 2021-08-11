@@ -1,3 +1,7 @@
+## [0.2.0+3] - 2021-08-11
+
+* Clarify SerialPortReader documentation (thanks @thepiper)
+
 ## [0.2.0+2] - 2021-03-29
 
 * Fix references to flutter_libserialport.
