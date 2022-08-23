@@ -32,6 +32,7 @@ import 'package:libserialport/src/port.dart';
 
 typedef UtilFunc<T extends ffi.NativeType> = int Function(ffi.Pointer<T> ptr);
 
+// ignore: avoid_classes_with_only_static_members
 class Util {
   static int call(int Function() func) {
     final ret = func();

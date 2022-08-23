@@ -23,6 +23,7 @@
  */
 
 import 'dart:ffi' as ffi;
+import 'dart:ffi';
 import 'dart:typed_data';
 
 import 'package:ffi/ffi.dart' as ffi;
@@ -218,7 +219,7 @@ class _SerialPortImpl implements SerialPort {
   static ffi.Pointer<sp_port> _init(String name) {
     final out = ffi.calloc<ffi.Pointer<sp_port>>();
     final cstr = Util.toUtf8(name);
-    Util.call(() => dylib.sp_get_port_by_name(cstr, out));
+    Util.call(() => dylib.sp_get_port_by_name(cstr as Pointer<ffi.Char>, out));
     final port = out[0];
     ffi.calloc.free(out);
     ffi.calloc.free(cstr);
@@ -236,7 +237,8 @@ class _SerialPortImpl implements SerialPort {
     final ports = <String>[];
     final array = out.value;
     while (array[++i] != ffi.nullptr) {
-      final port = Util.fromUtf8(dylib.sp_get_port_name(array[i]));
+      final port =
+          Util.fromUtf8(dylib.sp_get_port_name(array[i]) as Pointer<ffi.Int8>);
       if (port != null) ports.add(port);
     }
     dylib.sp_free_port_list(array);
@@ -270,10 +272,13 @@ class _SerialPortImpl implements SerialPort {
   }
 
   @override
-  String? get name => Util.fromUtf8(dylib.sp_get_port_name(_port));
+  String? get name =>
+      Util.fromUtf8(dylib.sp_get_port_name(_port) as Pointer<ffi.Int8>);
   @override
   String? get description {
-    return Util.fromUtf8(dylib.sp_get_port_description(_port));
+    return Util.fromUtf8(
+      dylib.sp_get_port_description(_port) as Pointer<ffi.Int8>,
+    );
   }
 
   @override
@@ -282,49 +287,73 @@ class _SerialPortImpl implements SerialPort {
   @override
   int? get busNumber {
     return Util.toInt((ptr) {
-      return dylib.sp_get_port_usb_bus_address(_port, ptr, ffi.nullptr);
+      return dylib.sp_get_port_usb_bus_address(
+        _port,
+        ptr as Pointer<ffi.Int>,
+        ffi.nullptr,
+      );
     });
   }
 
   @override
   int? get deviceNumber {
     return Util.toInt((ptr) {
-      return dylib.sp_get_port_usb_bus_address(_port, ffi.nullptr, ptr);
+      return dylib.sp_get_port_usb_bus_address(
+        _port,
+        ffi.nullptr,
+        ptr as Pointer<ffi.Int>,
+      );
     });
   }
 
   @override
   int? get vendorId {
     return Util.toInt((ptr) {
-      return dylib.sp_get_port_usb_vid_pid(_port, ptr, ffi.nullptr);
+      return dylib.sp_get_port_usb_vid_pid(
+        _port,
+        ptr as Pointer<ffi.Int>,
+        ffi.nullptr,
+      );
     });
   }
 
   @override
   int? get productId {
     return Util.toInt((ptr) {
-      return dylib.sp_get_port_usb_vid_pid(_port, ffi.nullptr, ptr);
+      return dylib.sp_get_port_usb_vid_pid(
+        _port,
+        ffi.nullptr,
+        ptr as Pointer<ffi.Int>,
+      );
     });
   }
 
   @override
   String? get manufacturer {
-    return Util.fromUtf8(dylib.sp_get_port_usb_manufacturer(_port));
+    return Util.fromUtf8(
+      dylib.sp_get_port_usb_manufacturer(_port) as Pointer<ffi.Int8>,
+    );
   }
 
   @override
   String? get productName {
-    return Util.fromUtf8(dylib.sp_get_port_usb_product(_port));
+    return Util.fromUtf8(
+      dylib.sp_get_port_usb_product(_port) as Pointer<ffi.Int8>,
+    );
   }
 
   @override
   String? get serialNumber {
-    return Util.fromUtf8(dylib.sp_get_port_usb_serial(_port));
+    return Util.fromUtf8(
+      dylib.sp_get_port_usb_serial(_port) as Pointer<ffi.Int8>,
+    );
   }
 
   @override
   String? get macAddress {
-    return Util.fromUtf8(dylib.sp_get_port_bluetooth_address(_port));
+    return Util.fromUtf8(
+      dylib.sp_get_port_bluetooth_address(_port) as Pointer<ffi.Int8>,
+    );
   }
 
   @override
@@ -394,7 +423,7 @@ class _SerialPortImpl implements SerialPort {
 
   static SerialPortError? get lastError {
     final ptr = dylib.sp_last_error_message();
-    final str = Util.fromUtf8(ptr);
+    final str = Util.fromUtf8(ptr as Pointer<ffi.Int8>);
     if (str == null) return null;
     dylib.sp_free_error_message(ptr);
     return SerialPortError(str, dylib.sp_last_error_code());

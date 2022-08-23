@@ -23,6 +23,7 @@
  */
 
 import 'dart:ffi' as ffi;
+import 'dart:ffi';
 
 import 'package:ffi/ffi.dart' as ffi;
 import 'package:libserialport/src/bindings.dart';
@@ -182,9 +183,17 @@ abstract class SerialPortConfig {
 
 // ignore_for_file: avoid_private_typedef_functions
 typedef _SerialPortConfigGet = int Function(
-    ffi.Pointer<sp_port_config> config, ffi.Pointer<ffi.Int32> out);
+  ffi.Pointer<sp_port_config> config,
+  ffi.Pointer<ffi.Int> out,
+);
+typedef _SerialPortConfigGet32 = int Function(
+  ffi.Pointer<sp_port_config> config,
+  ffi.Pointer<ffi.Int32> out,
+);
 typedef _SerialPortConfigSet = int Function(
-    ffi.Pointer<sp_port_config> config, int value);
+  ffi.Pointer<sp_port_config> config,
+  int value,
+);
 
 class _SerialPortConfigImpl implements SerialPortConfig {
   final ffi.Pointer<sp_port_config> _config;
@@ -218,7 +227,7 @@ class _SerialPortConfigImpl implements SerialPortConfig {
   set bits(int value) => _set(dylib.sp_set_config_bits, value);
 
   @override
-  int get parity => _get(dylib.sp_get_config_parity);
+  int get parity => _get32(dylib.sp_get_config_parity);
   @override
   set parity(int value) => _set(dylib.sp_set_config_parity, value);
 
@@ -228,27 +237,27 @@ class _SerialPortConfigImpl implements SerialPortConfig {
   set stopBits(int value) => _set(dylib.sp_set_config_stopbits, value);
 
   @override
-  int get rts => _get(dylib.sp_get_config_rts);
+  int get rts => _get32(dylib.sp_get_config_rts);
   @override
   set rts(int value) => _set(dylib.sp_set_config_rts, value);
 
   @override
-  int get cts => _get(dylib.sp_get_config_cts);
+  int get cts => _get32(dylib.sp_get_config_cts);
   @override
   set cts(int value) => _set(dylib.sp_set_config_cts, value);
 
   @override
-  int get dtr => _get(dylib.sp_get_config_dtr);
+  int get dtr => _get32(dylib.sp_get_config_dtr);
   @override
   set dtr(int value) => _set(dylib.sp_set_config_dtr, value);
 
   @override
-  int get dsr => _get(dylib.sp_get_config_dsr);
+  int get dsr => _get32(dylib.sp_get_config_dsr);
   @override
   set dsr(int value) => _set(dylib.sp_set_config_dsr, value);
 
   @override
-  int get xonXoff => _get(dylib.sp_get_config_xon_xoff);
+  int get xonXoff => _get32(dylib.sp_get_config_xon_xoff);
   @override
   set xonXoff(int value) => _set(dylib.sp_set_config_xon_xoff, value);
 
@@ -257,6 +266,12 @@ class _SerialPortConfigImpl implements SerialPortConfig {
       _set(dylib.sp_set_config_flowcontrol, value);
 
   int _get(_SerialPortConfigGet getFunc) {
+    return Util.toInt((ptr) {
+      return getFunc(_config, ptr as Pointer<ffi.Int>);
+    })!;
+  }
+
+  int _get32(_SerialPortConfigGet32 getFunc) {
     return Util.toInt((ptr) {
       return getFunc(_config, ptr);
     })!;

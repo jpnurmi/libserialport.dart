@@ -27,9 +27,10 @@ import 'dart:io';
 // ignore_for_file: no_runtimetype_tostring
 
 class SerialPortError extends OSError {
-  const SerialPortError(
-      [String message = '', int errorCode = OSError.noErrorCode])
-      : super(message, errorCode);
+  const SerialPortError([
+    String message = '',
+    int errorCode = OSError.noErrorCode,
+  ]) : super(message, errorCode);
 
   @override
   String toString() {
