@@ -219,7 +219,7 @@ class _SerialPortImpl implements SerialPort {
   static ffi.Pointer<sp_port> _init(String name) {
     final out = ffi.calloc<ffi.Pointer<sp_port>>();
     final cstr = Util.toUtf8(name);
-    Util.call(() => dylib.sp_get_port_by_name(cstr as Pointer<ffi.Char>, out));
+    Util.call(() => dylib.sp_get_port_by_name(cstr.cast<ffi.Char>(), out));
     final port = out[0];
     ffi.calloc.free(out);
     ffi.calloc.free(cstr);
@@ -423,7 +423,7 @@ class _SerialPortImpl implements SerialPort {
 
   static SerialPortError? get lastError {
     final ptr = dylib.sp_last_error_message();
-    final str = Util.fromUtf8(ptr as Pointer<ffi.Int8>);
+    final str = Util.fromUtf8(ptr.cast<ffi.Int8>());
     if (str == null) return null;
     dylib.sp_free_error_message(ptr);
     return SerialPortError(str, dylib.sp_last_error_code());

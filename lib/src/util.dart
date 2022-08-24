@@ -73,6 +73,7 @@ class Util {
     return ffi.StringUtf8Pointer(str).toNativeUtf8().cast<ffi.Int8>();
   }
 
+
   static int? toInt(UtilFunc<ffi.Int32> getFunc) {
     final ptr = ffi.calloc<ffi.Int32>();
     final rv = call(() => getFunc(ptr));
