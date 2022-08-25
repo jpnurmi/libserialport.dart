@@ -35,7 +35,7 @@ class LibSerialPort {
   ///
   /// @since 0.1.0
   int sp_get_port_by_name(
-    ffi.Pointer<ffi.Int8> portname,
+    ffi.Pointer<ffi.Char> portname,
     ffi.Pointer<ffi.Pointer<sp_port>> port_ptr,
   ) {
     return _sp_get_port_by_name(
@@ -44,11 +44,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_get_port_by_name_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_get_port_by_name>>(
-          'sp_get_port_by_name');
-  late final _dart_sp_get_port_by_name _sp_get_port_by_name =
-      _sp_get_port_by_name_ptr.asFunction<_dart_sp_get_port_by_name>();
+  late final _sp_get_port_by_namePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<ffi.Char>,
+              ffi.Pointer<ffi.Pointer<sp_port>>)>>('sp_get_port_by_name');
+  late final _sp_get_port_by_name = _sp_get_port_by_namePtr.asFunction<
+      int Function(ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Pointer<sp_port>>)>();
 
   /// Free a port structure obtained from sp_get_port_by_name() or sp_copy_port().
   ///
@@ -63,10 +64,11 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_free_port_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_free_port>>('sp_free_port');
-  late final _dart_sp_free_port _sp_free_port =
-      _sp_free_port_ptr.asFunction<_dart_sp_free_port>();
+  late final _sp_free_portPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<sp_port>)>>(
+          'sp_free_port');
+  late final _sp_free_port =
+      _sp_free_portPtr.asFunction<void Function(ffi.Pointer<sp_port>)>();
 
   /// List the serial ports available on the system.
   ///
@@ -93,10 +95,13 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_list_ports_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_list_ports>>('sp_list_ports');
-  late final _dart_sp_list_ports _sp_list_ports =
-      _sp_list_ports_ptr.asFunction<_dart_sp_list_ports>();
+  late final _sp_list_portsPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Int32 Function(
+                  ffi.Pointer<ffi.Pointer<ffi.Pointer<sp_port>>>)>>(
+      'sp_list_ports');
+  late final _sp_list_ports = _sp_list_portsPtr.asFunction<
+      int Function(ffi.Pointer<ffi.Pointer<ffi.Pointer<sp_port>>>)>();
 
   /// Make a new copy of an sp_port structure.
   ///
@@ -123,10 +128,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_copy_port_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_copy_port>>('sp_copy_port');
-  late final _dart_sp_copy_port _sp_copy_port =
-      _sp_copy_port_ptr.asFunction<_dart_sp_copy_port>();
+  late final _sp_copy_portPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<sp_port>,
+              ffi.Pointer<ffi.Pointer<sp_port>>)>>('sp_copy_port');
+  late final _sp_copy_port = _sp_copy_portPtr.asFunction<
+      int Function(ffi.Pointer<sp_port>, ffi.Pointer<ffi.Pointer<sp_port>>)>();
 
   /// Free a port list obtained from sp_list_ports().
   ///
@@ -144,10 +151,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_free_port_list_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_free_port_list>>('sp_free_port_list');
-  late final _dart_sp_free_port_list _sp_free_port_list =
-      _sp_free_port_list_ptr.asFunction<_dart_sp_free_port_list>();
+  late final _sp_free_port_listPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+              ffi.Pointer<ffi.Pointer<sp_port>>)>>('sp_free_port_list');
+  late final _sp_free_port_list = _sp_free_port_listPtr
+      .asFunction<void Function(ffi.Pointer<ffi.Pointer<sp_port>>)>();
 
   /// Open the specified serial port.
   ///
@@ -167,8 +176,11 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_open_ptr = _lookup<ffi.NativeFunction<_c_sp_open>>('sp_open');
-  late final _dart_sp_open _sp_open = _sp_open_ptr.asFunction<_dart_sp_open>();
+  late final _sp_openPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<sp_port>, ffi.Int32)>>('sp_open');
+  late final _sp_open =
+      _sp_openPtr.asFunction<int Function(ffi.Pointer<sp_port>, int)>();
 
   /// Close the specified serial port.
   ///
@@ -185,10 +197,11 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_close_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_close>>('sp_close');
-  late final _dart_sp_close _sp_close =
-      _sp_close_ptr.asFunction<_dart_sp_close>();
+  late final _sp_closePtr =
+      _lookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<sp_port>)>>(
+          'sp_close');
+  late final _sp_close =
+      _sp_closePtr.asFunction<int Function(ffi.Pointer<sp_port>)>();
 
   /// Get the name of a port.
   ///
@@ -203,7 +216,7 @@ class LibSerialPort {
   /// the port structure has been freed.
   ///
   /// @since 0.1.0
-  ffi.Pointer<ffi.Int8> sp_get_port_name(
+  ffi.Pointer<ffi.Char> sp_get_port_name(
     ffi.Pointer<sp_port> port,
   ) {
     return _sp_get_port_name(
@@ -211,10 +224,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_get_port_name_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_get_port_name>>('sp_get_port_name');
-  late final _dart_sp_get_port_name _sp_get_port_name =
-      _sp_get_port_name_ptr.asFunction<_dart_sp_get_port_name>();
+  late final _sp_get_port_namePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+              ffi.Pointer<sp_port>)>>('sp_get_port_name');
+  late final _sp_get_port_name = _sp_get_port_namePtr
+      .asFunction<ffi.Pointer<ffi.Char> Function(ffi.Pointer<sp_port>)>();
 
   /// Get a description for a port, to present to end user.
   ///
@@ -225,7 +240,7 @@ class LibSerialPort {
   /// be used after the port structure has been freed.
   ///
   /// @since 0.1.1
-  ffi.Pointer<ffi.Int8> sp_get_port_description(
+  ffi.Pointer<ffi.Char> sp_get_port_description(
     ffi.Pointer<sp_port> port,
   ) {
     return _sp_get_port_description(
@@ -233,11 +248,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_get_port_description_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_get_port_description>>(
-          'sp_get_port_description');
-  late final _dart_sp_get_port_description _sp_get_port_description =
-      _sp_get_port_description_ptr.asFunction<_dart_sp_get_port_description>();
+  late final _sp_get_port_descriptionPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+              ffi.Pointer<sp_port>)>>('sp_get_port_description');
+  late final _sp_get_port_description = _sp_get_port_descriptionPtr
+      .asFunction<ffi.Pointer<ffi.Char> Function(ffi.Pointer<sp_port>)>();
 
   /// Get the transport type used by a port.
   ///
@@ -254,11 +270,11 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_get_port_transport_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_get_port_transport>>(
+  late final _sp_get_port_transportPtr =
+      _lookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<sp_port>)>>(
           'sp_get_port_transport');
-  late final _dart_sp_get_port_transport _sp_get_port_transport =
-      _sp_get_port_transport_ptr.asFunction<_dart_sp_get_port_transport>();
+  late final _sp_get_port_transport = _sp_get_port_transportPtr
+      .asFunction<int Function(ffi.Pointer<sp_port>)>();
 
   /// Get the USB bus number and address on bus of a USB serial adapter port.
   ///
@@ -273,8 +289,8 @@ class LibSerialPort {
   /// @since 0.1.1
   int sp_get_port_usb_bus_address(
     ffi.Pointer<sp_port> port,
-    ffi.Pointer<ffi.Int32> usb_bus,
-    ffi.Pointer<ffi.Int32> usb_address,
+    ffi.Pointer<ffi.Int> usb_bus,
+    ffi.Pointer<ffi.Int> usb_address,
   ) {
     return _sp_get_port_usb_bus_address(
       port,
@@ -283,12 +299,14 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_get_port_usb_bus_address_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_get_port_usb_bus_address>>(
-          'sp_get_port_usb_bus_address');
-  late final _dart_sp_get_port_usb_bus_address _sp_get_port_usb_bus_address =
-      _sp_get_port_usb_bus_address_ptr
-          .asFunction<_dart_sp_get_port_usb_bus_address>();
+  late final _sp_get_port_usb_bus_addressPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<sp_port>, ffi.Pointer<ffi.Int>,
+              ffi.Pointer<ffi.Int>)>>('sp_get_port_usb_bus_address');
+  late final _sp_get_port_usb_bus_address =
+      _sp_get_port_usb_bus_addressPtr.asFunction<
+          int Function(ffi.Pointer<sp_port>, ffi.Pointer<ffi.Int>,
+              ffi.Pointer<ffi.Int>)>();
 
   /// Get the USB Vendor ID and Product ID of a USB serial adapter port.
   ///
@@ -303,8 +321,8 @@ class LibSerialPort {
   /// @since 0.1.1
   int sp_get_port_usb_vid_pid(
     ffi.Pointer<sp_port> port,
-    ffi.Pointer<ffi.Int32> usb_vid,
-    ffi.Pointer<ffi.Int32> usb_pid,
+    ffi.Pointer<ffi.Int> usb_vid,
+    ffi.Pointer<ffi.Int> usb_pid,
   ) {
     return _sp_get_port_usb_vid_pid(
       port,
@@ -313,11 +331,13 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_get_port_usb_vid_pid_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_get_port_usb_vid_pid>>(
-          'sp_get_port_usb_vid_pid');
-  late final _dart_sp_get_port_usb_vid_pid _sp_get_port_usb_vid_pid =
-      _sp_get_port_usb_vid_pid_ptr.asFunction<_dart_sp_get_port_usb_vid_pid>();
+  late final _sp_get_port_usb_vid_pidPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<sp_port>, ffi.Pointer<ffi.Int>,
+              ffi.Pointer<ffi.Int>)>>('sp_get_port_usb_vid_pid');
+  late final _sp_get_port_usb_vid_pid = _sp_get_port_usb_vid_pidPtr.asFunction<
+      int Function(
+          ffi.Pointer<sp_port>, ffi.Pointer<ffi.Int>, ffi.Pointer<ffi.Int>)>();
 
   /// Get the USB manufacturer string of a USB serial adapter port.
   ///
@@ -328,7 +348,7 @@ class LibSerialPort {
   /// be used after the port structure has been freed.
   ///
   /// @since 0.1.1
-  ffi.Pointer<ffi.Int8> sp_get_port_usb_manufacturer(
+  ffi.Pointer<ffi.Char> sp_get_port_usb_manufacturer(
     ffi.Pointer<sp_port> port,
   ) {
     return _sp_get_port_usb_manufacturer(
@@ -336,12 +356,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_get_port_usb_manufacturer_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_get_port_usb_manufacturer>>(
-          'sp_get_port_usb_manufacturer');
-  late final _dart_sp_get_port_usb_manufacturer _sp_get_port_usb_manufacturer =
-      _sp_get_port_usb_manufacturer_ptr
-          .asFunction<_dart_sp_get_port_usb_manufacturer>();
+  late final _sp_get_port_usb_manufacturerPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+              ffi.Pointer<sp_port>)>>('sp_get_port_usb_manufacturer');
+  late final _sp_get_port_usb_manufacturer = _sp_get_port_usb_manufacturerPtr
+      .asFunction<ffi.Pointer<ffi.Char> Function(ffi.Pointer<sp_port>)>();
 
   /// Get the USB product string of a USB serial adapter port.
   ///
@@ -352,7 +372,7 @@ class LibSerialPort {
   /// used after the port structure has been freed.
   ///
   /// @since 0.1.1
-  ffi.Pointer<ffi.Int8> sp_get_port_usb_product(
+  ffi.Pointer<ffi.Char> sp_get_port_usb_product(
     ffi.Pointer<sp_port> port,
   ) {
     return _sp_get_port_usb_product(
@@ -360,11 +380,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_get_port_usb_product_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_get_port_usb_product>>(
-          'sp_get_port_usb_product');
-  late final _dart_sp_get_port_usb_product _sp_get_port_usb_product =
-      _sp_get_port_usb_product_ptr.asFunction<_dart_sp_get_port_usb_product>();
+  late final _sp_get_port_usb_productPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+              ffi.Pointer<sp_port>)>>('sp_get_port_usb_product');
+  late final _sp_get_port_usb_product = _sp_get_port_usb_productPtr
+      .asFunction<ffi.Pointer<ffi.Char> Function(ffi.Pointer<sp_port>)>();
 
   /// Get the USB serial number string of a USB serial adapter port.
   ///
@@ -375,7 +396,7 @@ class LibSerialPort {
   /// not be used after the port structure has been freed.
   ///
   /// @since 0.1.1
-  ffi.Pointer<ffi.Int8> sp_get_port_usb_serial(
+  ffi.Pointer<ffi.Char> sp_get_port_usb_serial(
     ffi.Pointer<sp_port> port,
   ) {
     return _sp_get_port_usb_serial(
@@ -383,11 +404,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_get_port_usb_serial_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_get_port_usb_serial>>(
-          'sp_get_port_usb_serial');
-  late final _dart_sp_get_port_usb_serial _sp_get_port_usb_serial =
-      _sp_get_port_usb_serial_ptr.asFunction<_dart_sp_get_port_usb_serial>();
+  late final _sp_get_port_usb_serialPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+              ffi.Pointer<sp_port>)>>('sp_get_port_usb_serial');
+  late final _sp_get_port_usb_serial = _sp_get_port_usb_serialPtr
+      .asFunction<ffi.Pointer<ffi.Char> Function(ffi.Pointer<sp_port>)>();
 
   /// Get the MAC address of a Bluetooth serial adapter port.
   ///
@@ -398,7 +420,7 @@ class LibSerialPort {
   /// be used after the port structure has been freed.
   ///
   /// @since 0.1.1
-  ffi.Pointer<ffi.Int8> sp_get_port_bluetooth_address(
+  ffi.Pointer<ffi.Char> sp_get_port_bluetooth_address(
     ffi.Pointer<sp_port> port,
   ) {
     return _sp_get_port_bluetooth_address(
@@ -406,12 +428,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_get_port_bluetooth_address_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_get_port_bluetooth_address>>(
-          'sp_get_port_bluetooth_address');
-  late final _dart_sp_get_port_bluetooth_address
-      _sp_get_port_bluetooth_address = _sp_get_port_bluetooth_address_ptr
-          .asFunction<_dart_sp_get_port_bluetooth_address>();
+  late final _sp_get_port_bluetooth_addressPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Char> Function(
+              ffi.Pointer<sp_port>)>>('sp_get_port_bluetooth_address');
+  late final _sp_get_port_bluetooth_address = _sp_get_port_bluetooth_addressPtr
+      .asFunction<ffi.Pointer<ffi.Char> Function(ffi.Pointer<sp_port>)>();
 
   /// Get the operating system handle for a port.
   ///
@@ -451,10 +473,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_get_port_handle_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_get_port_handle>>('sp_get_port_handle');
-  late final _dart_sp_get_port_handle _sp_get_port_handle =
-      _sp_get_port_handle_ptr.asFunction<_dart_sp_get_port_handle>();
+  late final _sp_get_port_handlePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<sp_port>,
+              ffi.Pointer<ffi.Void>)>>('sp_get_port_handle');
+  late final _sp_get_port_handle = _sp_get_port_handlePtr
+      .asFunction<int Function(ffi.Pointer<sp_port>, ffi.Pointer<ffi.Void>)>();
 
   /// Allocate a port configuration structure.
   ///
@@ -484,10 +508,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_new_config_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_new_config>>('sp_new_config');
-  late final _dart_sp_new_config _sp_new_config =
-      _sp_new_config_ptr.asFunction<_dart_sp_new_config>();
+  late final _sp_new_configPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<ffi.Pointer<sp_port_config>>)>>('sp_new_config');
+  late final _sp_new_config = _sp_new_configPtr
+      .asFunction<int Function(ffi.Pointer<ffi.Pointer<sp_port_config>>)>();
 
   /// Free a port configuration structure.
   ///
@@ -502,10 +528,11 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_free_config_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_free_config>>('sp_free_config');
-  late final _dart_sp_free_config _sp_free_config =
-      _sp_free_config_ptr.asFunction<_dart_sp_free_config>();
+  late final _sp_free_configPtr = _lookup<
+          ffi.NativeFunction<ffi.Void Function(ffi.Pointer<sp_port_config>)>>(
+      'sp_free_config');
+  late final _sp_free_config = _sp_free_configPtr
+      .asFunction<void Function(ffi.Pointer<sp_port_config>)>();
 
   /// Get the current configuration of the specified serial port.
   ///
@@ -535,10 +562,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_get_config_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_get_config>>('sp_get_config');
-  late final _dart_sp_get_config _sp_get_config =
-      _sp_get_config_ptr.asFunction<_dart_sp_get_config>();
+  late final _sp_get_configPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<sp_port>,
+              ffi.Pointer<sp_port_config>)>>('sp_get_config');
+  late final _sp_get_config = _sp_get_configPtr.asFunction<
+      int Function(ffi.Pointer<sp_port>, ffi.Pointer<sp_port_config>)>();
 
   /// Set the configuration for the specified serial port.
   ///
@@ -565,10 +594,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_set_config_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_set_config>>('sp_set_config');
-  late final _dart_sp_set_config _sp_set_config =
-      _sp_set_config_ptr.asFunction<_dart_sp_set_config>();
+  late final _sp_set_configPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<sp_port>,
+              ffi.Pointer<sp_port_config>)>>('sp_set_config');
+  late final _sp_set_config = _sp_set_configPtr.asFunction<
+      int Function(ffi.Pointer<sp_port>, ffi.Pointer<sp_port_config>)>();
 
   /// Set the baud rate for the specified serial port.
   ///
@@ -588,10 +619,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_set_baudrate_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_set_baudrate>>('sp_set_baudrate');
-  late final _dart_sp_set_baudrate _sp_set_baudrate =
-      _sp_set_baudrate_ptr.asFunction<_dart_sp_set_baudrate>();
+  late final _sp_set_baudratePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<sp_port>, ffi.Int)>>('sp_set_baudrate');
+  late final _sp_set_baudrate =
+      _sp_set_baudratePtr.asFunction<int Function(ffi.Pointer<sp_port>, int)>();
 
   /// Get the baud rate from a port configuration.
   ///
@@ -606,7 +639,7 @@ class LibSerialPort {
   /// @since 0.1.0
   int sp_get_config_baudrate(
     ffi.Pointer<sp_port_config> config,
-    ffi.Pointer<ffi.Int32> baudrate_ptr,
+    ffi.Pointer<ffi.Int> baudrate_ptr,
   ) {
     return _sp_get_config_baudrate(
       config,
@@ -614,11 +647,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_get_config_baudrate_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_get_config_baudrate>>(
-          'sp_get_config_baudrate');
-  late final _dart_sp_get_config_baudrate _sp_get_config_baudrate =
-      _sp_get_config_baudrate_ptr.asFunction<_dart_sp_get_config_baudrate>();
+  late final _sp_get_config_baudratePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<sp_port_config>,
+              ffi.Pointer<ffi.Int>)>>('sp_get_config_baudrate');
+  late final _sp_get_config_baudrate = _sp_get_config_baudratePtr.asFunction<
+      int Function(ffi.Pointer<sp_port_config>, ffi.Pointer<ffi.Int>)>();
 
   /// Set the baud rate in a port configuration.
   ///
@@ -638,11 +672,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_set_config_baudrate_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_set_config_baudrate>>(
-          'sp_set_config_baudrate');
-  late final _dart_sp_set_config_baudrate _sp_set_config_baudrate =
-      _sp_set_config_baudrate_ptr.asFunction<_dart_sp_set_config_baudrate>();
+  late final _sp_set_config_baudratePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<sp_port_config>, ffi.Int)>>('sp_set_config_baudrate');
+  late final _sp_set_config_baudrate = _sp_set_config_baudratePtr
+      .asFunction<int Function(ffi.Pointer<sp_port_config>, int)>();
 
   /// Set the data bits for the specified serial port.
   ///
@@ -662,10 +697,11 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_set_bits_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_set_bits>>('sp_set_bits');
-  late final _dart_sp_set_bits _sp_set_bits =
-      _sp_set_bits_ptr.asFunction<_dart_sp_set_bits>();
+  late final _sp_set_bitsPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<sp_port>, ffi.Int)>>('sp_set_bits');
+  late final _sp_set_bits =
+      _sp_set_bitsPtr.asFunction<int Function(ffi.Pointer<sp_port>, int)>();
 
   /// Get the data bits from a port configuration.
   ///
@@ -680,7 +716,7 @@ class LibSerialPort {
   /// @since 0.1.0
   int sp_get_config_bits(
     ffi.Pointer<sp_port_config> config,
-    ffi.Pointer<ffi.Int32> bits_ptr,
+    ffi.Pointer<ffi.Int> bits_ptr,
   ) {
     return _sp_get_config_bits(
       config,
@@ -688,10 +724,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_get_config_bits_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_get_config_bits>>('sp_get_config_bits');
-  late final _dart_sp_get_config_bits _sp_get_config_bits =
-      _sp_get_config_bits_ptr.asFunction<_dart_sp_get_config_bits>();
+  late final _sp_get_config_bitsPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<sp_port_config>,
+              ffi.Pointer<ffi.Int>)>>('sp_get_config_bits');
+  late final _sp_get_config_bits = _sp_get_config_bitsPtr.asFunction<
+      int Function(ffi.Pointer<sp_port_config>, ffi.Pointer<ffi.Int>)>();
 
   /// Set the data bits in a port configuration.
   ///
@@ -711,10 +749,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_set_config_bits_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_set_config_bits>>('sp_set_config_bits');
-  late final _dart_sp_set_config_bits _sp_set_config_bits =
-      _sp_set_config_bits_ptr.asFunction<_dart_sp_set_config_bits>();
+  late final _sp_set_config_bitsPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<sp_port_config>, ffi.Int)>>('sp_set_config_bits');
+  late final _sp_set_config_bits = _sp_set_config_bitsPtr
+      .asFunction<int Function(ffi.Pointer<sp_port_config>, int)>();
 
   /// Set the parity setting for the specified serial port.
   ///
@@ -734,10 +774,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_set_parity_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_set_parity>>('sp_set_parity');
-  late final _dart_sp_set_parity _sp_set_parity =
-      _sp_set_parity_ptr.asFunction<_dart_sp_set_parity>();
+  late final _sp_set_parityPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<sp_port>, ffi.Int32)>>('sp_set_parity');
+  late final _sp_set_parity =
+      _sp_set_parityPtr.asFunction<int Function(ffi.Pointer<sp_port>, int)>();
 
   /// Get the parity setting from a port configuration.
   ///
@@ -760,11 +802,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_get_config_parity_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_get_config_parity>>(
-          'sp_get_config_parity');
-  late final _dart_sp_get_config_parity _sp_get_config_parity =
-      _sp_get_config_parity_ptr.asFunction<_dart_sp_get_config_parity>();
+  late final _sp_get_config_parityPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<sp_port_config>,
+              ffi.Pointer<ffi.Int32>)>>('sp_get_config_parity');
+  late final _sp_get_config_parity = _sp_get_config_parityPtr.asFunction<
+      int Function(ffi.Pointer<sp_port_config>, ffi.Pointer<ffi.Int32>)>();
 
   /// Set the parity setting in a port configuration.
   ///
@@ -784,11 +827,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_set_config_parity_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_set_config_parity>>(
-          'sp_set_config_parity');
-  late final _dart_sp_set_config_parity _sp_set_config_parity =
-      _sp_set_config_parity_ptr.asFunction<_dart_sp_set_config_parity>();
+  late final _sp_set_config_parityPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<sp_port_config>, ffi.Int32)>>('sp_set_config_parity');
+  late final _sp_set_config_parity = _sp_set_config_parityPtr
+      .asFunction<int Function(ffi.Pointer<sp_port_config>, int)>();
 
   /// Set the stop bits for the specified serial port.
   ///
@@ -808,10 +852,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_set_stopbits_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_set_stopbits>>('sp_set_stopbits');
-  late final _dart_sp_set_stopbits _sp_set_stopbits =
-      _sp_set_stopbits_ptr.asFunction<_dart_sp_set_stopbits>();
+  late final _sp_set_stopbitsPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<sp_port>, ffi.Int)>>('sp_set_stopbits');
+  late final _sp_set_stopbits =
+      _sp_set_stopbitsPtr.asFunction<int Function(ffi.Pointer<sp_port>, int)>();
 
   /// Get the stop bits from a port configuration.
   ///
@@ -826,7 +872,7 @@ class LibSerialPort {
   /// @since 0.1.0
   int sp_get_config_stopbits(
     ffi.Pointer<sp_port_config> config,
-    ffi.Pointer<ffi.Int32> stopbits_ptr,
+    ffi.Pointer<ffi.Int> stopbits_ptr,
   ) {
     return _sp_get_config_stopbits(
       config,
@@ -834,11 +880,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_get_config_stopbits_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_get_config_stopbits>>(
-          'sp_get_config_stopbits');
-  late final _dart_sp_get_config_stopbits _sp_get_config_stopbits =
-      _sp_get_config_stopbits_ptr.asFunction<_dart_sp_get_config_stopbits>();
+  late final _sp_get_config_stopbitsPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<sp_port_config>,
+              ffi.Pointer<ffi.Int>)>>('sp_get_config_stopbits');
+  late final _sp_get_config_stopbits = _sp_get_config_stopbitsPtr.asFunction<
+      int Function(ffi.Pointer<sp_port_config>, ffi.Pointer<ffi.Int>)>();
 
   /// Set the stop bits in a port configuration.
   ///
@@ -858,11 +905,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_set_config_stopbits_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_set_config_stopbits>>(
-          'sp_set_config_stopbits');
-  late final _dart_sp_set_config_stopbits _sp_set_config_stopbits =
-      _sp_set_config_stopbits_ptr.asFunction<_dart_sp_set_config_stopbits>();
+  late final _sp_set_config_stopbitsPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<sp_port_config>, ffi.Int)>>('sp_set_config_stopbits');
+  late final _sp_set_config_stopbits = _sp_set_config_stopbitsPtr
+      .asFunction<int Function(ffi.Pointer<sp_port_config>, int)>();
 
   /// Set the RTS pin behaviour for the specified serial port.
   ///
@@ -882,10 +930,11 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_set_rts_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_set_rts>>('sp_set_rts');
-  late final _dart_sp_set_rts _sp_set_rts =
-      _sp_set_rts_ptr.asFunction<_dart_sp_set_rts>();
+  late final _sp_set_rtsPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<sp_port>, ffi.Int32)>>('sp_set_rts');
+  late final _sp_set_rts =
+      _sp_set_rtsPtr.asFunction<int Function(ffi.Pointer<sp_port>, int)>();
 
   /// Get the RTS pin behaviour from a port configuration.
   ///
@@ -908,10 +957,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_get_config_rts_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_get_config_rts>>('sp_get_config_rts');
-  late final _dart_sp_get_config_rts _sp_get_config_rts =
-      _sp_get_config_rts_ptr.asFunction<_dart_sp_get_config_rts>();
+  late final _sp_get_config_rtsPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<sp_port_config>,
+              ffi.Pointer<ffi.Int32>)>>('sp_get_config_rts');
+  late final _sp_get_config_rts = _sp_get_config_rtsPtr.asFunction<
+      int Function(ffi.Pointer<sp_port_config>, ffi.Pointer<ffi.Int32>)>();
 
   /// Set the RTS pin behaviour in a port configuration.
   ///
@@ -931,10 +982,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_set_config_rts_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_set_config_rts>>('sp_set_config_rts');
-  late final _dart_sp_set_config_rts _sp_set_config_rts =
-      _sp_set_config_rts_ptr.asFunction<_dart_sp_set_config_rts>();
+  late final _sp_set_config_rtsPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<sp_port_config>, ffi.Int32)>>('sp_set_config_rts');
+  late final _sp_set_config_rts = _sp_set_config_rtsPtr
+      .asFunction<int Function(ffi.Pointer<sp_port_config>, int)>();
 
   /// Set the CTS pin behaviour for the specified serial port.
   ///
@@ -954,10 +1007,11 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_set_cts_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_set_cts>>('sp_set_cts');
-  late final _dart_sp_set_cts _sp_set_cts =
-      _sp_set_cts_ptr.asFunction<_dart_sp_set_cts>();
+  late final _sp_set_ctsPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<sp_port>, ffi.Int32)>>('sp_set_cts');
+  late final _sp_set_cts =
+      _sp_set_ctsPtr.asFunction<int Function(ffi.Pointer<sp_port>, int)>();
 
   /// Get the CTS pin behaviour from a port configuration.
   ///
@@ -980,10 +1034,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_get_config_cts_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_get_config_cts>>('sp_get_config_cts');
-  late final _dart_sp_get_config_cts _sp_get_config_cts =
-      _sp_get_config_cts_ptr.asFunction<_dart_sp_get_config_cts>();
+  late final _sp_get_config_ctsPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<sp_port_config>,
+              ffi.Pointer<ffi.Int32>)>>('sp_get_config_cts');
+  late final _sp_get_config_cts = _sp_get_config_ctsPtr.asFunction<
+      int Function(ffi.Pointer<sp_port_config>, ffi.Pointer<ffi.Int32>)>();
 
   /// Set the CTS pin behaviour in a port configuration.
   ///
@@ -1003,10 +1059,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_set_config_cts_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_set_config_cts>>('sp_set_config_cts');
-  late final _dart_sp_set_config_cts _sp_set_config_cts =
-      _sp_set_config_cts_ptr.asFunction<_dart_sp_set_config_cts>();
+  late final _sp_set_config_ctsPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<sp_port_config>, ffi.Int32)>>('sp_set_config_cts');
+  late final _sp_set_config_cts = _sp_set_config_ctsPtr
+      .asFunction<int Function(ffi.Pointer<sp_port_config>, int)>();
 
   /// Set the DTR pin behaviour for the specified serial port.
   ///
@@ -1026,10 +1084,11 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_set_dtr_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_set_dtr>>('sp_set_dtr');
-  late final _dart_sp_set_dtr _sp_set_dtr =
-      _sp_set_dtr_ptr.asFunction<_dart_sp_set_dtr>();
+  late final _sp_set_dtrPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<sp_port>, ffi.Int32)>>('sp_set_dtr');
+  late final _sp_set_dtr =
+      _sp_set_dtrPtr.asFunction<int Function(ffi.Pointer<sp_port>, int)>();
 
   /// Get the DTR pin behaviour from a port configuration.
   ///
@@ -1052,10 +1111,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_get_config_dtr_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_get_config_dtr>>('sp_get_config_dtr');
-  late final _dart_sp_get_config_dtr _sp_get_config_dtr =
-      _sp_get_config_dtr_ptr.asFunction<_dart_sp_get_config_dtr>();
+  late final _sp_get_config_dtrPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<sp_port_config>,
+              ffi.Pointer<ffi.Int32>)>>('sp_get_config_dtr');
+  late final _sp_get_config_dtr = _sp_get_config_dtrPtr.asFunction<
+      int Function(ffi.Pointer<sp_port_config>, ffi.Pointer<ffi.Int32>)>();
 
   /// Set the DTR pin behaviour in a port configuration.
   ///
@@ -1075,10 +1136,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_set_config_dtr_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_set_config_dtr>>('sp_set_config_dtr');
-  late final _dart_sp_set_config_dtr _sp_set_config_dtr =
-      _sp_set_config_dtr_ptr.asFunction<_dart_sp_set_config_dtr>();
+  late final _sp_set_config_dtrPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<sp_port_config>, ffi.Int32)>>('sp_set_config_dtr');
+  late final _sp_set_config_dtr = _sp_set_config_dtrPtr
+      .asFunction<int Function(ffi.Pointer<sp_port_config>, int)>();
 
   /// Set the DSR pin behaviour for the specified serial port.
   ///
@@ -1098,10 +1161,11 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_set_dsr_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_set_dsr>>('sp_set_dsr');
-  late final _dart_sp_set_dsr _sp_set_dsr =
-      _sp_set_dsr_ptr.asFunction<_dart_sp_set_dsr>();
+  late final _sp_set_dsrPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<sp_port>, ffi.Int32)>>('sp_set_dsr');
+  late final _sp_set_dsr =
+      _sp_set_dsrPtr.asFunction<int Function(ffi.Pointer<sp_port>, int)>();
 
   /// Get the DSR pin behaviour from a port configuration.
   ///
@@ -1124,10 +1188,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_get_config_dsr_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_get_config_dsr>>('sp_get_config_dsr');
-  late final _dart_sp_get_config_dsr _sp_get_config_dsr =
-      _sp_get_config_dsr_ptr.asFunction<_dart_sp_get_config_dsr>();
+  late final _sp_get_config_dsrPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<sp_port_config>,
+              ffi.Pointer<ffi.Int32>)>>('sp_get_config_dsr');
+  late final _sp_get_config_dsr = _sp_get_config_dsrPtr.asFunction<
+      int Function(ffi.Pointer<sp_port_config>, ffi.Pointer<ffi.Int32>)>();
 
   /// Set the DSR pin behaviour in a port configuration.
   ///
@@ -1147,10 +1213,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_set_config_dsr_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_set_config_dsr>>('sp_set_config_dsr');
-  late final _dart_sp_set_config_dsr _sp_set_config_dsr =
-      _sp_set_config_dsr_ptr.asFunction<_dart_sp_set_config_dsr>();
+  late final _sp_set_config_dsrPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<sp_port_config>, ffi.Int32)>>('sp_set_config_dsr');
+  late final _sp_set_config_dsr = _sp_set_config_dsrPtr
+      .asFunction<int Function(ffi.Pointer<sp_port_config>, int)>();
 
   /// Set the XON/XOFF configuration for the specified serial port.
   ///
@@ -1170,10 +1238,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_set_xon_xoff_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_set_xon_xoff>>('sp_set_xon_xoff');
-  late final _dart_sp_set_xon_xoff _sp_set_xon_xoff =
-      _sp_set_xon_xoff_ptr.asFunction<_dart_sp_set_xon_xoff>();
+  late final _sp_set_xon_xoffPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<sp_port>, ffi.Int32)>>('sp_set_xon_xoff');
+  late final _sp_set_xon_xoff =
+      _sp_set_xon_xoffPtr.asFunction<int Function(ffi.Pointer<sp_port>, int)>();
 
   /// Get the XON/XOFF configuration from a port configuration.
   ///
@@ -1196,11 +1266,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_get_config_xon_xoff_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_get_config_xon_xoff>>(
-          'sp_get_config_xon_xoff');
-  late final _dart_sp_get_config_xon_xoff _sp_get_config_xon_xoff =
-      _sp_get_config_xon_xoff_ptr.asFunction<_dart_sp_get_config_xon_xoff>();
+  late final _sp_get_config_xon_xoffPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<sp_port_config>,
+              ffi.Pointer<ffi.Int32>)>>('sp_get_config_xon_xoff');
+  late final _sp_get_config_xon_xoff = _sp_get_config_xon_xoffPtr.asFunction<
+      int Function(ffi.Pointer<sp_port_config>, ffi.Pointer<ffi.Int32>)>();
 
   /// Set the XON/XOFF configuration in a port configuration.
   ///
@@ -1220,11 +1291,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_set_config_xon_xoff_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_set_config_xon_xoff>>(
-          'sp_set_config_xon_xoff');
-  late final _dart_sp_set_config_xon_xoff _sp_set_config_xon_xoff =
-      _sp_set_config_xon_xoff_ptr.asFunction<_dart_sp_set_config_xon_xoff>();
+  late final _sp_set_config_xon_xoffPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<sp_port_config>,
+              ffi.Int32)>>('sp_set_config_xon_xoff');
+  late final _sp_set_config_xon_xoff = _sp_set_config_xon_xoffPtr
+      .asFunction<int Function(ffi.Pointer<sp_port_config>, int)>();
 
   /// Set the flow control type in a port configuration.
   ///
@@ -1249,12 +1321,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_set_config_flowcontrol_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_set_config_flowcontrol>>(
-          'sp_set_config_flowcontrol');
-  late final _dart_sp_set_config_flowcontrol _sp_set_config_flowcontrol =
-      _sp_set_config_flowcontrol_ptr
-          .asFunction<_dart_sp_set_config_flowcontrol>();
+  late final _sp_set_config_flowcontrolPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<sp_port_config>,
+              ffi.Int32)>>('sp_set_config_flowcontrol');
+  late final _sp_set_config_flowcontrol = _sp_set_config_flowcontrolPtr
+      .asFunction<int Function(ffi.Pointer<sp_port_config>, int)>();
 
   /// Set the flow control type for the specified serial port.
   ///
@@ -1279,10 +1351,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_set_flowcontrol_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_set_flowcontrol>>('sp_set_flowcontrol');
-  late final _dart_sp_set_flowcontrol _sp_set_flowcontrol =
-      _sp_set_flowcontrol_ptr.asFunction<_dart_sp_set_flowcontrol>();
+  late final _sp_set_flowcontrolPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<sp_port>, ffi.Int32)>>('sp_set_flowcontrol');
+  late final _sp_set_flowcontrol = _sp_set_flowcontrolPtr
+      .asFunction<int Function(ffi.Pointer<sp_port>, int)>();
 
   /// Read bytes from the specified serial port, blocking until complete.
   ///
@@ -1322,10 +1396,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_blocking_read_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_blocking_read>>('sp_blocking_read');
-  late final _dart_sp_blocking_read _sp_blocking_read =
-      _sp_blocking_read_ptr.asFunction<_dart_sp_blocking_read>();
+  late final _sp_blocking_readPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<sp_port>, ffi.Pointer<ffi.Void>,
+              ffi.Size, ffi.UnsignedInt)>>('sp_blocking_read');
+  late final _sp_blocking_read = _sp_blocking_readPtr.asFunction<
+      int Function(ffi.Pointer<sp_port>, ffi.Pointer<ffi.Void>, int, int)>();
 
   /// Read bytes from the specified serial port, returning as soon as any data is
   /// available.
@@ -1365,11 +1441,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_blocking_read_next_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_blocking_read_next>>(
-          'sp_blocking_read_next');
-  late final _dart_sp_blocking_read_next _sp_blocking_read_next =
-      _sp_blocking_read_next_ptr.asFunction<_dart_sp_blocking_read_next>();
+  late final _sp_blocking_read_nextPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<sp_port>, ffi.Pointer<ffi.Void>,
+              ffi.Size, ffi.UnsignedInt)>>('sp_blocking_read_next');
+  late final _sp_blocking_read_next = _sp_blocking_read_nextPtr.asFunction<
+      int Function(ffi.Pointer<sp_port>, ffi.Pointer<ffi.Void>, int, int)>();
 
   /// Read bytes from the specified serial port, without blocking.
   ///
@@ -1394,11 +1471,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_nonblocking_read_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_nonblocking_read>>(
-          'sp_nonblocking_read');
-  late final _dart_sp_nonblocking_read _sp_nonblocking_read =
-      _sp_nonblocking_read_ptr.asFunction<_dart_sp_nonblocking_read>();
+  late final _sp_nonblocking_readPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<sp_port>, ffi.Pointer<ffi.Void>,
+              ffi.Size)>>('sp_nonblocking_read');
+  late final _sp_nonblocking_read = _sp_nonblocking_readPtr.asFunction<
+      int Function(ffi.Pointer<sp_port>, ffi.Pointer<ffi.Void>, int)>();
 
   /// Write bytes to the specified serial port, blocking until complete.
   ///
@@ -1446,10 +1524,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_blocking_write_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_blocking_write>>('sp_blocking_write');
-  late final _dart_sp_blocking_write _sp_blocking_write =
-      _sp_blocking_write_ptr.asFunction<_dart_sp_blocking_write>();
+  late final _sp_blocking_writePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<sp_port>, ffi.Pointer<ffi.Void>,
+              ffi.Size, ffi.UnsignedInt)>>('sp_blocking_write');
+  late final _sp_blocking_write = _sp_blocking_writePtr.asFunction<
+      int Function(ffi.Pointer<sp_port>, ffi.Pointer<ffi.Void>, int, int)>();
 
   /// Write bytes to the specified serial port, without blocking.
   ///
@@ -1480,11 +1560,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_nonblocking_write_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_nonblocking_write>>(
-          'sp_nonblocking_write');
-  late final _dart_sp_nonblocking_write _sp_nonblocking_write =
-      _sp_nonblocking_write_ptr.asFunction<_dart_sp_nonblocking_write>();
+  late final _sp_nonblocking_writePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<sp_port>, ffi.Pointer<ffi.Void>,
+              ffi.Size)>>('sp_nonblocking_write');
+  late final _sp_nonblocking_write = _sp_nonblocking_writePtr.asFunction<
+      int Function(ffi.Pointer<sp_port>, ffi.Pointer<ffi.Void>, int)>();
 
   /// Gets the number of bytes waiting in the input buffer.
   ///
@@ -1501,10 +1582,11 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_input_waiting_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_input_waiting>>('sp_input_waiting');
-  late final _dart_sp_input_waiting _sp_input_waiting =
-      _sp_input_waiting_ptr.asFunction<_dart_sp_input_waiting>();
+  late final _sp_input_waitingPtr =
+      _lookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<sp_port>)>>(
+          'sp_input_waiting');
+  late final _sp_input_waiting =
+      _sp_input_waitingPtr.asFunction<int Function(ffi.Pointer<sp_port>)>();
 
   /// Gets the number of bytes waiting in the output buffer.
   ///
@@ -1521,10 +1603,11 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_output_waiting_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_output_waiting>>('sp_output_waiting');
-  late final _dart_sp_output_waiting _sp_output_waiting =
-      _sp_output_waiting_ptr.asFunction<_dart_sp_output_waiting>();
+  late final _sp_output_waitingPtr =
+      _lookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<sp_port>)>>(
+          'sp_output_waiting');
+  late final _sp_output_waiting =
+      _sp_output_waitingPtr.asFunction<int Function(ffi.Pointer<sp_port>)>();
 
   /// Flush serial port buffers. Data in the selected buffer(s) is discarded.
   ///
@@ -1544,10 +1627,11 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_flush_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_flush>>('sp_flush');
-  late final _dart_sp_flush _sp_flush =
-      _sp_flush_ptr.asFunction<_dart_sp_flush>();
+  late final _sp_flushPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<sp_port>, ffi.Int32)>>('sp_flush');
+  late final _sp_flush =
+      _sp_flushPtr.asFunction<int Function(ffi.Pointer<sp_port>, int)>();
 
   /// Wait for buffered data to be transmitted.
   ///
@@ -1571,10 +1655,11 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_drain_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_drain>>('sp_drain');
-  late final _dart_sp_drain _sp_drain =
-      _sp_drain_ptr.asFunction<_dart_sp_drain>();
+  late final _sp_drainPtr =
+      _lookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<sp_port>)>>(
+          'sp_drain');
+  late final _sp_drain =
+      _sp_drainPtr.asFunction<int Function(ffi.Pointer<sp_port>)>();
 
   /// Allocate storage for a set of events.
   ///
@@ -1598,10 +1683,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_new_event_set_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_new_event_set>>('sp_new_event_set');
-  late final _dart_sp_new_event_set _sp_new_event_set =
-      _sp_new_event_set_ptr.asFunction<_dart_sp_new_event_set>();
+  late final _sp_new_event_setPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<ffi.Pointer<sp_event_set>>)>>('sp_new_event_set');
+  late final _sp_new_event_set = _sp_new_event_setPtr
+      .asFunction<int Function(ffi.Pointer<ffi.Pointer<sp_event_set>>)>();
 
   /// Add events to a struct sp_event_set for a given port.
   ///
@@ -1630,10 +1717,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_add_port_events_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_add_port_events>>('sp_add_port_events');
-  late final _dart_sp_add_port_events _sp_add_port_events =
-      _sp_add_port_events_ptr.asFunction<_dart_sp_add_port_events>();
+  late final _sp_add_port_eventsPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(ffi.Pointer<sp_event_set>, ffi.Pointer<sp_port>,
+              ffi.Int32)>>('sp_add_port_events');
+  late final _sp_add_port_events = _sp_add_port_eventsPtr.asFunction<
+      int Function(ffi.Pointer<sp_event_set>, ffi.Pointer<sp_port>, int)>();
 
   /// Wait for any of a set of events to occur.
   ///
@@ -1653,8 +1742,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_wait_ptr = _lookup<ffi.NativeFunction<_c_sp_wait>>('sp_wait');
-  late final _dart_sp_wait _sp_wait = _sp_wait_ptr.asFunction<_dart_sp_wait>();
+  late final _sp_waitPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<sp_event_set>, ffi.UnsignedInt)>>('sp_wait');
+  late final _sp_wait =
+      _sp_waitPtr.asFunction<int Function(ffi.Pointer<sp_event_set>, int)>();
 
   /// Free a structure allocated by sp_new_event_set().
   ///
@@ -1669,10 +1762,11 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_free_event_set_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_free_event_set>>('sp_free_event_set');
-  late final _dart_sp_free_event_set _sp_free_event_set =
-      _sp_free_event_set_ptr.asFunction<_dart_sp_free_event_set>();
+  late final _sp_free_event_setPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<sp_event_set>)>>(
+          'sp_free_event_set');
+  late final _sp_free_event_set = _sp_free_event_setPtr
+      .asFunction<void Function(ffi.Pointer<sp_event_set>)>();
 
   /// Gets the status of the control signals for the specified port.
   ///
@@ -1698,10 +1792,12 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_get_signals_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_get_signals>>('sp_get_signals');
-  late final _dart_sp_get_signals _sp_get_signals =
-      _sp_get_signals_ptr.asFunction<_dart_sp_get_signals>();
+  late final _sp_get_signalsPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<sp_port>, ffi.Pointer<ffi.Int32>)>>('sp_get_signals');
+  late final _sp_get_signals = _sp_get_signalsPtr
+      .asFunction<int Function(ffi.Pointer<sp_port>, ffi.Pointer<ffi.Int32>)>();
 
   /// Put the port transmit line into the break state.
   ///
@@ -1718,10 +1814,11 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_start_break_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_start_break>>('sp_start_break');
-  late final _dart_sp_start_break _sp_start_break =
-      _sp_start_break_ptr.asFunction<_dart_sp_start_break>();
+  late final _sp_start_breakPtr =
+      _lookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<sp_port>)>>(
+          'sp_start_break');
+  late final _sp_start_break =
+      _sp_start_breakPtr.asFunction<int Function(ffi.Pointer<sp_port>)>();
 
   /// Take the port transmit line out of the break state.
   ///
@@ -1738,10 +1835,11 @@ class LibSerialPort {
     );
   }
 
-  late final _sp_end_break_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_end_break>>('sp_end_break');
-  late final _dart_sp_end_break _sp_end_break =
-      _sp_end_break_ptr.asFunction<_dart_sp_end_break>();
+  late final _sp_end_breakPtr =
+      _lookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<sp_port>)>>(
+          'sp_end_break');
+  late final _sp_end_break =
+      _sp_end_breakPtr.asFunction<int Function(ffi.Pointer<sp_port>)>();
 
   /// Get the error code for a failed operation.
   ///
@@ -1758,10 +1856,10 @@ class LibSerialPort {
     return _sp_last_error_code();
   }
 
-  late final _sp_last_error_code_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_last_error_code>>('sp_last_error_code');
-  late final _dart_sp_last_error_code _sp_last_error_code =
-      _sp_last_error_code_ptr.asFunction<_dart_sp_last_error_code>();
+  late final _sp_last_error_codePtr =
+      _lookup<ffi.NativeFunction<ffi.Int Function()>>('sp_last_error_code');
+  late final _sp_last_error_code =
+      _sp_last_error_codePtr.asFunction<int Function()>();
 
   /// Get the error message for a failed operation.
   ///
@@ -1775,15 +1873,15 @@ class LibSerialPort {
   /// and should be freed after use by calling sp_free_error_message().
   ///
   /// @since 0.1.0
-  ffi.Pointer<ffi.Int8> sp_last_error_message() {
+  ffi.Pointer<ffi.Char> sp_last_error_message() {
     return _sp_last_error_message();
   }
 
-  late final _sp_last_error_message_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_last_error_message>>(
+  late final _sp_last_error_messagePtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Char> Function()>>(
           'sp_last_error_message');
-  late final _dart_sp_last_error_message _sp_last_error_message =
-      _sp_last_error_message_ptr.asFunction<_dart_sp_last_error_message>();
+  late final _sp_last_error_message =
+      _sp_last_error_messagePtr.asFunction<ffi.Pointer<ffi.Char> Function()>();
 
   /// Free an error message returned by sp_last_error_message().
   ///
@@ -1791,18 +1889,18 @@ class LibSerialPort {
   ///
   /// @since 0.1.0
   void sp_free_error_message(
-    ffi.Pointer<ffi.Int8> message,
+    ffi.Pointer<ffi.Char> message,
   ) {
     return _sp_free_error_message(
       message,
     );
   }
 
-  late final _sp_free_error_message_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_free_error_message>>(
+  late final _sp_free_error_messagePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Char>)>>(
           'sp_free_error_message');
-  late final _dart_sp_free_error_message _sp_free_error_message =
-      _sp_free_error_message_ptr.asFunction<_dart_sp_free_error_message>();
+  late final _sp_free_error_message = _sp_free_error_messagePtr
+      .asFunction<void Function(ffi.Pointer<ffi.Char>)>();
 
   /// Set the handler function for library debugging messages.
   ///
@@ -1820,18 +1918,25 @@ class LibSerialPort {
   ///
   /// @since 0.1.0
   void sp_set_debug_handler(
-    ffi.Pointer<ffi.NativeFunction<_typedefC_1>> handler,
+    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Char>)>>
+        handler,
   ) {
     return _sp_set_debug_handler(
       handler,
     );
   }
 
-  late final _sp_set_debug_handler_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_set_debug_handler>>(
-          'sp_set_debug_handler');
-  late final _dart_sp_set_debug_handler _sp_set_debug_handler =
-      _sp_set_debug_handler_ptr.asFunction<_dart_sp_set_debug_handler>();
+  late final _sp_set_debug_handlerPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+              ffi.Pointer<
+                  ffi.NativeFunction<
+                      ffi.Void Function(
+                          ffi.Pointer<ffi.Char>)>>)>>('sp_set_debug_handler');
+  late final _sp_set_debug_handler = _sp_set_debug_handlerPtr.asFunction<
+      void Function(
+          ffi.Pointer<
+              ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Char>)>>)>();
 
   /// Default handler function for library debugging messages.
   ///
@@ -1844,19 +1949,18 @@ class LibSerialPort {
   ///
   /// @since 0.1.0
   void sp_default_debug_handler(
-    ffi.Pointer<ffi.Int8> format,
+    ffi.Pointer<ffi.Char> format,
   ) {
     return _sp_default_debug_handler(
       format,
     );
   }
 
-  late final _sp_default_debug_handler_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_default_debug_handler>>(
+  late final _sp_default_debug_handlerPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Char>)>>(
           'sp_default_debug_handler');
-  late final _dart_sp_default_debug_handler _sp_default_debug_handler =
-      _sp_default_debug_handler_ptr
-          .asFunction<_dart_sp_default_debug_handler>();
+  late final _sp_default_debug_handler = _sp_default_debug_handlerPtr
+      .asFunction<void Function(ffi.Pointer<ffi.Char>)>();
 
   /// Get the major libserialport package version number.
   ///
@@ -1867,12 +1971,11 @@ class LibSerialPort {
     return _sp_get_major_package_version();
   }
 
-  late final _sp_get_major_package_version_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_get_major_package_version>>(
+  late final _sp_get_major_package_versionPtr =
+      _lookup<ffi.NativeFunction<ffi.Int Function()>>(
           'sp_get_major_package_version');
-  late final _dart_sp_get_major_package_version _sp_get_major_package_version =
-      _sp_get_major_package_version_ptr
-          .asFunction<_dart_sp_get_major_package_version>();
+  late final _sp_get_major_package_version =
+      _sp_get_major_package_versionPtr.asFunction<int Function()>();
 
   /// Get the minor libserialport package version number.
   ///
@@ -1883,12 +1986,11 @@ class LibSerialPort {
     return _sp_get_minor_package_version();
   }
 
-  late final _sp_get_minor_package_version_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_get_minor_package_version>>(
+  late final _sp_get_minor_package_versionPtr =
+      _lookup<ffi.NativeFunction<ffi.Int Function()>>(
           'sp_get_minor_package_version');
-  late final _dart_sp_get_minor_package_version _sp_get_minor_package_version =
-      _sp_get_minor_package_version_ptr
-          .asFunction<_dart_sp_get_minor_package_version>();
+  late final _sp_get_minor_package_version =
+      _sp_get_minor_package_versionPtr.asFunction<int Function()>();
 
   /// Get the micro libserialport package version number.
   ///
@@ -1899,12 +2001,11 @@ class LibSerialPort {
     return _sp_get_micro_package_version();
   }
 
-  late final _sp_get_micro_package_version_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_get_micro_package_version>>(
+  late final _sp_get_micro_package_versionPtr =
+      _lookup<ffi.NativeFunction<ffi.Int Function()>>(
           'sp_get_micro_package_version');
-  late final _dart_sp_get_micro_package_version _sp_get_micro_package_version =
-      _sp_get_micro_package_version_ptr
-          .asFunction<_dart_sp_get_micro_package_version>();
+  late final _sp_get_micro_package_version =
+      _sp_get_micro_package_versionPtr.asFunction<int Function()>();
 
   /// Get the libserialport package version number as a string.
   ///
@@ -1912,16 +2013,15 @@ class LibSerialPort {
   /// static and thus should NOT be free'd by the caller.
   ///
   /// @since 0.1.0
-  ffi.Pointer<ffi.Int8> sp_get_package_version_string() {
+  ffi.Pointer<ffi.Char> sp_get_package_version_string() {
     return _sp_get_package_version_string();
   }
 
-  late final _sp_get_package_version_string_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_get_package_version_string>>(
+  late final _sp_get_package_version_stringPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Char> Function()>>(
           'sp_get_package_version_string');
-  late final _dart_sp_get_package_version_string
-      _sp_get_package_version_string = _sp_get_package_version_string_ptr
-          .asFunction<_dart_sp_get_package_version_string>();
+  late final _sp_get_package_version_string = _sp_get_package_version_stringPtr
+      .asFunction<ffi.Pointer<ffi.Char> Function()>();
 
   /// Get the "current" part of the libserialport library version number.
   ///
@@ -1932,12 +2032,11 @@ class LibSerialPort {
     return _sp_get_current_lib_version();
   }
 
-  late final _sp_get_current_lib_version_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_get_current_lib_version>>(
+  late final _sp_get_current_lib_versionPtr =
+      _lookup<ffi.NativeFunction<ffi.Int Function()>>(
           'sp_get_current_lib_version');
-  late final _dart_sp_get_current_lib_version _sp_get_current_lib_version =
-      _sp_get_current_lib_version_ptr
-          .asFunction<_dart_sp_get_current_lib_version>();
+  late final _sp_get_current_lib_version =
+      _sp_get_current_lib_versionPtr.asFunction<int Function()>();
 
   /// Get the "revision" part of the libserialport library version number.
   ///
@@ -1948,12 +2047,11 @@ class LibSerialPort {
     return _sp_get_revision_lib_version();
   }
 
-  late final _sp_get_revision_lib_version_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_get_revision_lib_version>>(
+  late final _sp_get_revision_lib_versionPtr =
+      _lookup<ffi.NativeFunction<ffi.Int Function()>>(
           'sp_get_revision_lib_version');
-  late final _dart_sp_get_revision_lib_version _sp_get_revision_lib_version =
-      _sp_get_revision_lib_version_ptr
-          .asFunction<_dart_sp_get_revision_lib_version>();
+  late final _sp_get_revision_lib_version =
+      _sp_get_revision_lib_versionPtr.asFunction<int Function()>();
 
   /// Get the "age" part of the libserialport library version number.
   ///
@@ -1964,11 +2062,10 @@ class LibSerialPort {
     return _sp_get_age_lib_version();
   }
 
-  late final _sp_get_age_lib_version_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_get_age_lib_version>>(
-          'sp_get_age_lib_version');
-  late final _dart_sp_get_age_lib_version _sp_get_age_lib_version =
-      _sp_get_age_lib_version_ptr.asFunction<_dart_sp_get_age_lib_version>();
+  late final _sp_get_age_lib_versionPtr =
+      _lookup<ffi.NativeFunction<ffi.Int Function()>>('sp_get_age_lib_version');
+  late final _sp_get_age_lib_version =
+      _sp_get_age_lib_versionPtr.asFunction<int Function()>();
 
   /// Get the libserialport library version number as a string.
   ///
@@ -1976,16 +2073,15 @@ class LibSerialPort {
   /// static and thus should NOT be free'd by the caller.
   ///
   /// @since 0.1.0
-  ffi.Pointer<ffi.Int8> sp_get_lib_version_string() {
+  ffi.Pointer<ffi.Char> sp_get_lib_version_string() {
     return _sp_get_lib_version_string();
   }
 
-  late final _sp_get_lib_version_string_ptr =
-      _lookup<ffi.NativeFunction<_c_sp_get_lib_version_string>>(
+  late final _sp_get_lib_version_stringPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Char> Function()>>(
           'sp_get_lib_version_string');
-  late final _dart_sp_get_lib_version_string _sp_get_lib_version_string =
-      _sp_get_lib_version_string_ptr
-          .asFunction<_dart_sp_get_lib_version_string>();
+  late final _sp_get_lib_version_string = _sp_get_lib_version_stringPtr
+      .asFunction<ffi.Pointer<ffi.Char> Function()>();
 }
 
 /// Return values.
@@ -2197,7 +2293,7 @@ class sp_event_set extends ffi.Struct {
   external ffi.Pointer<ffi.Int32> masks;
 
   /// Number of handles.
-  @ffi.Uint32()
+  @ffi.UnsignedInt()
   external int count;
 }
 
@@ -2216,713 +2312,3 @@ const int SP_LIB_VERSION_REVISION = 0;
 const int SP_LIB_VERSION_AGE = 1;
 
 const String SP_LIB_VERSION_STRING = '1:0:1';
-
-typedef _c_sp_get_port_by_name = ffi.Int32 Function(
-  ffi.Pointer<ffi.Int8> portname,
-  ffi.Pointer<ffi.Pointer<sp_port>> port_ptr,
-);
-
-typedef _dart_sp_get_port_by_name = int Function(
-  ffi.Pointer<ffi.Int8> portname,
-  ffi.Pointer<ffi.Pointer<sp_port>> port_ptr,
-);
-
-typedef _c_sp_free_port = ffi.Void Function(
-  ffi.Pointer<sp_port> port,
-);
-
-typedef _dart_sp_free_port = void Function(
-  ffi.Pointer<sp_port> port,
-);
-
-typedef _c_sp_list_ports = ffi.Int32 Function(
-  ffi.Pointer<ffi.Pointer<ffi.Pointer<sp_port>>> list_ptr,
-);
-
-typedef _dart_sp_list_ports = int Function(
-  ffi.Pointer<ffi.Pointer<ffi.Pointer<sp_port>>> list_ptr,
-);
-
-typedef _c_sp_copy_port = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Pointer<ffi.Pointer<sp_port>> copy_ptr,
-);
-
-typedef _dart_sp_copy_port = int Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Pointer<ffi.Pointer<sp_port>> copy_ptr,
-);
-
-typedef _c_sp_free_port_list = ffi.Void Function(
-  ffi.Pointer<ffi.Pointer<sp_port>> ports,
-);
-
-typedef _dart_sp_free_port_list = void Function(
-  ffi.Pointer<ffi.Pointer<sp_port>> ports,
-);
-
-typedef _c_sp_open = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Int32 flags,
-);
-
-typedef _dart_sp_open = int Function(
-  ffi.Pointer<sp_port> port,
-  int flags,
-);
-
-typedef _c_sp_close = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-);
-
-typedef _dart_sp_close = int Function(
-  ffi.Pointer<sp_port> port,
-);
-
-typedef _c_sp_get_port_name = ffi.Pointer<ffi.Int8> Function(
-  ffi.Pointer<sp_port> port,
-);
-
-typedef _dart_sp_get_port_name = ffi.Pointer<ffi.Int8> Function(
-  ffi.Pointer<sp_port> port,
-);
-
-typedef _c_sp_get_port_description = ffi.Pointer<ffi.Int8> Function(
-  ffi.Pointer<sp_port> port,
-);
-
-typedef _dart_sp_get_port_description = ffi.Pointer<ffi.Int8> Function(
-  ffi.Pointer<sp_port> port,
-);
-
-typedef _c_sp_get_port_transport = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-);
-
-typedef _dart_sp_get_port_transport = int Function(
-  ffi.Pointer<sp_port> port,
-);
-
-typedef _c_sp_get_port_usb_bus_address = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Pointer<ffi.Int32> usb_bus,
-  ffi.Pointer<ffi.Int32> usb_address,
-);
-
-typedef _dart_sp_get_port_usb_bus_address = int Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Pointer<ffi.Int32> usb_bus,
-  ffi.Pointer<ffi.Int32> usb_address,
-);
-
-typedef _c_sp_get_port_usb_vid_pid = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Pointer<ffi.Int32> usb_vid,
-  ffi.Pointer<ffi.Int32> usb_pid,
-);
-
-typedef _dart_sp_get_port_usb_vid_pid = int Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Pointer<ffi.Int32> usb_vid,
-  ffi.Pointer<ffi.Int32> usb_pid,
-);
-
-typedef _c_sp_get_port_usb_manufacturer = ffi.Pointer<ffi.Int8> Function(
-  ffi.Pointer<sp_port> port,
-);
-
-typedef _dart_sp_get_port_usb_manufacturer = ffi.Pointer<ffi.Int8> Function(
-  ffi.Pointer<sp_port> port,
-);
-
-typedef _c_sp_get_port_usb_product = ffi.Pointer<ffi.Int8> Function(
-  ffi.Pointer<sp_port> port,
-);
-
-typedef _dart_sp_get_port_usb_product = ffi.Pointer<ffi.Int8> Function(
-  ffi.Pointer<sp_port> port,
-);
-
-typedef _c_sp_get_port_usb_serial = ffi.Pointer<ffi.Int8> Function(
-  ffi.Pointer<sp_port> port,
-);
-
-typedef _dart_sp_get_port_usb_serial = ffi.Pointer<ffi.Int8> Function(
-  ffi.Pointer<sp_port> port,
-);
-
-typedef _c_sp_get_port_bluetooth_address = ffi.Pointer<ffi.Int8> Function(
-  ffi.Pointer<sp_port> port,
-);
-
-typedef _dart_sp_get_port_bluetooth_address = ffi.Pointer<ffi.Int8> Function(
-  ffi.Pointer<sp_port> port,
-);
-
-typedef _c_sp_get_port_handle = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Pointer<ffi.Void> result_ptr,
-);
-
-typedef _dart_sp_get_port_handle = int Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Pointer<ffi.Void> result_ptr,
-);
-
-typedef _c_sp_new_config = ffi.Int32 Function(
-  ffi.Pointer<ffi.Pointer<sp_port_config>> config_ptr,
-);
-
-typedef _dart_sp_new_config = int Function(
-  ffi.Pointer<ffi.Pointer<sp_port_config>> config_ptr,
-);
-
-typedef _c_sp_free_config = ffi.Void Function(
-  ffi.Pointer<sp_port_config> config,
-);
-
-typedef _dart_sp_free_config = void Function(
-  ffi.Pointer<sp_port_config> config,
-);
-
-typedef _c_sp_get_config = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Pointer<sp_port_config> config,
-);
-
-typedef _dart_sp_get_config = int Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Pointer<sp_port_config> config,
-);
-
-typedef _c_sp_set_config = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Pointer<sp_port_config> config,
-);
-
-typedef _dart_sp_set_config = int Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Pointer<sp_port_config> config,
-);
-
-typedef _c_sp_set_baudrate = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Int32 baudrate,
-);
-
-typedef _dart_sp_set_baudrate = int Function(
-  ffi.Pointer<sp_port> port,
-  int baudrate,
-);
-
-typedef _c_sp_get_config_baudrate = ffi.Int32 Function(
-  ffi.Pointer<sp_port_config> config,
-  ffi.Pointer<ffi.Int32> baudrate_ptr,
-);
-
-typedef _dart_sp_get_config_baudrate = int Function(
-  ffi.Pointer<sp_port_config> config,
-  ffi.Pointer<ffi.Int32> baudrate_ptr,
-);
-
-typedef _c_sp_set_config_baudrate = ffi.Int32 Function(
-  ffi.Pointer<sp_port_config> config,
-  ffi.Int32 baudrate,
-);
-
-typedef _dart_sp_set_config_baudrate = int Function(
-  ffi.Pointer<sp_port_config> config,
-  int baudrate,
-);
-
-typedef _c_sp_set_bits = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Int32 bits,
-);
-
-typedef _dart_sp_set_bits = int Function(
-  ffi.Pointer<sp_port> port,
-  int bits,
-);
-
-typedef _c_sp_get_config_bits = ffi.Int32 Function(
-  ffi.Pointer<sp_port_config> config,
-  ffi.Pointer<ffi.Int32> bits_ptr,
-);
-
-typedef _dart_sp_get_config_bits = int Function(
-  ffi.Pointer<sp_port_config> config,
-  ffi.Pointer<ffi.Int32> bits_ptr,
-);
-
-typedef _c_sp_set_config_bits = ffi.Int32 Function(
-  ffi.Pointer<sp_port_config> config,
-  ffi.Int32 bits,
-);
-
-typedef _dart_sp_set_config_bits = int Function(
-  ffi.Pointer<sp_port_config> config,
-  int bits,
-);
-
-typedef _c_sp_set_parity = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Int32 parity,
-);
-
-typedef _dart_sp_set_parity = int Function(
-  ffi.Pointer<sp_port> port,
-  int parity,
-);
-
-typedef _c_sp_get_config_parity = ffi.Int32 Function(
-  ffi.Pointer<sp_port_config> config,
-  ffi.Pointer<ffi.Int32> parity_ptr,
-);
-
-typedef _dart_sp_get_config_parity = int Function(
-  ffi.Pointer<sp_port_config> config,
-  ffi.Pointer<ffi.Int32> parity_ptr,
-);
-
-typedef _c_sp_set_config_parity = ffi.Int32 Function(
-  ffi.Pointer<sp_port_config> config,
-  ffi.Int32 parity,
-);
-
-typedef _dart_sp_set_config_parity = int Function(
-  ffi.Pointer<sp_port_config> config,
-  int parity,
-);
-
-typedef _c_sp_set_stopbits = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Int32 stopbits,
-);
-
-typedef _dart_sp_set_stopbits = int Function(
-  ffi.Pointer<sp_port> port,
-  int stopbits,
-);
-
-typedef _c_sp_get_config_stopbits = ffi.Int32 Function(
-  ffi.Pointer<sp_port_config> config,
-  ffi.Pointer<ffi.Int32> stopbits_ptr,
-);
-
-typedef _dart_sp_get_config_stopbits = int Function(
-  ffi.Pointer<sp_port_config> config,
-  ffi.Pointer<ffi.Int32> stopbits_ptr,
-);
-
-typedef _c_sp_set_config_stopbits = ffi.Int32 Function(
-  ffi.Pointer<sp_port_config> config,
-  ffi.Int32 stopbits,
-);
-
-typedef _dart_sp_set_config_stopbits = int Function(
-  ffi.Pointer<sp_port_config> config,
-  int stopbits,
-);
-
-typedef _c_sp_set_rts = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Int32 rts,
-);
-
-typedef _dart_sp_set_rts = int Function(
-  ffi.Pointer<sp_port> port,
-  int rts,
-);
-
-typedef _c_sp_get_config_rts = ffi.Int32 Function(
-  ffi.Pointer<sp_port_config> config,
-  ffi.Pointer<ffi.Int32> rts_ptr,
-);
-
-typedef _dart_sp_get_config_rts = int Function(
-  ffi.Pointer<sp_port_config> config,
-  ffi.Pointer<ffi.Int32> rts_ptr,
-);
-
-typedef _c_sp_set_config_rts = ffi.Int32 Function(
-  ffi.Pointer<sp_port_config> config,
-  ffi.Int32 rts,
-);
-
-typedef _dart_sp_set_config_rts = int Function(
-  ffi.Pointer<sp_port_config> config,
-  int rts,
-);
-
-typedef _c_sp_set_cts = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Int32 cts,
-);
-
-typedef _dart_sp_set_cts = int Function(
-  ffi.Pointer<sp_port> port,
-  int cts,
-);
-
-typedef _c_sp_get_config_cts = ffi.Int32 Function(
-  ffi.Pointer<sp_port_config> config,
-  ffi.Pointer<ffi.Int32> cts_ptr,
-);
-
-typedef _dart_sp_get_config_cts = int Function(
-  ffi.Pointer<sp_port_config> config,
-  ffi.Pointer<ffi.Int32> cts_ptr,
-);
-
-typedef _c_sp_set_config_cts = ffi.Int32 Function(
-  ffi.Pointer<sp_port_config> config,
-  ffi.Int32 cts,
-);
-
-typedef _dart_sp_set_config_cts = int Function(
-  ffi.Pointer<sp_port_config> config,
-  int cts,
-);
-
-typedef _c_sp_set_dtr = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Int32 dtr,
-);
-
-typedef _dart_sp_set_dtr = int Function(
-  ffi.Pointer<sp_port> port,
-  int dtr,
-);
-
-typedef _c_sp_get_config_dtr = ffi.Int32 Function(
-  ffi.Pointer<sp_port_config> config,
-  ffi.Pointer<ffi.Int32> dtr_ptr,
-);
-
-typedef _dart_sp_get_config_dtr = int Function(
-  ffi.Pointer<sp_port_config> config,
-  ffi.Pointer<ffi.Int32> dtr_ptr,
-);
-
-typedef _c_sp_set_config_dtr = ffi.Int32 Function(
-  ffi.Pointer<sp_port_config> config,
-  ffi.Int32 dtr,
-);
-
-typedef _dart_sp_set_config_dtr = int Function(
-  ffi.Pointer<sp_port_config> config,
-  int dtr,
-);
-
-typedef _c_sp_set_dsr = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Int32 dsr,
-);
-
-typedef _dart_sp_set_dsr = int Function(
-  ffi.Pointer<sp_port> port,
-  int dsr,
-);
-
-typedef _c_sp_get_config_dsr = ffi.Int32 Function(
-  ffi.Pointer<sp_port_config> config,
-  ffi.Pointer<ffi.Int32> dsr_ptr,
-);
-
-typedef _dart_sp_get_config_dsr = int Function(
-  ffi.Pointer<sp_port_config> config,
-  ffi.Pointer<ffi.Int32> dsr_ptr,
-);
-
-typedef _c_sp_set_config_dsr = ffi.Int32 Function(
-  ffi.Pointer<sp_port_config> config,
-  ffi.Int32 dsr,
-);
-
-typedef _dart_sp_set_config_dsr = int Function(
-  ffi.Pointer<sp_port_config> config,
-  int dsr,
-);
-
-typedef _c_sp_set_xon_xoff = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Int32 xon_xoff,
-);
-
-typedef _dart_sp_set_xon_xoff = int Function(
-  ffi.Pointer<sp_port> port,
-  int xon_xoff,
-);
-
-typedef _c_sp_get_config_xon_xoff = ffi.Int32 Function(
-  ffi.Pointer<sp_port_config> config,
-  ffi.Pointer<ffi.Int32> xon_xoff_ptr,
-);
-
-typedef _dart_sp_get_config_xon_xoff = int Function(
-  ffi.Pointer<sp_port_config> config,
-  ffi.Pointer<ffi.Int32> xon_xoff_ptr,
-);
-
-typedef _c_sp_set_config_xon_xoff = ffi.Int32 Function(
-  ffi.Pointer<sp_port_config> config,
-  ffi.Int32 xon_xoff,
-);
-
-typedef _dart_sp_set_config_xon_xoff = int Function(
-  ffi.Pointer<sp_port_config> config,
-  int xon_xoff,
-);
-
-typedef _c_sp_set_config_flowcontrol = ffi.Int32 Function(
-  ffi.Pointer<sp_port_config> config,
-  ffi.Int32 flowcontrol,
-);
-
-typedef _dart_sp_set_config_flowcontrol = int Function(
-  ffi.Pointer<sp_port_config> config,
-  int flowcontrol,
-);
-
-typedef _c_sp_set_flowcontrol = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Int32 flowcontrol,
-);
-
-typedef _dart_sp_set_flowcontrol = int Function(
-  ffi.Pointer<sp_port> port,
-  int flowcontrol,
-);
-
-typedef _c_sp_blocking_read = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Pointer<ffi.Void> buf,
-  ffi.Uint64 count,
-  ffi.Uint32 timeout_ms,
-);
-
-typedef _dart_sp_blocking_read = int Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Pointer<ffi.Void> buf,
-  int count,
-  int timeout_ms,
-);
-
-typedef _c_sp_blocking_read_next = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Pointer<ffi.Void> buf,
-  ffi.Uint64 count,
-  ffi.Uint32 timeout_ms,
-);
-
-typedef _dart_sp_blocking_read_next = int Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Pointer<ffi.Void> buf,
-  int count,
-  int timeout_ms,
-);
-
-typedef _c_sp_nonblocking_read = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Pointer<ffi.Void> buf,
-  ffi.Uint64 count,
-);
-
-typedef _dart_sp_nonblocking_read = int Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Pointer<ffi.Void> buf,
-  int count,
-);
-
-typedef _c_sp_blocking_write = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Pointer<ffi.Void> buf,
-  ffi.Uint64 count,
-  ffi.Uint32 timeout_ms,
-);
-
-typedef _dart_sp_blocking_write = int Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Pointer<ffi.Void> buf,
-  int count,
-  int timeout_ms,
-);
-
-typedef _c_sp_nonblocking_write = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Pointer<ffi.Void> buf,
-  ffi.Uint64 count,
-);
-
-typedef _dart_sp_nonblocking_write = int Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Pointer<ffi.Void> buf,
-  int count,
-);
-
-typedef _c_sp_input_waiting = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-);
-
-typedef _dart_sp_input_waiting = int Function(
-  ffi.Pointer<sp_port> port,
-);
-
-typedef _c_sp_output_waiting = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-);
-
-typedef _dart_sp_output_waiting = int Function(
-  ffi.Pointer<sp_port> port,
-);
-
-typedef _c_sp_flush = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Int32 buffers,
-);
-
-typedef _dart_sp_flush = int Function(
-  ffi.Pointer<sp_port> port,
-  int buffers,
-);
-
-typedef _c_sp_drain = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-);
-
-typedef _dart_sp_drain = int Function(
-  ffi.Pointer<sp_port> port,
-);
-
-typedef _c_sp_new_event_set = ffi.Int32 Function(
-  ffi.Pointer<ffi.Pointer<sp_event_set>> result_ptr,
-);
-
-typedef _dart_sp_new_event_set = int Function(
-  ffi.Pointer<ffi.Pointer<sp_event_set>> result_ptr,
-);
-
-typedef _c_sp_add_port_events = ffi.Int32 Function(
-  ffi.Pointer<sp_event_set> event_set,
-  ffi.Pointer<sp_port> port,
-  ffi.Int32 mask,
-);
-
-typedef _dart_sp_add_port_events = int Function(
-  ffi.Pointer<sp_event_set> event_set,
-  ffi.Pointer<sp_port> port,
-  int mask,
-);
-
-typedef _c_sp_wait = ffi.Int32 Function(
-  ffi.Pointer<sp_event_set> event_set,
-  ffi.Uint32 timeout_ms,
-);
-
-typedef _dart_sp_wait = int Function(
-  ffi.Pointer<sp_event_set> event_set,
-  int timeout_ms,
-);
-
-typedef _c_sp_free_event_set = ffi.Void Function(
-  ffi.Pointer<sp_event_set> event_set,
-);
-
-typedef _dart_sp_free_event_set = void Function(
-  ffi.Pointer<sp_event_set> event_set,
-);
-
-typedef _c_sp_get_signals = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Pointer<ffi.Int32> signal_mask,
-);
-
-typedef _dart_sp_get_signals = int Function(
-  ffi.Pointer<sp_port> port,
-  ffi.Pointer<ffi.Int32> signal_mask,
-);
-
-typedef _c_sp_start_break = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-);
-
-typedef _dart_sp_start_break = int Function(
-  ffi.Pointer<sp_port> port,
-);
-
-typedef _c_sp_end_break = ffi.Int32 Function(
-  ffi.Pointer<sp_port> port,
-);
-
-typedef _dart_sp_end_break = int Function(
-  ffi.Pointer<sp_port> port,
-);
-
-typedef _c_sp_last_error_code = ffi.Int32 Function();
-
-typedef _dart_sp_last_error_code = int Function();
-
-typedef _c_sp_last_error_message = ffi.Pointer<ffi.Int8> Function();
-
-typedef _dart_sp_last_error_message = ffi.Pointer<ffi.Int8> Function();
-
-typedef _c_sp_free_error_message = ffi.Void Function(
-  ffi.Pointer<ffi.Int8> message,
-);
-
-typedef _dart_sp_free_error_message = void Function(
-  ffi.Pointer<ffi.Int8> message,
-);
-
-typedef _typedefC_1 = ffi.Void Function(
-  ffi.Pointer<ffi.Int8>,
-);
-
-typedef _c_sp_set_debug_handler = ffi.Void Function(
-  ffi.Pointer<ffi.NativeFunction<_typedefC_1>> handler,
-);
-
-typedef _dart_sp_set_debug_handler = void Function(
-  ffi.Pointer<ffi.NativeFunction<_typedefC_1>> handler,
-);
-
-typedef _c_sp_default_debug_handler = ffi.Void Function(
-  ffi.Pointer<ffi.Int8> format,
-);
-
-typedef _dart_sp_default_debug_handler = void Function(
-  ffi.Pointer<ffi.Int8> format,
-);
-
-typedef _c_sp_get_major_package_version = ffi.Int32 Function();
-
-typedef _dart_sp_get_major_package_version = int Function();
-
-typedef _c_sp_get_minor_package_version = ffi.Int32 Function();
-
-typedef _dart_sp_get_minor_package_version = int Function();
-
-typedef _c_sp_get_micro_package_version = ffi.Int32 Function();
-
-typedef _dart_sp_get_micro_package_version = int Function();
-
-typedef _c_sp_get_package_version_string = ffi.Pointer<ffi.Int8> Function();
-
-typedef _dart_sp_get_package_version_string = ffi.Pointer<ffi.Int8> Function();
-
-typedef _c_sp_get_current_lib_version = ffi.Int32 Function();
-
-typedef _dart_sp_get_current_lib_version = int Function();
-
-typedef _c_sp_get_revision_lib_version = ffi.Int32 Function();
-
-typedef _dart_sp_get_revision_lib_version = int Function();
-
-typedef _c_sp_get_age_lib_version = ffi.Int32 Function();
-
-typedef _dart_sp_get_age_lib_version = int Function();
-
-typedef _c_sp_get_lib_version_string = ffi.Pointer<ffi.Int8> Function();
-
-typedef _dart_sp_get_lib_version_string = ffi.Pointer<ffi.Int8> Function();

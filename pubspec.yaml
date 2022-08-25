@@ -11,9 +11,8 @@ environment:
 
 dependencies:
   dylib: ^0.3.2
-  ffi: ^1.0.0
-
+  ffi: ^2.0.1
 dev_dependencies:
-  ffigen: ^2.4.1
+  ffigen: ^6.1.1
   lint: ^1.5.3
   test: ^1.16.8
