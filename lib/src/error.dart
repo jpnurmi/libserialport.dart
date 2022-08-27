@@ -28,8 +28,7 @@ import 'dart:io';
 
 class SerialPortError extends OSError {
   const SerialPortError(
-      [String message = '', int errorCode = OSError.noErrorCode])
-      : super(message, errorCode);
+      [super.message = '', super.errorCode = OSError.noErrorCode]);
 
   @override
   String toString() {

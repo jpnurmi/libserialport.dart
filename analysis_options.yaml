@@ -2,3 +2,7 @@ include: package:lint/analysis_options_package.yaml
 
 analyzer:
   exclude: [test/**, lib/src/bindings.dart]
+
+linter:
+  rules:
+    require_trailing_commas: false
