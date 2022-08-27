@@ -1,3 +1,7 @@
+## [0.3.0] - 2022-08-27
+
+* Upgrade to Dart 2.17 and package:ffi 2.0 (thanks @Dsthdragon)
+
 ## [0.2.0+3] - 2021-08-11
 
 * Clarify SerialPortReader documentation (thanks @thepiper)
