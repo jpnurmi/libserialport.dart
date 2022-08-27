@@ -2,7 +2,6 @@
 
 [![pub](https://img.shields.io/pub/v/libserialport.svg)](https://pub.dev/packages/libserialport)
 ![CI](https://github.com/jpnurmi/libserialport.dart/workflows/CI/badge.svg)
-[![style: lint](https://img.shields.io/badge/style-lint-4BC0F5.svg)](https://pub.dev/packages/lint)
 [![license: LGPL3+](https://img.shields.io/badge/license-LGPL3+-magenta.svg)](https://opensource.org/licenses/LGPL-3.0)
 
 | **TIP:** See also [`flutter_libserialport`](https://pub.dev/packages/flutter_libserialport) for automatic building and deploying of libserialport. |
