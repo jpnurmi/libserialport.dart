@@ -1,8 +1,4 @@
-include: package:lint/analysis_options_package.yaml
+include: package:lints/recommended.yaml
 
 analyzer:
-  exclude: [test/**, lib/src/bindings.dart]
-
-linter:
-  rules:
-    require_trailing_commas: false
+  exclude: [test/**]
