@@ -1,3 +1,7 @@
+## [0.3.0+1] - 2022-08-07
+
+* Update README.md
+
 ## [0.3.0] - 2022-08-27
 
 * Upgrade to Dart 2.17 and package:ffi 2.0 (thanks @Dsthdragon)
