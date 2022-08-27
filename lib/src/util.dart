@@ -59,7 +59,7 @@ class Util {
     return res;
   }
 
-  static String? fromUtf8(ffi.Pointer<ffi.Int8> str) {
+  static String? fromUtf8(ffi.Pointer<ffi.Char> str) {
     if (str == ffi.nullptr) return null;
     final length = ffi.Utf8Pointer(str.cast()).length;
     try {
@@ -69,8 +69,8 @@ class Util {
     }
   }
 
-  static ffi.Pointer<ffi.Int8> toUtf8(String str) {
-    return ffi.StringUtf8Pointer(str).toNativeUtf8().cast<ffi.Int8>();
+  static ffi.Pointer<ffi.Char> toUtf8(String str) {
+    return ffi.StringUtf8Pointer(str).toNativeUtf8().cast<ffi.Char>();
   }
 
   static int? toInt(UtilFunc<ffi.Int32> getFunc) {
