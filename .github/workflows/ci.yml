@@ -7,9 +7,43 @@ on:
     branches: [main]
 
 jobs:
+  analyze:
+    runs-on: ubuntu-20.04
+    container:
+      image: dart:stable
+    steps:
+      - uses: actions/checkout@v2
+      - run: dart pub get
+      - run: dart analyze --fatal-infos .
+
+  format:
+    runs-on: ubuntu-20.04
+    container:
+      image: dart:stable
+    steps:
+      - uses: actions/checkout@v2
+      - run: dart pub get
+      - run: dart format --set-exit-if-changed .
+
+  pub:
+    runs-on: ubuntu-20.04
+    container:
+      image: dart:stable
+    steps:
+      - uses: actions/checkout@v2
+      - run: dart pub get
+      - run: dart pub publish --dry-run
+
   linux:
     name: Linux
-    runs-on: ubuntu-18.04
+    runs-on: ${{matrix.os}}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-22.04
+          - ubuntu-20.04
+          - ubuntu-18.04
     steps:
     - name: Checkout
       uses: actions/checkout@v2
