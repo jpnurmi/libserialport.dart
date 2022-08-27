@@ -263,7 +263,7 @@ class _SerialPortImpl implements SerialPort {
 
   @override
   bool get isOpen {
-    final handle = Util.toInt((ptr) {
+    final handle = Util.getInt((ptr) {
       return dylib.sp_get_port_handle(_port, ptr.cast());
     })!;
     return handle > 0;
@@ -281,33 +281,29 @@ class _SerialPortImpl implements SerialPort {
 
   @override
   int? get busNumber {
-    return Util.toInt((ptr) {
-      return dylib.sp_get_port_usb_bus_address(
-          _port, ptr.cast<ffi.Int>(), ffi.nullptr);
+    return Util.getInt((ptr) {
+      return dylib.sp_get_port_usb_bus_address(_port, ptr, ffi.nullptr);
     });
   }
 
   @override
   int? get deviceNumber {
-    return Util.toInt((ptr) {
-      return dylib.sp_get_port_usb_bus_address(
-          _port, ffi.nullptr, ptr.cast<ffi.Int>());
+    return Util.getInt((ptr) {
+      return dylib.sp_get_port_usb_bus_address(_port, ffi.nullptr, ptr);
     });
   }
 
   @override
   int? get vendorId {
-    return Util.toInt((ptr) {
-      return dylib.sp_get_port_usb_vid_pid(
-          _port, ptr.cast<ffi.Int>(), ffi.nullptr);
+    return Util.getInt((ptr) {
+      return dylib.sp_get_port_usb_vid_pid(_port, ptr, ffi.nullptr);
     });
   }
 
   @override
   int? get productId {
-    return Util.toInt((ptr) {
-      return dylib.sp_get_port_usb_vid_pid(
-          _port, ffi.nullptr, ptr.cast<ffi.Int>());
+    return Util.getInt((ptr) {
+      return dylib.sp_get_port_usb_vid_pid(_port, ffi.nullptr, ptr);
     });
   }
 

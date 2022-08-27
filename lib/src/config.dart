@@ -261,14 +261,14 @@ class _SerialPortConfigImpl implements SerialPortConfig {
       _set(dylib.sp_set_config_flowcontrol, value);
 
   int _get(_SerialPortConfigGet getFunc) {
-    return Util.toInt((ptr) {
-      return getFunc(_config, ptr as ffi.Pointer<ffi.Int>);
+    return Util.getInt((ptr) {
+      return getFunc(_config, ptr);
     })!;
   }
 
   int _get32(_SerialPortConfigGet32 getFunc) {
-    return Util.toInt((ptr) {
-      return getFunc(_config, ptr);
+    return Util.getInt((ptr) {
+      return getFunc(_config, ptr.cast<ffi.Int32>());
     })!;
   }
 
